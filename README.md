@@ -250,6 +250,11 @@ Installed Tools
 - PayloadsAllTheThings
 - SecLists
 
+Learn more
+===========
+- [Commando VM: The First of Its Kind Windows Offensive Distribution](https://www.fireeye.com/blog/threat-research/2019/03/commando-vm-windows-offensive-distribution.html)
+- [Video: Install and test Commando VM](https://www.youtube.com/watch?v=L5j1XO1hIk4)
+- [FireEye debuts Commando VM as a rival to Kali](https://www.zdnet.com/article/fireeye-debuts-windows-commando-vm-as-rival-to-linux-kali/)
 
 Legal Notice
 ============
