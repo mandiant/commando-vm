@@ -252,7 +252,7 @@ Installed Tools
 
 Roadmap
 =======
-https://github.com/fireeye/commando-vm/wiki/Commando-VM-Roadmap
+Find the project's roadmap here: https://github.com/fireeye/commando-vm/wiki/Commando-VM-Roadmap
 
 Legal Notice
 ============
