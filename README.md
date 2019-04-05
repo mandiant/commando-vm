@@ -250,6 +250,9 @@ Installed Tools
 - PayloadsAllTheThings
 - SecLists
 
+Roadmap
+=======
+https://github.com/fireeye/commando-vm/wiki/Commando-VM-Roadmap
 
 Legal Notice
 ============
