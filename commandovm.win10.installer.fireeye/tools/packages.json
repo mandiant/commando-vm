@@ -1,5 +1,8 @@
 {
     "packages": [
+        {"name": "php"},
+        {"name": "ruby"},
+        {"name": "strawberryperl"},
         {"name": "dotnet4.6.2"},
         {"name": "dotnet4.7.2"},
         {"name": "cmder.fireeye"},
