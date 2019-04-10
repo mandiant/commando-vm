@@ -110,6 +110,7 @@
         {"name": "impacket-examples-windows.fireeye"},
         {"name": "Internal-Monologue.fireeye"},
         {"name": "Inveigh.fireeye"},
+        {"name": "Seclists.fireeye"},
         {"name": "Invoke-ACLPwn.fireeye"},
         {"name": "Invoke-CradleCrafter.fireeye"},
         {"name": "Invoke-DCOM.fireeye"},
