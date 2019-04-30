@@ -20,6 +20,8 @@
         {"name": "python3"},
         {"name": "golang"},
         {"name": "dep"},
+        {"name": "ruby"},
+        {"name": "ruby2.devkit"},
         {"name": "adexplorer.fireeye"},
         {"name": "rsat.fireeye"},
         {"name": "tortoisesvn"},
@@ -76,6 +78,7 @@
         },
         {"name": "burp.free.fireeye"},
         {"name": "kali_windowsbinaries.fireeye"},
+        {"name": "unxUtils"},
 
         {"name": "ADACLScanner.fireeye"},
         {"name": "ADAPE-Script.fireeye"},
@@ -104,7 +107,6 @@
             "name": "gowitness.fireeye",
             "x64Only": true
         },
-        
         {"name": "Grouper2.fireeye"},
         {"name": "impacket.fireeye"},
         {"name": "impacket-examples-windows.fireeye"},
@@ -171,6 +173,13 @@
         {"name": "WMIOps.fireeye"},
         {"name": "zBang.fireeye"},
         {"name": "Elite.fireeye"},
+        {"name": "ad-control-paths.fireeye"},
+        {"name": "defendercheck.fireeye"},
+        {"name": "dnsrecon.fireeye"},
+        {"name": "EvilClippy.fireeye"},
+        {"name": "NtdsAudit.fireeye"},
+        {"name": "SharpExec.fireeye"},
+        {"name": "subdomain-bruteforce.fireeye"},
         {"name": "openvpn.fireeye", "args":"--parameters \'/SELECT_SHORTCUTS=0 /SELECT_LAUNCH=0\'"}
     ]
 }

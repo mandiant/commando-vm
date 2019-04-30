@@ -7,7 +7,7 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                   Version 1.0                                 
+                                   Version 1.1                                 
                _____________________________________________________          
 
                                    Developed by                                
@@ -67,7 +67,6 @@ Type the following command to update all of the packages to the most recent vers
     cup all
 
 
-
 Installed Tools
 ===============
 
@@ -89,12 +88,15 @@ Installed Tools
 - Java
 - Python 2
 - Python 3 (default)
+- Ruby
+- Ruby Devkit
 - Visual Studio 2017 Build Tools (Windows 10)
 - Visual Studio Code
 
 ### Evasion
 - CheckPlease
 - Demiguise
+- DefenderCheck
 - DotNetToJScript
 - Invoke-CradleCrafter
 - Invoke-DOSfuscation
@@ -114,6 +116,7 @@ Installed Tools
 - CrackMapExec
 - CrackMapExecWin
 - DAMP
+- EvilClippy
 - Exchange-AD-Privesc
 - FuzzySec's PowerShell-Suite
 - FuzzySec's Sharp-Suite
@@ -149,6 +152,7 @@ Installed Tools
 - PrivExchange
 - Ruler
 - SharpExchangePriv
+- SharpExec
 - SpoolSample
 - UACME
 - impacket-examples-windows
@@ -160,6 +164,7 @@ Installed Tools
 - ADOffline
 - ADRecon
 - BloodHound
+- dnsrecon
 - Get-ReconInfo
 - GoWitness
 - Nmap
@@ -235,8 +240,10 @@ Installed Tools
 - yEd Graph Tool
 
 ### Vulnerability Analysis
+- AD Control Paths
 - Egress-Assess
 - Grouper2
+- NtdsAudit
 - zBang
 
 ### Web Applications
@@ -244,12 +251,34 @@ Installed Tools
 - Fiddler
 - Firefox
 - OWASP Zap
+- Subdomain-Bruteforce
 
 ### Wordlists
 - FuzzDB
 - PayloadsAllTheThings
 - SecLists
 
+## Changelog:
+1.1 - April 30 2019
+- Added AD-Control-Paths https://github.com/ANSSI-FR/AD-control-paths/releases
+- Added DefenderCheck https://github.com/matterpreter/DefenderCheck
+- Added dnsrecon https://github.com/darkoperator/dnsrecon
+- Added EvilClippy https://github.com/outflanknl/EvilClippy
+- Added NtdsAudit https://github.com/Dionach/NtdsAudit
+- Added SharpExec https://github.com/anthemtotheego/SharpExec
+- Added Subdomain-Bruteforce https://github.com/visualbasic6/subdomain-bruteforce
+- Fixed issue #18 with PATH 
+- Added Commando Logos with transparent backgrounds to $Home\Pictures
+- Pinned Firefox to Taskbar
+- Fixed misspellings in Readme #42/#43
+- Added Ruby and Ruby Devkit #1
+- Updated Rubeus package to current version (1.4.2) #31
+
+1.0.2 - April 10 2019
+- Added missing 'seclists.fireeye' package to packages.json
+
+1.0.1 - March 31 2019
+- Used https instead of http to install boxstarter
 
 Legal Notice
 ============
@@ -366,5 +395,7 @@ http://www.gnu.org/copyleft/gpl.html
 https://github.com/x64dbg/x64dbg/blob/development/LICENSE
 https://www.yworks.com/products/yed/license.html
 http://www.apache.org/licenses/LICENSE-2.0
+https://github.com/Dionach/NtdsAudit/blob/master/LICENSE
+https://github.com/ANSSI-FR/AD-control-paths/blob/master/LICENSE.txt
 
 </pre>
