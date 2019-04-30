@@ -236,6 +236,12 @@ $backgroundzip = 'Backgrounds.7z'
 $backgrounds = Join-Path $toolsDir $backgroundzip
 Invoke-Expression "copy $backgrounds ${Env:USERPROFILE}\Pictures"
 Write-Host "`t[+] Alternative backgrounds copied to ${Env:USERPROFILE}\Pictures" -ForegroundColor Yellow
+# Copy Logos
+$backgroundzip = 'CommandoVMLogos.7z'
+$backgrounds = Join-Path $toolsDir $backgroundzip
+Invoke-Expression "copy $backgrounds ${Env:USERPROFILE}\Pictures"
+Write-Host "`t[+] Commando logos copied to ${Env:USERPROFILE}\Pictures" -ForegroundColor Yellow
+
 foreach ($item in "0", "1", "2") {
   # Try to set it multiple times! Windows 10 is not consistent
   if ((Test-Path $publicWallpaper) -eq $false)
@@ -260,6 +266,30 @@ $fileReadme = Join-Path $toolsDir 'readme.txt'
 $desktopReadme = Join-Path ${Env:USERPROFILE} "Desktop\README.txt"
 Copy-Item $fileReadme $desktopReadme
 
+# Fix PATH issues with Python installers #18
+$paths = @(
+    "${Env:HomeDrive}\\Python37\\Scripts",
+    "${Env:HomeDrive}\\Python37",
+    "${Env:HomeDrive}\\Python27\\Scripts",
+    "${Env:HomeDrive}\\Python27"
+)
+
+$env_path = cmd /c echo %PATH%
+if ($env_path[-1] -ne ';') {
+    $env_path += ';'
+}
+$old_path = $env_path
+foreach ($p in $paths) {
+    if ($env_path -match "$p[\\]{0,1};") {
+        $env_path = $env_path -replace "$p[\\]{0,1};",""
+        $env_path += $p.Replace("\\","\") + ";"
+    }
+}
+
+if ($env_path -ne $old_path) {
+    setx /M PATH $env_path
+    refreshenv
+}
 
 # Remove desktop.ini files
 Get-ChildItem -Path (Join-Path ${Env:UserProfile} "Desktop") -Hidden -Filter "desktop.ini" -Force | foreach {$_.Delete()}
