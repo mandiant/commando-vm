@@ -7,7 +7,7 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                   Version 1.1                                 
+                                   Version 1.2                                 
                _____________________________________________________          
 
                                    Developed by                                
@@ -34,6 +34,14 @@ Requirements
 * Windows 7 Service Pack 1 or Windows 10
 * 60 GB Hard Drive
 * 2 GB RAM
+
+Recommended
+-----------
+* Windows 10
+* 80+ GB Hard Drive
+* 4+ GB RAM
+* 2 network adapters
+* Enable Virtualization support for VM
 
 Instructions
 ------------
@@ -166,6 +174,7 @@ Installed Tools
 - BloodHound
 - dnsrecon
 - Get-ReconInfo
+- GoBuster
 - GoWitness
 - Nmap
 - PowerView
@@ -190,6 +199,7 @@ Installed Tools
 ### Password Attacks
 - ASREPRoast
 - CredNinja
+- DomainPasswordSpray
 - DSInternals
 - Get-LAPSPasswords
 - Hashcat
@@ -219,6 +229,7 @@ Installed Tools
 - AutoIT
 - Cmder
 - CyberChef
+- Explorer Suite
 - Gimp
 - Greenshot
 - Hashcheck
@@ -228,6 +239,7 @@ Installed Tools
 - MobaXterm
 - Mozilla Thunderbird
 - Neo4j Community Edition
+- Notepad++
 - Pidgin
 - Process Hacker 2
 - SQLite DB Browser
@@ -252,6 +264,7 @@ Installed Tools
 - Firefox
 - OWASP Zap
 - Subdomain-Bruteforce
+- Wfuzz
 
 ### Wordlists
 - FuzzDB
@@ -259,6 +272,15 @@ Installed Tools
 - SecLists
 
 ## Changelog:
+1.2 - May 31 2019
+- Added recommended hardware settings #20
+- Added DomainPasswordSpray https://github.com/dafthack/DomainPasswordSpray #2
+- Added GoBuster https://github.com/OJ/gobuster #39
+- Added Wfuzz https://github.com/xmendez/wfuzz #40
+- Added Notepad++
+- Added TextFX plugin for Notepad++
+- Added Explorer Suite (CFF Explorer)
+
 1.1 - April 30 2019
 - Added AD-Control-Paths https://github.com/ANSSI-FR/AD-control-paths/releases
 - Added DefenderCheck https://github.com/matterpreter/DefenderCheck
@@ -275,10 +297,10 @@ Installed Tools
 - Updated Rubeus package to current version (1.4.2) #31
 
 1.0.2 - April 10 2019
-- Added missing 'seclists.fireeye' package to packages.json
+- Added missing 'seclists.fireeye' package to packages.json #38
 
 1.0.1 - March 31 2019
-- Used https instead of http to install boxstarter
+- Used https instead of http to install boxstarter #10
 
 Legal Notice
 ============
@@ -397,5 +419,8 @@ https://www.yworks.com/products/yed/license.html
 http://www.apache.org/licenses/LICENSE-2.0
 https://github.com/Dionach/NtdsAudit/blob/master/LICENSE
 https://github.com/ANSSI-FR/AD-control-paths/blob/master/LICENSE.txt
-
+https://github.com/OJ/gobuster/blob/master/LICENSE
+https://github.com/xmendez/wfuzz/blob/master/LICENSE
+https://github.com/dafthack/DomainPasswordSpray/blob/master/LICENSE
+https://github.com/nettitude/PoshC2_Python/blob/master/LICENSE
 </pre>

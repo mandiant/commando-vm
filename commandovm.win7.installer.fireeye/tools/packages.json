@@ -71,6 +71,11 @@
         {"name": "apimonitor.fireeye"},
         {"name": "orca.fireeye"},
         {"name": "fiddler.fireeye"},
+        {
+            "name": "notepadplusplus",
+            "args": "--x86"
+        },
+        {"name": "notepadplusplus-textfx.fireeye"},
         {"name": "hxd.fireeye"},
         {
             "name": "metasploit.flare",
@@ -93,15 +98,18 @@
         {"name": "CrackMapExec.fireeye"},
         {"name": "CrackMapExecWin.fireeye"},
         {"name": "demiguise.fireeye"},
+        {"name": "DomainPasswordSpray.fireeye"},
         {"name": "DotNetToJScript.fireeye"},
         {"name": "DSInternals.fireeye"},
         {"name": "Egress-Assess.fireeye"},
-        {"name": "flare-floss.fireeye"},
+        {"name": "explorersuite.flare"},
         {"name": "Exchange-AD-Privesc.fireeye"},
+        {"name": "flare-floss.fireeye"},
         {"name": "fuzzdb.fireeye"},
         {"name": "Generate-Macro.fireeye"},
         {"name": "Get-LAPSPasswords.fireeye"},
         {"name": "Get-ReconInfo.fireeye"},
+        {"name": "GoBuster.fireeye"},
         {"name": "GoFetch.fireeye"},
         {
             "name": "gowitness.fireeye",
@@ -179,6 +187,7 @@
         {"name": "NtdsAudit.fireeye"},
         {"name": "SharpExec.fireeye"},
         {"name": "subdomain-bruteforce.fireeye"},
+        {"name": "wfuzz.fireeye"},
         {"name": "openvpn.fireeye", "args":"--parameters \'/SELECT_SHORTCUTS=0 /SELECT_LAUNCH=0\'"}
     ]
 }
