@@ -297,7 +297,7 @@ Installed Tools
 - Added SharpSploit https://github.com/cobbr/SharpSploit
 - Changed WinRM configuration #65
 - Un-hardened UNC file paths #68
-- Fixed install issues with Covenant #61, #78
+- Fixed install issues with Covenant #61, #76
 
 1.2 - May 31 2019
 - Added recommended hardware settings #20, #17
