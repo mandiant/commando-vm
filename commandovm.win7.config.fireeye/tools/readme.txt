@@ -6,7 +6,7 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                   Version 1.2                                 
+                                   Version 1.3                                 
                _____________________________________________________          
 
                                    Developed by                                
@@ -43,12 +43,28 @@ issues here:
 https://github.com/fireeye/commando-vm
 
 Changelog:
+1.3 - June 28 2019
+- Added RottenPotatoNG https://github.com/breenmachine/RottenPotatoNG #63
+- Added Juicy Potato https://github.com/ohpe/juicy-potato #63, #64
+- Added Watson https://github.com/rasta-mouse/Watson #64
+- Added PwndPasswordsNTLM https://github.com/JacksonVD/PwnedPasswordsNTLM #67
+- Added FOCA https://github.com/JacksonVD/PwnedPasswordsNTLM #71 
+- Added Vulcan https://github.com/praetorian-code/vulcan
+- Added SharpClipHistory https://github.com/mwrlabs/SharpClipHistory
+- Added NetRipper https://github.com/NytroRST/NetRipper
+- Added RobotsDisallowed https://github.com/danielmiessler/RobotsDisallowed
+- Added Probable-Wordlists https://github.com/berzerk0/Probable-Wordlists
+- Added SharpSploit https://github.com/cobbr/SharpSploit
+- Changed WinRM configuration #65
+- Un-hardened UNC file paths #68
+- Fixed install issues with Covenant #61, #78
+
 1.2 - May 31 2019
-- Added recommended hardware settings #20
+- Added recommended hardware settings #20, #17
 - Added DomainPasswordSpray https://github.com/dafthack/DomainPasswordSpray
 - Added GoBuster https://github.com/OJ/gobuster #39
 - Added Wfuzz https://github.com/xmendez/wfuzz #40
-- Added Notepad++
+- Added Notepad++ #30
 - Added TextFX plugin for Notepad++
 - Added Explorer Suite (CFF Explorer)
 
