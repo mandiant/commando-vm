@@ -7,7 +7,7 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                   Version 1.2                                 
+                                   Version 1.3                                 
                _____________________________________________________          
 
                                    Developed by                                
@@ -144,6 +144,7 @@ Installed Tools
 - Invoke-DCOM
 - Invoke-PSImage
 - Invoke-PowerThIEf
+- Juicy Potato
 - Kali Binaries for Windows
 - LuckyStrike
 - MetaTwin
@@ -158,13 +159,17 @@ Installed Tools
 - PowerSploit
 - PowerUpSQL
 - PrivExchange
+- RottenPotatoNG
 - Ruler
+- SharpClipHistory
 - SharpExchangePriv
 - SharpExec
 - SpoolSample
+- SharpSploit
 - UACME
 - impacket-examples-windows
 - vssown
+- Vulcan
 
 ### Information Gathering
 - ADACLScanner
@@ -173,15 +178,18 @@ Installed Tools
 - ADRecon
 - BloodHound
 - dnsrecon
+- FOCA
 - Get-ReconInfo
 - GoBuster
 - GoWitness
+- NetRipper
 - Nmap
 - PowerView
   - Dev branch included
 - SharpHound
 - SharpView
 - SpoolerScanner
+- Watson
 
 ### Networking Tools
 - Citrix Receiver
@@ -256,6 +264,7 @@ Installed Tools
 - Egress-Assess
 - Grouper2
 - NtdsAudit
+- PwndPasswordsNTLM
 - zBang
 
 ### Web Applications
@@ -270,14 +279,32 @@ Installed Tools
 - FuzzDB
 - PayloadsAllTheThings
 - SecLists
+- Probable-Wordlists
+- RobotsDisallowed
 
 ## Changelog:
+1.3 - June 28 2019
+- Added RottenPotatoNG https://github.com/breenmachine/RottenPotatoNG #63
+- Added Juicy Potato https://github.com/ohpe/juicy-potato #63, #64
+- Added Watson https://github.com/rasta-mouse/Watson #64
+- Added PwndPasswordsNTLM https://github.com/JacksonVD/PwnedPasswordsNTLM #67
+- Added FOCA https://github.com/JacksonVD/PwnedPasswordsNTLM #71 
+- Added Vulcan https://github.com/praetorian-code/vulcan
+- Added SharpClipHistory https://github.com/mwrlabs/SharpClipHistory
+- Added NetRipper https://github.com/NytroRST/NetRipper
+- Added RobotsDisallowed https://github.com/danielmiessler/RobotsDisallowed
+- Added Probable-Wordlists https://github.com/berzerk0/Probable-Wordlists
+- Added SharpSploit https://github.com/cobbr/SharpSploit
+- Changed WinRM configuration #65
+- Un-hardened UNC file paths #68
+- Fixed install issues with Covenant #61, #78
+
 1.2 - May 31 2019
-- Added recommended hardware settings #20
+- Added recommended hardware settings #20, #17
 - Added DomainPasswordSpray https://github.com/dafthack/DomainPasswordSpray #2
 - Added GoBuster https://github.com/OJ/gobuster #39
 - Added Wfuzz https://github.com/xmendez/wfuzz #40
-- Added Notepad++
+- Added Notepad++ #30
 - Added TextFX plugin for Notepad++
 - Added Explorer Suite (CFF Explorer)
 
@@ -423,4 +450,11 @@ https://github.com/OJ/gobuster/blob/master/LICENSE
 https://github.com/xmendez/wfuzz/blob/master/LICENSE
 https://github.com/dafthack/DomainPasswordSpray/blob/master/LICENSE
 https://github.com/nettitude/PoshC2_Python/blob/master/LICENSE
+https://github.com/ElevenPaths/FOCA/blob/master/LICENSE.txt
+https://github.com/ohpe/juicy-potato/blob/master/LICENSE
+https://github.com/NytroRST/NetRipper/blob/master/LICENSE.TXT
+https://github.com/unixrox/prebellico/blob/master/LICENSE.md
+https://github.com/rasta-mouse/Watson/blob/master/LICENSE.txt
+https://github.com/berzerk0/Probable-Wordlists/blob/master/License.txt
+https://github.com/cobbr/SharpSploit/blob/master/LICENSE
 </pre>
