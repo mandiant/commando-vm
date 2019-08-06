@@ -87,8 +87,6 @@ orca.fireeye,Creates an Orca shortcut in the Exploitation folder,https://chocola
 pafishmacro.fireeye,Pafish Macro is a Macro enabled Office Document to detect malware analysis systems and sandboxes. It uses evasion & detection techniques implemented by malicious documents.,,Evasion,https://github.com/joesecurity/pafishmacro,cinst pafishmacro.fireeye
 PayloadsAllTheThings.fireeye,A list of useful payloads and bypass for Web Application Security and Pentest/CTF,,Wordlists,https://github.com/swisskyrepo/PayloadsAllTheThings,cinst PayloadsAllTheThings.fireeye
 pidgin.fireeye,Creates a Pidgin Shortcut in the Utilities folder,https://chocolatey.org/packages/pidgin,Utilities,https://developer.pidgin.im,cinst pidgin.fireeye
-PoshC2.fireeye,,,,,
-PoshC2_Python.fireeye,,,,,
 PowerLessShell.fireeye,Run PowerShell command without invoking powershell.exe,,Evasion,https://github.com/Mr-Un1k0d3r/PowerLessShell,cinst PowerLessShell.fireeye
 PowerLurk.fireeye,Malicious WMI Events using PowerShell,,Exploitation,https://github.com/Sw4mpf0x/PowerLurk,cinst PowerLurk.fireeye
 PowerPriv.fireeye,A Powershell implementation of PrivExchange designed to run under the current user's context,,Exploitation,https://github.com/G0ldenGunSec/PowerPriv,cinst PowerPriv.fireeye
@@ -97,7 +95,6 @@ PowerShell-Suite.fireeye,PowerShell-Suite from FuzzySec,,Exploitation,https://gi
 PowerSploit.fireeye,A PowerShell Post-Exploitation Framework,,Exploitation,https://github.com/PowerShellMafia/PowerSploit,cinst PowerSploit.fireeye
 PowerUpSQL.fireeye,A PowerShell Toolkit for Attacking SQL Server,,Exploitation,https://github.com/NetSPI/PowerUpSQL,cinst PowerUpSQL.fireeye
 PowerView.fireeye,Installs the dev branch version of PowerView,,Exploitation,https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon,PowerView.fireeye
-prebellico.fireeye,,,,,
 PrivExchange.fireeye,Exchange your privileges for Domain Admin privs by abusing Exchange,,,https://github.com/dirkjanm/PrivExchange,cinst PrivExchange.fireeye
 Probable-Wordlists.fireeye,Wordlists sorted by probability originally created for password generation and testing,,Wordlists,https://github.com/berzerk0/Probable-Wordlists,cinst Probable-Wordlists.fireeye
 proxycap.fireeye,ProxyCap enables you to redirect your computer's network connections through proxy servers.,,Networking Tools,http://www.proxycap.com,cinst proxycap.fireeye
