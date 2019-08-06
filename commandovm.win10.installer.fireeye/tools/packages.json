@@ -43,7 +43,6 @@
         {"name": "vlc.fireeye"},
         {"name": "yed.fireeye"},
         {"name": "hashcat.fireeye"},
-        {"name": "winrar"},
         {"name": "7zip"},
         {"name": "Greenshot.fireeye"},
         {"name": "winscp.fireeye"},
@@ -82,6 +81,7 @@
             "x64Only": true
         },
         {"name": "burp.free.fireeye"},
+        {"name": "kali.fireeye", "args": "--timeout 7200"},
         {"name": "kali_windowsbinaries.fireeye"},
         {"name": "unxUtils"},
 
@@ -89,6 +89,7 @@
         {"name": "ADAPE-Script.fireeye"},
         {"name": "ADOffline.fireeye"},
         {"name": "ADRecon.fireeye"},
+        {"name": "amass.docker.fireeye"},
         {"name": "ASREPRoast.fireeye"},
         {"name": "BloodHound.fireeye"},
         {"name": "CheckPlease.fireeye"},
@@ -98,6 +99,7 @@
         {"name": "CrackMapExec.fireeye"},
         {"name": "CrackMapExecWin.fireeye"},
         {"name": "demiguise.fireeye"},
+        {"name": "docker.fireeye"},
         {"name": "DotNetToJScript.fireeye"},
         {"name": "DomainPasswordSpray.fireeye"},
         {"name": "DSInternals.fireeye"},
@@ -172,6 +174,7 @@
         {"name": "SharpUp.fireeye"},
         {"name": "SharpView.fireeye"},
         {"name": "SharpWMI.fireeye"},
+        {"name": "spiderfoot.docker.fireeye"},
         {"name": "SpoolerScanner.fireeye"},
         {"name": "StarFighters.fireeye"},
         {"name": "SpoolSample.fireeye"},
@@ -200,7 +203,7 @@
         {"name": "PwndPasswordsNTLM.fireeye"},
         {"name": "RottenPotatoNG.fireeye"},
         {"name": "SharpClipHistory.fireeye"},
-        {"name": "SharpSloit.fireeye"},
+        {"name": "SharpSploit.fireeye"},
         {"name": "openvpn.fireeye", "args":"--parameters \'/SELECT_SHORTCUTS=0 /SELECT_LAUNCH=0\'"}
     ]
 }

@@ -8,7 +8,6 @@ $toolsDir         = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 $fireeyeFeed      = "https://www.myget.org/F/fireeye/api/v2"
 $cache            =  "$env:userprofile\AppData\Local\ChocoCache"
 $globalCinstArgs  = "--cacheLocation $cache -y"
-$toolList         = Join-Path ${Env:ProgramData} "Microsoft\Windows\Start Menu\Programs\Tool List"
 $pkgPath          = Join-Path $toolsDir "packages.json"
 
 
@@ -56,7 +55,7 @@ function InstallOnePackage {
     $args = $pkgargs,$globalCinstArgs -Join " "
   }
 
-  if ($args -like "*-source*" -Or $args -like "*--package-parameters*" -Or $args -like "*--parameters*") {
+  if ($args) {
     Write-Warning "[!] Installing using host choco.exe! Errors are ignored. Please check to confirm $name is installed properly"
     Write-Warning "[!] Executing: iex choco upgrade $name $args"
     $rc = iex "choco upgrade $name $args"
@@ -90,23 +89,14 @@ function InitialSetup {
   # Create the cache directory
   New-Item -Path $cache -ItemType directory -Force
 
-  # Create tool list desktop shortcut
-  if (-Not (Test-Path -Path $toolList) ) {
-    New-Item -Path $toolList -ItemType directory
+  # Update old env var if it points to a directory vs a file (.lnk)
+  $toolListDirShortcut = [Environment]::GetEnvironmentVariable("TOOL_LIST_SHORTCUT", 2)
+  if (-Not ($toolListDirShortcut -eq $null) -And ((Get-Item $toolListDirShortcut) -is [System.IO.Directory])) {
+    try {
+      $toolListDirShortcut = Join-Path ${Env:UserProfile} "Desktop\Tools.lnk"
+      [Environment]::SetEnvironmentVariable("TOOL_LIST_SHORTCUT", $toolListDirShortcut, 2)
+    } catch {}
   }
-
-  # Create C:\Tools directory
-  if (-Not (Test-Path -Path "${Env:HomeDrive}\Tools")) {
-    New-Item -Path "${Env:HomeDrive}\Tools" -ItemType directory
-  }
-
-  $desktopShortcut = Join-Path ${Env:UserProfile} "Desktop\Tools.lnk"
-  Install-ChocolateyShortcut -shortcutFilePath $desktopShortcut -targetPath $toolList
-
-  # Set common paths in environment variables
-  Install-ChocolateyEnvironmentVariable -VariableName "FLARE_START" -VariableValue $toolList -VariableType 'Machine'
-  Install-ChocolateyEnvironmentVariable -VariableName "TOOL_LIST_SHORTCUT" -VariableValue $toolList -VariableType 'Machine'
-  refreshenv
 
   # BoxStarter setup
   Set-BoxstarterConfig -NugetSources "$fireeyeFeed;https://chocolatey.org/api/v2"

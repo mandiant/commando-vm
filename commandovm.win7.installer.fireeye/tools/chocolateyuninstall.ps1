@@ -94,8 +94,7 @@ function PostUninstall
         # Ignore exception, in case the directory does not exist.
     }
 
-    $desktopShortcut = Join-Path ${Env:USERPROFILE} "Desktop\FLARE.lnk"
-    Remove-Item $desktopShortcut
+    Remove-Item ${Env:TOOL_LIST_SHORTCUT}
 }
 
 

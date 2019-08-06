@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = 'Continue'
+﻿$ErrorActionPreference = 'Stop'
 
 $packageName = 'commandovm.win10.config.fireeye'
 $toolsDir    = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
@@ -199,6 +199,16 @@ if ($env_path -ne $old_path) {
 Get-ChildItem -Path (Join-Path ${Env:UserProfile} "Desktop") -Hidden -Filter "desktop.ini" -Force | foreach {$_.Delete()}
 Get-ChildItem -Path (Join-Path ${Env:Public} "Desktop") -Hidden -Filter "desktop.ini" -Force | foreach {$_.Delete()}
 
+# Use AutoHotKey to modify various settings
+$scripts = @(
+  "UNCPathSoftening.ahk",           # "Softening" MS UNC Path Hardning stuffs....
+  "EnableWinRM.ahk"                 # Enable WinRM
+)
+ForEach ($name in $scripts) {
+  $script = Join-Path $toolsDir $name
+  Write-Host "[+] Executing $script" -ForegroundColor Green
+  AutoHotKey $script
+}
 
 # Should be PS >5.1 now, enable transcription and script block logging
 # More info: https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
