@@ -191,7 +191,7 @@ Write-Host "|___________________________________________________________________
 Write-Host "|                                                                            |" -ForegroundColor Red 
 Write-Host "|                                  Developed by                              |" -ForegroundColor Red 
 Write-Host "|                                 Jake  Barteaux                             |" -ForegroundColor Red 
-Write-Host "|                               Proactive Services                           |" -ForegroundColor Red 
+Write-Host "|                                Mandiant Red Team                           |" -ForegroundColor Red 
 Write-Host "|                                 Blaine Stancill                            |" -ForegroundColor Red 
 Write-Host "|                                   Nhan Huynh                               |" -ForegroundColor Red 
 Write-Host "|                    FireEye Labs Advanced Reverse Engineering               |" -ForegroundColor Red 

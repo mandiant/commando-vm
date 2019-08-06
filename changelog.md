@@ -1,9 +1,9 @@
 ## 2.0 - August 5 2019
-- Added Kali Linux
-- Added Docker #88
-- Added SpiderFoot #84
-- Added Amass 
-- Added customization support #42, #25, 
+- Added Kali Linux https://www.kali.org
+- Added Docker https://www.docker.com #88
+- Added SpiderFoot https://github.com/smicallef/spiderfoot #84
+- Added Amass https://github.com/OWASP/Amass
+- Added customization support #42, #25 
 
 ## 1.3 - June 28 2019
 - Added RottenPotatoNG https://github.com/breenmachine/RottenPotatoNG #63
