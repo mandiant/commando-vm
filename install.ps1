@@ -190,7 +190,7 @@ Write-Host "|                                  Version 2.0                      
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
 Write-Host "|                                  Developed by                              |" -ForegroundColor Red 
-Write-Host "|                                 Jake  Barteaux                             |" -ForegroundColor Red 
+Write-Host "|                                  Jake Barteaux                             |" -ForegroundColor Red 
 Write-Host "|                                Mandiant Red Team                           |" -ForegroundColor Red 
 Write-Host "|                                 Blaine Stancill                            |" -ForegroundColor Red 
 Write-Host "|                                   Nhan Huynh                               |" -ForegroundColor Red 
