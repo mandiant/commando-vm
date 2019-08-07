@@ -1,4 +1,11 @@
 {
+    "env": {
+        "VM_COMMON_DIR": "%ProgramData%\\FEVM",
+        "TOOL_LIST_DIR": "%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Tools",
+        "TOOL_LIST_SHORTCUT": "%UserProfile%\\Desktop\\Tools.lnk",
+        "RAW_TOOLS_DIR": "%SystemDrive%\\Tools",
+        "TEMPLATE_DIR": "commandovm.win10.installer.fireeye"
+    },
     "packages": [
         {"name": "dotnet4.6.2"},
         {"name": "dotnet4.7.2"},
@@ -81,6 +88,7 @@
             "x64Only": true
         },
         {"name": "burp.free.fireeye"},
+        {"name": "kali.fireeye", "args": "--timeout 7200"},
         {"name": "kali_windowsbinaries.fireeye"},
         {"name": "unxUtils"},
 
@@ -88,6 +96,7 @@
         {"name": "ADAPE-Script.fireeye"},
         {"name": "ADOffline.fireeye"},
         {"name": "ADRecon.fireeye"},
+        {"name": "amass.docker.fireeye"},
         {"name": "ASREPRoast.fireeye"},
         {"name": "BloodHound.fireeye"},
         {"name": "CheckPlease.fireeye"},
@@ -97,8 +106,9 @@
         {"name": "CrackMapExec.fireeye"},
         {"name": "CrackMapExecWin.fireeye"},
         {"name": "demiguise.fireeye"},
-        {"name": "DomainPasswordSpray.fireeye"},
+        {"name": "docker.fireeye"},
         {"name": "DotNetToJScript.fireeye"},
+        {"name": "DomainPasswordSpray.fireeye"},
         {"name": "DSInternals.fireeye"},
         {"name": "Egress-Assess.fireeye"},
         {"name": "explorersuite.flare"},
@@ -171,6 +181,7 @@
         {"name": "SharpUp.fireeye"},
         {"name": "SharpView.fireeye"},
         {"name": "SharpWMI.fireeye"},
+        {"name": "spiderfoot.docker.fireeye"},
         {"name": "SpoolerScanner.fireeye"},
         {"name": "StarFighters.fireeye"},
         {"name": "SpoolSample.fireeye"},
@@ -179,6 +190,8 @@
         {"name": "WMImplant.fireeye"},
         {"name": "WMIOps.fireeye"},
         {"name": "zBang.fireeye"},
+        {"name": "Elite.fireeye"},
+        {"name": "covenant.fireeye"},
         {"name": "ad-control-paths.fireeye"},
         {"name": "defendercheck.fireeye"},
         {"name": "dnsrecon.fireeye"},
@@ -197,7 +210,7 @@
         {"name": "PwndPasswordsNTLM.fireeye"},
         {"name": "RottenPotatoNG.fireeye"},
         {"name": "SharpClipHistory.fireeye"},
-        {"name": "SharpSloit.fireeye"},
+        {"name": "SharpSploit.fireeye"},
         {"name": "openvpn.fireeye", "args":"--parameters \'/SELECT_SHORTCUTS=0 /SELECT_LAUNCH=0\'"}
     ]
 }

@@ -9,9 +9,108 @@
 #
 ###########################################
 param (
-  [string]$password = "",
+  [string]$password = "",  
+	[string]$profile_file = $null, 
   [bool]$nochecks = $false
 )
+
+function ConvertFrom-Json([object] $item) {
+<#
+.SYNOPSIS
+  Convert a JSON string into a hash table
+
+.DESCRIPTION
+  Convert a JSON string into a hash table, without any validation
+
+.OUTPUTS
+  [hashtable] or $null
+#>
+  Add-Type -Assembly system.web.extensions
+  $ps_js = New-Object system.web.script.serialization.javascriptSerializer
+
+  try {
+    $result = $ps_js.DeserializeObject($item)
+  } catch {
+    $result = $null
+  }
+  
+  # Cast dictionary to hashtable
+  [hashtable] $result
+}
+
+
+function ConvertTo-Json([object] $data) {
+<#
+.SYNOPSIS
+  Convert a hashtable to a JSON string
+
+.DESCRIPTION
+  Convert a hashtable to a JSON string, without any validation
+
+.OUTPUTS
+  [string] or $null
+#>
+  Add-Type -Assembly system.web.extensions
+  $ps_js = New-Object system.web.script.serialization.javascriptSerializer
+
+  #The comma operator is the array construction operator in PowerShell
+  try {
+    $result = $ps_js.Serialize($data)
+  } catch {
+    $result = $null
+  }
+  
+  $result
+}
+
+
+function Import-JsonFile {
+<#
+.DESCRIPTION
+  Load a hashtable from a JSON file
+  
+.OUTPUTS
+  [hashtable] or $null
+#>
+  param([string] $path)
+  try {
+    $json = Get-Content $path
+    $result = ConvertFrom-Json $json
+  } catch {
+    $result = $null
+  }
+  
+  $result
+}
+
+
+function Make-InstallerPackage($PackageName, $TemplateDir, $packages) {
+	<#
+	.SYNOPSIS
+	Make a new installer package
+
+	.DESCRIPTION
+	Make a new installer package named installer. This package uses the custom packages.json file specified by the user.
+	User can then call "Install-BoxStarterPackage installer" using the local repo.
+	#>
+
+	$PackageDir = Join-Path $BoxStarter.LocalRepo $PackageName
+	if (Test-Path $PackageDir) {
+		Remove-Item -Recurse -Force $PackageDir
+	}
+
+	$Tmp = [System.IO.Path]::GetTempFileName()
+	Write-Host -ForegroundColor Green "packages file is" + $tmp
+	ConvertTo-Json @{"packages" = $packages} | Out-File -FilePath $Tmp
+	
+	$Here = Get-Location
+	$ToolsDir = Join-Path (Join-Path $Here $TemplateDir) "tools"
+	$Dest = Join-Path $ToolsDir "packages.json"
+
+	Move-Item -Force -Path $Tmp -Destination $Dest
+	New-BoxstarterPackage -Name $PackageName -Description "My Own Instalelr" -Path $ToolsDir
+}
+
 function installBoxStarter()
 {
   <#
@@ -21,10 +120,20 @@ function installBoxStarter()
   Install BoxStarter on the current system. Returns $true or $false to indicate success or failure. On
   fresh windows 7 systems, some root certificates are not installed and updated properly. Therefore,
   this funciton also temporarily trust all certificates before installing BoxStarter.  
-  #>  
+  #> 
+  
+
+  # Try to install BoxStarter as is first, then fall back to be over trusing only if this step fails.
+  try {
+		iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); get-boxstarter -Force
+		return $true
+	} catch {
+	}
+   
   # https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
   # Allows current PowerShell session to trust all certificates
   # Also a good find: https://www.briantist.com/errors/could-not-establish-trust-relationship-for-the-ssltls-secure-channel/
+  
   try {
   Add-Type @"
   using System.Net;
@@ -77,17 +186,45 @@ Write-Host "|        "  -ForegroundColor Red -NoNewline; Write-Host "        \/ 
 Write-Host "|                       C O M P L E T E  M A N D I A N T                     |" -ForegroundColor Red 
 Write-Host "|                            O F F E N S I V E   V M                         |" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
-Write-Host "|                                  Version 1.3                               |" -ForegroundColor Red 
+Write-Host "|                                  Version 2.0                               |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
 Write-Host "|                                  Developed by                              |" -ForegroundColor Red 
-Write-Host "|                                 Jake  Barteaux                             |" -ForegroundColor Red 
-Write-Host "|                               Proactive Services                           |" -ForegroundColor Red 
+Write-Host "|                                  Jake Barteaux                             |" -ForegroundColor Red 
+Write-Host "|                                Mandiant Red Team                           |" -ForegroundColor Red 
 Write-Host "|                                 Blaine Stancill                            |" -ForegroundColor Red 
 Write-Host "|                                   Nhan Huynh                               |" -ForegroundColor Red 
 Write-Host "|                    FireEye Labs Advanced Reverse Engineering               |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host ""
+
+if ([string]::IsNullOrEmpty($profile_file)) {
+  Write-Host "[+] No custom profile is provided..."
+  $profile = $null
+} else {
+  Write-Host "[+] Using the following profile $profile_file"
+  $profile = Import-JsonFile $profile_file
+  if ($profile -eq $null) {
+    Write-Error "Invaild configuration! Exiting..."
+    exit 1
+  }
+  # Confirmation message
+  $TemplateDir = $profile.env.TEMPLATE_DIR
+  $Packages = $profile.packages
+  Write-Warning "[+] You are using a custom profile and list of packages. You will NOT receive updates"
+  Write-Warning "[+] on new packages from Commando VM automatically when running choco update."
+
+  if ($nochecks -eq $false) {
+    Write-Host "[-] Do you want to continue? Y/N " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -ne "Y") {
+      Write-Host "[*] Exiting..." -ForegroundColor Red
+      exit
+  }
+}
+
+Write-Host "`tContinuing..." -ForegroundColor Green
+}
 
 
 # Check to make sure script is run as administrator
@@ -109,6 +246,26 @@ else {
 }
 
 if ($nochecks -eq $false) {
+  
+  # Check to make sure Tamper Protection is off
+  # This setting is not able to be changed via command line
+  Write-Host "[+] Checking to make sure Windows Defender Tamper Protection is disabled"
+  if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection") {
+    if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -ne 0){
+    Write-Host "[!] Please disable Windows Defender Tamper Protection and retry install." -ForegroundColor Red
+    Write-Host "`t[+] Hint: https://www.tenforums.com/tutorials/123792-turn-off-tamper-protection-windows-defender-antivirus.html" -ForegroundColor Yellow
+    Write-Host "[-] Do you need to change this setting? Y/N " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -eq "Y") {
+      Write-Host "[*] Exiting..." -ForegroundColor Red
+      exit
+    }
+      Write-Host "`tContinuing..." -ForegroundColor Green
+    }
+  }
+  else {
+    Write-Host "`tTamper Protection is off, looks good." -ForegroundColor Green
+  }
   
   # Check to make sure host is supported
   Write-Host "[+] Checking to make sure Operating System is compatible"
@@ -151,7 +308,7 @@ if ($nochecks -eq $false) {
   Write-Host "[-] Do you need to take a snapshot before continuing? Y/N " -ForegroundColor Yellow -NoNewline
   $response = Read-Host
   if ($response -ne "N") {
-    Write-Host "[*] Exiting..." -ForegroundColor Red
+    Write-Host "[ * ] Exiting..." -ForegroundColor Red
     exit
   }
   Write-Host "`tContinuing..." -ForegroundColor Green
@@ -160,26 +317,19 @@ if ($nochecks -eq $false) {
 # Get user credentials for autologin during reboots
 Write-Host "[ * ] Getting user credentials ..."
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds" -Name "ConsolePrompting" -Value $True
-
 if ([string]::IsNullOrEmpty($password)) {
 	$cred=Get-Credential $env:username
 } else {
 	$spasswd=ConvertTo-SecureString -String $password -AsPlainText -Force
 	$cred=New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $env:username, $spasswd
 }
-# TO DO - Verify credentials before continuing
 
-# Install Boxstarter
 Write-Host "[ * ] Installing Boxstarter"
-try {
-  iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); get-boxstarter -Force
-} catch {
-  $rc = installBoxStarter
-  if (-Not $rc) {
-  	Write-Host "[ERR] Failed to install BoxStarter"
-  	Read-Host  "      Press ANY key to continue..."
-  	exit
-  }
+$rc = installBoxStarter
+if ( -Not $rc ) {
+	Write-Host "[ERR] Failed to install BoxStarter"
+	Read-Host  "      Press ANY key to continue..."
+	exit 1
 }
 
 # Boxstarter options
@@ -193,14 +343,55 @@ Set-BoxstarterConfig -NugetSources "https://www.myget.org/F/fireeye/api/v2;https
 $fireeyeFeed = "https://www.myget.org/F/fireeye/api/v2"
 iex "choco sources add -n=fireeye -s $fireeyeFeed --priority 1"
 iex "choco upgrade -y vcredist-all.flare"
-iex "cinst -y powershell"
+iex "choco install -y powershell"
+iex "refreshenv"
 
-if ([System.Environment]::OSVersion.Version.Major -eq 6) {
-  Install-BoxstarterPackage -PackageName commandovm.win7.installer.fireeye -Credential $cred
-} elseif ([System.Environment]::OSVersion.Version.Major -eq 10) {
+
+if ($profile -eq $null) {
+  # Default install
+  Write-Host "[+] Performing normal installation..."
+  iex "choco upgrade -y common.fireeye"
+  if ([System.Environment]::OSVersion.Version.Major -eq 6) {
+    Install-BoxstarterPackage -PackageName commandovm.win7.installer.fireeye -Credential $cred
+    Install-BoxStarterPackage -PackageName commandovm.win7.config.fireeye  -Credential $cred
+  } elseif ([System.Environment]::OSVersion.Version.Major -eq 10) {    
+    choco config set cacheLocation ${Env:TEMP}
+    iex "choco upgrade -y commandovm.win10.preconfig.fireeye"
+    Install-BoxstarterPackage -PackageName commandovm.win10.installer.fireeye -Credential $cred
+    Install-BoxStarterPackage -PackageName commandovm.win10.config.fireeye  -Credential $cred
+  }
+  exit 0
+} 
+
+# The necessary basic environment variables
+$EnvVars = @(
+  "VM_COMMON_DIR",
+  "TOOL_LIST_DIR",
+  "TOOL_LIST_SHORTCUT",
+  "RAW_TOOLS_DIR"
+  )
+
+foreach ($envVar in $EnvVars) {
+  try {
+    [Environment]::SetEnvironmentVariable($envVar, [Environment]::ExpandEnvironmentVariables($profile.env.($envVar)), 2)
+  } catch {}
+}
+
+if ([System.Environment]::OSVersion.Version.Major -eq 10) {
   choco config set cacheLocation ${Env:TEMP}
   iex "choco upgrade -y commandovm.win10.preconfig.fireeye"
-  Install-BoxstarterPackage -PackageName commandovm.win10.installer.fireeye -Credential $cred
-} else {
-  Write-Host "`t[ERR] This install requires Windows 7 SP1 or Windows 10`n" -ForegroundColor Red
 }
+
+iex "choco install -y common.fireeye"
+refreshenv
+
+$PackageName = "MyInstaller"
+Make-InstallerPackage $PackageName $TemplateDir $Packages
+Invoke-BoxStarterBuild $PackageName
+Install-BoxStarterPackage -PackageName $PackageName -Credential $cred
+if ([System.Environment]::OSVersion.Version.Major -eq 6) {
+  Install-BoxStarterPackage -PackageName commandovm.win7.config.fireeye  -Credential $cred
+} elseif ([System.Environment]::OSVersion.Version.Major -eq 10) {
+  Install-BoxStarterPackage -PackageName commandovm.win10.config.fireeye  -Credential $cred
+}
+exit 0

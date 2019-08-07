@@ -7,12 +7,12 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                   Version 1.3                                 
+                                   Version 2.0                                 
                _____________________________________________________          
 
                                    Developed by                                
                                    Jake Barteaux                               
-                                 Proactive Services  
+                                 Mandiant Red Team  
                                   Blaine Stancill                           
                                     Nhan Huynh   
                      FireEye Labs Advanced Reverse Engineering                            
@@ -22,9 +22,9 @@ ______________________________________________________________________________
   <img width="300" src="https://github.com/fireeye/commando-vm/blob/master/Commando.png?raw=true" alt="Commando VM"/>
 </p>  
 
-Welcome to CommandoVM - a fully customized, Windows-based security distribution for penetration testing and red teaming.
+Welcome to CommandoVM - a fully customizable, Windows-based security distribution for penetration testing and red teaming.
 
-
+For detailed install instructions or more information please see our [blog]()
 
 Installation (Install Script)
 =============================
@@ -42,9 +42,12 @@ Recommended
 * 4+ GB RAM
 * 2 network adapters
 * Enable Virtualization support for VM
+  * REQUIRED FOR KALI OR DOCKER
 
 Instructions
-------------
+============
+Standard install
+----------------
 1. Create and configure a new Windows Virtual Machine
   * Ensure VM is updated completely. You may have to check for updates, reboot, and check again until no more remain 
 * Take a snapshot of your machine!
@@ -58,6 +61,18 @@ Instructions
   
 The script will set up the Boxstarter environment and proceed to download and install the Commando VM environment. You will be prompted for the administrator password in order to automate host restarts during installation. If you do not have a password set, hitting enter when prompted will also work.
 
+Custom install
+--------------
+1.	Download the zip from https://github.com/fireeye/commando-vm into your Downloads folder.
+2.	Decompress the zip and edit the `${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\profile.json` file by removing tools or adding tools in the “packages” section. Tools are available from our [package list](https://github.com/fireeye/commando-vm/blob/master/packages.csv) or from the chocolatey repository.
+3.	Open an administrative PowerShell window and enable script execution.
+`Set-ExecutionPolicy Unrestricted -f`
+4.	Change to the unzipped project directory.
+`cd ${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\`
+5.	Execute the install with the -profile_file argument.
+`.\install.ps1 -profile_file .\profile.json`
+
+For more detailed instructions about custom installations, see our [blog]()
 
 Installing a new package
 ========================
@@ -100,6 +115,10 @@ Installed Tools
 - Ruby Devkit
 - Visual Studio 2017 Build Tools (Windows 10)
 - Visual Studio Code
+
+### Docker
+- Amass
+- SpiderFoot
 
 ### Evasion
 - CheckPlease
@@ -190,6 +209,11 @@ Installed Tools
 - SharpView
 - SpoolerScanner
 - Watson
+
+## Kali Linux
+- kali-linux-default
+- kali-linux-xfce
+- VcXsrv
 
 ### Networking Tools
 - Citrix Receiver
@@ -282,59 +306,13 @@ Installed Tools
 - Probable-Wordlists
 - RobotsDisallowed
 
-## Changelog:
-1.3 - June 28 2019
-- Added RottenPotatoNG https://github.com/breenmachine/RottenPotatoNG #63
-- Added Juicy Potato https://github.com/ohpe/juicy-potato #63, #64
-- Added Watson https://github.com/rasta-mouse/Watson #64
-- Added PwndPasswordsNTLM https://github.com/JacksonVD/PwnedPasswordsNTLM #67
-- Added FOCA https://github.com/JacksonVD/PwnedPasswordsNTLM #71 
-- Added Vulcan https://github.com/praetorian-code/vulcan
-- Added SharpClipHistory https://github.com/mwrlabs/SharpClipHistory
-- Added NetRipper https://github.com/NytroRST/NetRipper
-- Added RobotsDisallowed https://github.com/danielmiessler/RobotsDisallowed
-- Added Probable-Wordlists https://github.com/berzerk0/Probable-Wordlists
-- Added SharpSploit https://github.com/cobbr/SharpSploit
-- Changed WinRM configuration #65
-- Un-hardened UNC file paths #68
-- Fixed install issues with Covenant #61, #76
-
-1.2 - May 31 2019
-- Added recommended hardware settings #20, #17
-- Added DomainPasswordSpray https://github.com/dafthack/DomainPasswordSpray #2
-- Added GoBuster https://github.com/OJ/gobuster #39
-- Added Wfuzz https://github.com/xmendez/wfuzz #40
-- Added Notepad++ #30
-- Added TextFX plugin for Notepad++
-- Added Explorer Suite (CFF Explorer)
-
-1.1 - April 30 2019
-- Added AD-Control-Paths https://github.com/ANSSI-FR/AD-control-paths/releases
-- Added DefenderCheck https://github.com/matterpreter/DefenderCheck
-- Added dnsrecon https://github.com/darkoperator/dnsrecon
-- Added EvilClippy https://github.com/outflanknl/EvilClippy
-- Added NtdsAudit https://github.com/Dionach/NtdsAudit
-- Added SharpExec https://github.com/anthemtotheego/SharpExec
-- Added Subdomain-Bruteforce https://github.com/visualbasic6/subdomain-bruteforce
-- Fixed issue #18 with PATH 
-- Added Commando Logos with transparent backgrounds to $Home\Pictures
-- Pinned Firefox to Taskbar
-- Fixed misspellings in Readme #42/#43
-- Added Ruby and Ruby Devkit #1
-- Updated Rubeus package to current version (1.4.2) #31
-
-1.0.2 - April 10 2019
-- Added missing 'seclists.fireeye' package to packages.json #38
-
-1.0.1 - March 31 2019
-- Used https instead of http to install boxstarter #10
-
 Legal Notice
 ============
 <pre>This download configuration script is provided to assist penetration testers
-in creating handy and versatile toolboxes for offensive engagements. It
-provides a convenient interface for them to obtain a useful set of pentesting Tools directly from their original sources. Installation and use of this script
-is subject to the Apache 2.0 License.
+in creating handy and versatile toolboxes for offensive engagements. It provides 
+a convenient interface for them to obtain a useful set of pentesting Tools directly 
+from their original sources. Installation and use of this script is subject to the 
+Apache 2.0 License.
  
 You as a user of this script must review, accept and comply with the license
 terms of each downloaded/installed package listed below. By proceeding with the
