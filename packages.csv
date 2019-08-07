@@ -1,160 +1,275 @@
-Package Name,Description,Dependencies,Category,Project URL,Install
-AD-control-paths.fireeye,Control paths in Active Directory are an aggregation of control relations between entities of the domain which can be visualized as graphs (such as above) and whose purpose is to answer questions like Who can get Domain Admins privileges? or What resources can a user control? and even Who can read the CEOs emails?,,Vulnerability Analysis,https://github.com/ANSSI-FR/AD-control-paths,cinst AD-control-paths.fireeye
-ADACLScanner.fireeye,A tool with GUI used to create reports of access control lists (DACLs) and system access control lists (SACLs) in Active Directory,,Information Gathering,https://github.com/canix1/ADACLScanner,cinst ADACLScanner.fireeye
-ADAPE-Script.fireeye,Conducts common Active Directory tests,,Information Gathering,https://github.com/hausec/ADAPE-Script,cinst ADACLScanner.fireeye
-ADExplorer.fireeye,Active Directory Explorer (AD Explorer) is an advanced Active Directory (AD) viewer and editor.,,Information Gathering,https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer,cinst ADExplorer.fireeye
-adobereader.fireeye,Creates shortcut in Utilities folder on desktop,https://chocolatey.org/packages/adobereader,Utilities,https://get.adobe.com/reader/,cinst adobereader.fireeye
-ADOffline.fireeye,Imports an LDAP file from Active Directory for SQL based offline reconnaissance,,Information Gathering,https://github.com/stufus/ADOffline,cinst ADOffline.fireeye
-ADRecon.fireeye,ADRecon is a tool which gathers information about the Active Directory and generates a report which can provide a holistic picture of the current state of the target AD environment.,,Information Gathering,https://github.com/sense-of-security/ADRecon,cinst ADRecon.fireeye
-apimonitor.fireeye,Allows creation of process traces that include all windows APIs by name and includes all in and out parameters  Many filtering options.,,Exploitation,http://www.rohitab.com/apimonitor,cinst apimonitor.fireeye
-ASREPRoast.fireeye,Project that retrieves crackable hashes from KRB5 AS-REP responses for users without kerberoast preauthentication enabled.,,Password Attacks,https://github.com/HarmJ0y/ASREPRoast,cinst ASREPRoast.fireeye
-autoit.fireeye,Creates a shortcut in the Utilities folder,https://chocolatey.org/packages/autoit,Utilities,https://www.autoitscript.com/site/,cinst autoit.fireeye
-BloodHound.fireeye,BloodHound uses graph theory to reveal the hidden and often unintended relationships within an Active Directory environment.,,Information Gathering,https://github.com/BloodHoundAD/BloodHound,cinst BloodHound.fireeye
-burp.free.fireeye,Creates a shortcut in the Web Application directory for BurpSuite Free Edition,https://chocolatey.org/packages/burp-suite-free-edition,Web Application,https://portswigger.net, cinst burp.free.fireeye
-CheckPlease.fireeye,Sandbox evasion modules,,Evasion,https://github.com/Arvanaghi/CheckPlease,cinst CheckPlease.fireeye
-citrix-receiver.fireeye,Creates a Citrix shortcut in the Networking Tools folder and disables Citrix auto start,https://chocolatey.org/packages/citrix-receiver,Networking Tools,https://www.citrix.com/downloads/citrix-receiver/,cinst citrix.fireeye
-cmder.fireeye,Creates a shortcut in the Utilities directory - pins cmder to taskbar - and changes default ls alias to deconflict with unxUtils package,https://chocolatey.org/packages/Cmder,Utilities,https://cmder.net,cinst cmder.fireeye
-contextmenu.fireeye,Creates `Open command window here as admin` and `Open PowerShell window here as admin` context menu items,,,,cinst contextmenu.fireeye
-Covenant.fireeye,Covenant is a .NET command and control framework,https://chocolatey.org/packages/dotnetcore-sdk/2.2.401 - Rubeus.fireeye - SharpSploit.fireeye - SharpDPAPI.fireeye - SharpUp.fireeye - Seatbelt.fireeye - SharpDump.fireeye - SharpWMI.fireeye,Command & Control,https://github.com/cobbr/Covenant,cinst Covenant.fireeye
-CrackMapExec.fireeye,A swiss army knife for pentesting networks,,Exploitation,https://github.com/byt3bl33d3r/CrackMapExec,cinst CrackMapExec.fireeye
-CrackMapExecWin.fireeye,The great CrackMapExec tool compiled for Windows,,Exploitation,https://github.com/maaaaz/CrackMapExecWin,cinst CrackMapExecWin.fireeye
-CredNinja.fireeye,A multithreaded tool designed to identify if credentials are valid invalid or local admin valid credentials within a network at-scale via SMB,,Password Attacks,https://github.com/Raikia/CredNinja,cinst CredNinja.fireeye
-DAMP.fireeye,The Discretionary ACL Modification Project: Persistence Through Host-based Security Descriptor Modification,,Exploitation,https://github.com/HarmJ0y/DAMP,cinst DAMP.fireeye
-DefenderCheck.fireeye,Identifies the bytes that Microsoft Defender flags on.,,Evasion,https://github.com/matterpreter/DefenderCheck,cinst DefenderCheck.fireeye
-demiguise.fireeye,HTA encryption tool,,Evasion,https://github.com/nccgroup/demiguise,cinst demiguise.fireeye
-dnsrecon.fireeye,DNS Enumeration Script,,Information Gathering,https://github.com/darkoperator/dnsrecon,cinst dnsrecon.fireeye
-DomainPasswordSpray.fireeye,DomainPasswordSpray is a tool written in PowerShell to perform a password spray attack against users of a domain.,,Password Attacks,https://github.com/dafthack/DomainPasswordSpray,cinst DomainPasswordSpray.fireeye
-DotNetToJScript.fireeye,A tool to create a JScript file which loads a .NET v2 assembly from memory.,,Evasion,https://github.com/tyranid/DotNetToJScript,cinst DotNetToJScript.fireeye
-DSInternals.fireeye,Directory Services Internals (DSInternals) PowerShell Module and Framework,,Password Attacks,https://github.com/MichaelGrafnetter/DSInternals,cinst DSInternals.fireeye
-Egress-Assess.fireeye,Egress-Assess is a tool used to test egress data detection capabilities,,Vulnerability Analysis,https://github.com/FortyNorthSecurity/Egress-Assess,cinst Egress-Assess.fireeye
-Elite.fireeye,Elite is the client-side component of the Covenant project.,https://chocolatey.org/packages/dotnetcore-sdk/2.2.401 - Covenant.fireeye,Command & Control,https://github.com/cobbr/Elite,cinst Elite.fireeye
-EvilClippy.fireeye,A cross-platform assistant for creating malicious MS Office documents.,,Exploitation,https://github.com/outflanknl/EvilClippy,cinst EvilClippy.fireeye
-Exchange-AD-Privesc.fireeye,Exchange privilege escalations to Active Directory,,Exploitation,https://github.com/gdedrouas/Exchange-AD-Privesc,cinst Exchange-AD-Privesc.fireeye
-fiddler.fireeye,Creates a shortcut in the Web Application Directory,https://chocolatey.org/packages/fiddler,Web Application,https://www.telerik.com/fiddler,cinst fiddler.fireeye
-firefox.fireeye,Removes desktop shortcut and pins to taskbar,https://chocolatey.org/packages/firefox,Web Application,https://www.mozilla.org/en-US/firefox/new/,cinst firefox.fireeye
-flare-floss.fireeye,The FireEye Labs Obfuscated String Solver (FLOSS) uses advanced static analysis techniques to automatically deobfuscate strings from malware binaries. You can use it just like strings.exe to enhance basic static analysis of unknown binaries.,https://chocolatey.org/packages/python2 - https://chocolatey.org/packages/vcpython2 - libraries.python2.fireeye,Utilities,https://github.com/fireeye/flare-floss,cinst flare-floss.fireeye
-FOCA.fireeye,Tool to find metadata and hidden information in the documents.,,Information Gathering,https://github.com/ElevenPaths/FOCA,cinst FOCA.fireeye
-fuzzdb.fireeye,Dictionary of attack patterns and primitives for black-box application fault injection and resource discovery.,,Wordlists,https://github.com/fuzzdb-project/fuzzdb,cinst fuzzdb.fireeye
-Generate-Macro.fireeye,This Powershell script will generate a malicious Microsoft Office document with a specified payload and persistence method.,,Exploitation,https://github.com/enigma0x3/Generate-Macro,cinst Generate-Macro.fireeye
-Get-LAPSPasswords.fireeye,"Powershell function to pull the local admin passwords from LDAP, stored there by LAPS.",,Password Attacks,https://github.com/kfosaaen/Get-LAPSPasswords,cinst Get-LAPSPasswords.fireeye
-Get-ReconInfo.fireeye,A powershell script that prints a lot of IP and connection info to the screen,,Information Gathering,https://github.com/Raikia/Get-ReconInfo,cinst Get-ReconInfo.fireeye
-gimp.fireeye,Creates a shortcut in the Utilities folder,https://chocolatey.org/packages/gimp,Utilities,https://www.gimp.org,cinst gimp.fireeye
-GoBuster.fireeye,"Directory/File, DNS and VHost busting tool written in Go",,Information Gathering,https://github.com/OJ/gobuster,cinst GoBuster.fireeye
-GoFetch.fireeye,GoFetch is a tool to automatically exercise an attack plan generated by the BloodHound application.,,Exploitation,https://github.com/GoFetchAD/GoFetch/,cinst GoFetch.fireeye
-googlechrome.fireeye,Removes desktop shortcut and pins to taskbar,https://chocolatey.org/packages/GoogleChrome,Web Application,https://www.google.com/chrome/,cinst googlechrome.fireeye
-gowitness.fireeye,"__Êgowitness - a golang, web screenshot utility using Chrome Headless",,Information Gathering,https://github.com/sensepost/gowitness,cinst gowitness.fireeye
-Greenshot.fireeye,Creates a Greenshot shortcut in the Utilities folder and disables auto start for Greenshot,https://chocolatey.org/packages/greenshot,Utilities,https://getgreenshot.org,cinst Greenshot.fireeye
-Grouper2.fireeye,Find vulnerabilities in AD Group Policy,,Vulnerability Analysis,https://github.com/l0ss/Grouper2,cinst Grouper2.fireeye
-hashcat.fireeye,Password cracking utility,,Password Attacks,https://hashcat.net/hashcat/,cinst hashcat.fireeye
-hexchat.fireeye,Creates a HexChat shortcut in the Utilities folder,https://chocolatey.org/packages/hexchat,Utilities,https://hexchat.github.io,cinst hexchat.fireeye
-hxd.fireeye,Creates an HxD shortcut in the Utilities folder,https://chocolatey.org/packages/HxD,Utilities,https://mh-nexus.de/en/hxd/,cinst hxd.fireeye
-impacket-examples-windows.fireeye,The great impacket example scripts compiled for Windows,,Exploitation,https://github.com/maaaaz/impacket-examples-windows,cinst impacket-examples-windows.fireeye
-impacket.fireeye,Impacket is a collection of Python classes for working with network protocols.,,Exploitation,https://github.com/SecureAuthCorp/impacket,cinst impacket.fireeye
-Internal-Monologue.fireeye,Internal Monologue Attack: Retrieving NTLM Hashes without Touching LSASS,,Password Attacks,https://github.com/eladshamir/Internal-Monologue,cinst Internal-Monologue.fireeye
-Inveigh.fireeye,Windows PowerShell ADIDNS/LLMNR/mDNS/NBNS spoofer/man-in-the-middle tool,,Password Attacks,https://github.com/Kevin-Robertson/Inveigh,cisnt Inveigh.fireeye
-Invoke-ACLPwn.fireeye,Invoke-ACLpwn is a tool that automates the discovery and pwnage of ACLs in Active Directory that are unsafe configured.,,Exploitation,https://github.com/fox-it/Invoke-ACLPwn,cinst Invoke-ACLPwn.fireeye
-Invoke-CradleCrafter.fireeye,PowerShell Remote Download Cradle Generator & Obfuscator,,Evasion,https://github.com/danielbohannon/Invoke-CradleCrafter,cinst Invoke-CradleCrafter.fireeye
-Invoke-DCOM.fireeye,Lateral Movement,,Exploitation,https://github.com/rvrsh3ll/Misc-Powershell-Scripts/blob/master/Invoke-DCOM.ps1,cinst Invoke-DCOM.fireeye
-Invoke-DOSfuscation.fireeye,Cmd.exe Command Obfuscation Generator & Detection Test Harness,,Evasion,https://github.com/danielbohannon/Invoke-DOSfuscation,cisnt Invoke-DOSfuscation.fireeye
-Invoke-Obfuscation.fireeye,PowerShell Obfuscator,,Evasion,https://github.com/danielbohannon/Invoke-Obfuscation,cinst Invoke-Obfuscation.fireeye
-Invoke-Phant0m.fireeye,Windows Event Log Killer,,Evasion,https://github.com/hlldz/Invoke-Phant0m,cinst Invoke-Phant0m.fireeye
-Invoke-PowerThIEf.fireeye,"The PowerThIEf, an Internet Explorer Post Exploitation library",,Exploitation,https://github.com/nettitude/Invoke-PowerThIEf,cinst Invoke-PowerThIEf.fireeye
-Invoke-PSImage.fireeye,Embeds a PowerShell script in the pixels of a PNG file and generates a oneliner to execute,,Exploitation,https://github.com/peewpw/Invoke-PSImage,cinst Invoke-PSImage.fireeye
-Invoke-TheHash.fireeye,PowerShell Pass The Hash Utils,,Password Attacks,https://github.com/Kevin-Robertson/Invoke-TheHash,cinst Invoke-TheHash.fireeye
-juicy-potato.fireeye,A sugared version of RottenPotatoNG with a bit of juice i.e. another Local Privilege Escalation tool from a Windows Service Accounts to NT AUTHORITY\SYSTEM.,,Exploitation,https://github.com/ohpe/juicy-potato,cinst juicy-potato.fireeye
-kali_windowsbinaries.fireeye,,,,,
-KeeFarce.fireeye,"Extracts passwords from a KeePass 2.x database, directly from memory.",,Password Attacks,https://github.com/denandz/KeeFarce,cinst KeeFarce.fireeye
-keepass.fireeye,Creates a KeePass shortcut in the Utilities folder and disables auto start for KeePass,https://chocolatey.org/packages/keepass,Utilities,https://keepass.info,cinst keepass.fireeye
-KeeThief.fireeye,"Methods for attacking KeePass 2.X databases, including extracting of encryption key material from memory.",,Password Attacks,https://github.com/HarmJ0y/KeeThief,cinst KeeThief.fireeye
-LAPSToolkit.fireeye,Tool to audit and attack LAPS environments,,Password Attacks,https://github.com/leoloobeek/LAPSToolkit,cinst LAPSToolkit.fireeye
-libraries.go.fireeye,,,,,
-luckystrike.fireeye,A PowerShell based utility for the creation of malicious Office macro documents.,,Exploitation,https://github.com/curi0usJack/luckystrike,cinst luckystrike.fireeye
-MailSniper.fireeye,MailSniper is a penetration testing tool for searching through email in a Microsoft Exchange environment for specific terms. It can be used as a non-administrative user to search their own email or by an administrator to search the mailboxes of every user in a domain.,,Password Attacks,https://github.com/dafthack/MailSniper,cinst MailSniper.fireeye
-metatwin.fireeye,The project is designed as a file resource cloner. Metadata including digital signature is extracted from one file and injected into another.,,Exploitation,https://github.com/threatexpress/metatwin,cinst metatwin.fireeye
-Mimikatz.fireeye,A little tool to play with Windows security,,Password Attacks,https://github.com/gentilkiwi/mimikatz,cinst Mimikatz.fireeye
-mimikittenz.fireeye,A post-exploitation powershell tool for extracting juicy info from memory.,,Password Attacks,https://github.com/putterpanda/mimikittenz,cinst mimikittenz.fireeye
-mobaxterm.fireeye,Creates a MobaXTerm shortcut in the Utilities folder,https://chocolatey.org/packages/MobaXTerm,Utilities,https://mobaxterm.mobatek.net,cinst mobaxterm.fireeye
-neo4j-community.fireeye,Installs start/stop scripts for Neo4j in the Utilities folder and disables auto start for Neo4j,https://chocolatey.org/packages/neo4j-community,Utilities,https://neo4j.com,cinst neo4j-community.fireeye
-NetRipper.fireeye,NetRipper - Smart traffic sniffing for penetration testers,,Information Gathering,https://github.com/NytroRST/NetRipper,cinst NetRipper.fireeye
-NetshHelperBeacon.fireeye,Example DLL to load from Windows NetShell,,Exploitation,https://github.com/outflanknl/NetshHelperBeacon,cinst NetshHelperBeacon.fireeye
-nishang.fireeye,Nishang - Offensive PowerShell for red team penetration testing and offensive security.,,Exploitation,https://github.com/samratashok/nishang,cinst nishang.fireeye
-nmap.fireeye,Creates shortcuts for nmap and Zenmap in the Information Gathering folder,https://chocolatey.org/packages/nmap,Information Gathering,https://nmap.org,cinst nmap.fireeye
-notepadplusplus-textfx.fireeye,Installs the TextFX plugin for 32 bit Notepad++,,,https://sourceforge.net/projects/npp-plugins/files/TextFX/,cinst notepadplusplus-textfx.fireeye
-nps.fireeye,Not PowerShell,,Evasion,https://github.com/Ben0xA/nps,cinst nps.fireeye
-NtdsAudit.fireeye,An Active Directory audit utility,,Vulnerability Analysis,https://github.com/Dionach/NtdsAudit,cinst NtdsAudit.fireeye
-openvpn.fireeye,Creates an OpenVPN shortcut in the Networking Tools folder and disables auto start for OpenVPN,,Networking Tools,https://openvpn.net,cinst openvpn.fireeye
-orca.fireeye,Creates an Orca shortcut in the Exploitation folder,https://chocolatey.org/packages/orca,Exploitation,https://docs.microsoft.com/en-us/windows/win32/msi/orca-exe,cinst orca.fireeye
-pafishmacro.fireeye,Pafish Macro is a Macro enabled Office Document to detect malware analysis systems and sandboxes. It uses evasion & detection techniques implemented by malicious documents.,,Evasion,https://github.com/joesecurity/pafishmacro,cinst pafishmacro.fireeye
-PayloadsAllTheThings.fireeye,A list of useful payloads and bypass for Web Application Security and Pentest/CTF,,Wordlists,https://github.com/swisskyrepo/PayloadsAllTheThings,cinst PayloadsAllTheThings.fireeye
-pidgin.fireeye,Creates a Pidgin Shortcut in the Utilities folder,https://chocolatey.org/packages/pidgin,Utilities,https://developer.pidgin.im,cinst pidgin.fireeye
-PowerLessShell.fireeye,Run PowerShell command without invoking powershell.exe,,Evasion,https://github.com/Mr-Un1k0d3r/PowerLessShell,cinst PowerLessShell.fireeye
-PowerLurk.fireeye,Malicious WMI Events using PowerShell,,Exploitation,https://github.com/Sw4mpf0x/PowerLurk,cinst PowerLurk.fireeye
-PowerPriv.fireeye,A Powershell implementation of PrivExchange designed to run under the current user's context,,Exploitation,https://github.com/G0ldenGunSec/PowerPriv,cinst PowerPriv.fireeye
-PowerShdll.fireeye,Run PowerShell with rundll32. Bypass software restrictions.,,Evasion,https://github.com/p3nt4/PowerShdll,cinst PowerShdll.fireeye
-PowerShell-Suite.fireeye,PowerShell-Suite from FuzzySec,,Exploitation,https://github.com/FuzzySecurity/PowerShell-Suite,cinst PowerShell-Suite.fireeye
-PowerSploit.fireeye,A PowerShell Post-Exploitation Framework,,Exploitation,https://github.com/PowerShellMafia/PowerSploit,cinst PowerSploit.fireeye
-PowerUpSQL.fireeye,A PowerShell Toolkit for Attacking SQL Server,,Exploitation,https://github.com/NetSPI/PowerUpSQL,cinst PowerUpSQL.fireeye
-PowerView.fireeye,Installs the dev branch version of PowerView,,Exploitation,https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon,PowerView.fireeye
-PrivExchange.fireeye,Exchange your privileges for Domain Admin privs by abusing Exchange,,,https://github.com/dirkjanm/PrivExchange,cinst PrivExchange.fireeye
-Probable-Wordlists.fireeye,Wordlists sorted by probability originally created for password generation and testing,,Wordlists,https://github.com/berzerk0/Probable-Wordlists,cinst Probable-Wordlists.fireeye
-proxycap.fireeye,ProxyCap enables you to redirect your computer's network connections through proxy servers.,,Networking Tools,http://www.proxycap.com,cinst proxycap.fireeye
-PSAmsi.fireeye,PSAmsi is a tool for auditing and defeating AMSI signatures.,,Evasion,https://github.com/cobbr/PSAmsi,cinst PSAmsi.fireeye
-PSAttack.fireeye,A portable console aimed at making pentesting with PowerShell a little easier.,,Evasion,https://github.com/jaredhaight/PSAttack,cinst PSAttack.fireeye
-PSReflect.fireeye,"Easily define in-memory enums, structs, and Win32 functions in PowerShell",,Exploitation,https://github.com/mattifestation/PSReflect,cinst PSReflect.fireeye
-putty.fireeye,Creates a PUTTY shortcut in the Networking Tools folder,https://chocolatey.org/packages/putty.install,Networking Tools,https://www.chiark.greenend.org.uk/~sgtatham/putty/,cinst putty.fireeye
-PwnedPasswordsNTLM.fireeye,Quick binary search for NTLM hash dataset,,Vulnerability Analysis,https://github.com/JacksonVD/PwnedPasswordsNTLM,cinst PwnedPasswordsNTLM.fireeye
-RedTeamPowershellScripts.fireeye,Various PowerShell scripts from Mr-Un1k0d3r,,Exploitation,https://github.com/Mr-Un1k0d3r/RedTeamPowershellScripts,cinst RedTeamPowershellScripts.fireeye
-RiskySPN.fireeye,Detect and abuse risky SPNs,,Password Attacks,https://github.com/cyberark/RiskySPN,cinst RiskySPN.fireeye
-RobotsDisallowed.fireeye,A curated list of the most common and most interesting robots.txt disallowed directories.,,Wordlists,https://github.com/danielmiessler/RobotsDisallowed,cinst RobotsDisallowed.fireeye
-RottenPotatoNG.fireeye,New version of RottenPotato as a C++ DLL and standalone C++ binary - no need for meterpreter or other tools.,,Exploitation,https://github.com/breenmachine/RottenPotatoNG,cinst ottenPotatoNG.fireeye
-rsat.fireeye,Creates a shortcut to RSAT in the Active Directory Tools folder,https://chocolatey.org/packages/RSAT,Active Directory Tools,https://docs.microsoft.com/en-us/windows-server/remote/remote-server-administration-tools,cinst rsat.fireeye
-Rubeus.fireeye,Rubeus is a C# toolset for raw Kerberos interaction and abuses.,,Exploitation,https://github.com/GhostPack/Rubeus,cinst Rubeus.fireeye
-ruler.fireeye,A tool to abuse Exchange services,,Exploitation,https://github.com/sensepost/ruler,cinst ruler.fireeye
-SafetyKatz.fireeye,SafetyKatz is a combination of slightly modified version ofÊ@gentilkiwi's Mimikatz project andÊ@subTee's .NET PE Loader,,Exploitation,https://github.com/GhostPack/SafetyKatz,cinst SafetyKatz.fireeye
-ScreenToGif.fireeye,Creates a ScreenToGif shortcut in the Utilities folder,https://chocolatey.org/packages/screentogif,Utilities,https://www.screentogif.com,cinst ScreenToGif.fireeye
-Seatbelt.fireeye,Seatbelt is a C# project that performs a number of security oriented host-survey safety checks relevant from both offensive and defensive security perspectives.,,Exploitation,https://github.com/GhostPack/Seatbelt,cinst Seatbelt.fireeye
-SecLists.fireeye,"SecLists is the security testers companion. It's a collection of multiple types of lists used during security assessments, collected in one place.",,Wordlists,https://github.com/danielmiessler/SecLists,cinst SecLists.fireeye
-SessionGopher.fireeye,SessionGopher is a PowerShell tool that uses WMI to extract saved session information for remote access tools such as WinSCP PuTTY SuperPuTTY FileZilla and Microsoft Remote Desktop. It can be run remotely or locally.,,Password Attacks,https://github.com/Arvanaghi/SessionGopher,cinst SessionGopher.fireeye
-Sharp-Suite.fireeye,Various C# tools from FuzzySec,,Exploitation,https://github.com/FuzzySecurity/Sharp-Suite,cinst Sharp-Suite.fireeye
-SharpClipHistory.fireeye,SharpClipHistory is a .NET application written in C# that can be used to read the contents of a user's clipboard history in Windows 10 starting from the 1809 Build.,,Exploitation,https://github.com/mwrlabs/SharpClipHistory,cinst SharpClipHistory.fireeye
-SharpDPAPI.fireeye,SharpDPAPI is a C# port of some Mimikatz DPAPI functionality.,,Exploitation,https://github.com/GhostPack/SharpDPAPI,cinst SharpDPAPI.fireeye
-SharpDump.fireeye,SharpDump is a C# port of PowerSploit's Out-Minidump.ps1 functionality.,,Exploitation,https://github.com/GhostPack/SharpDump,cinst SharpDump.fireeye
-SharpExchangePriv.fireeye,A C# implementation of PrivExchange by @_dirkjan.,,Exploitation,https://github.com/panagioto/SharpExchangePriv,cinst SharpExchangePriv.fireeye
-SharpExec.fireeye,SharpExec is an offensive security C# tool designed to aid with lateral movement.,,Exploitation,https://github.com/anthemtotheego/SharpExec,cinst SharpExec.fireeye
-SharpHound.fireeye,C# Rewrite of the BloodHound Ingestor,,Exploitation,https://github.com/BloodHoundAD/SharpHound,cinst SharpHound.fireeye
-SharpRoast.fireeye,SharpRoast is a C# port of various PowerView's Kerberoasting functionality.,,Exploitation,https://github.com/GhostPack/SharpRoast,cinst SharpRoast.fireeye
-SharpSploit.fireeye,SharpSploit is a .NET post-exploitation library written in C#,,Exploitation,https://github.com/cobbr/SharpSploit,cinst SharpSploit.fireeye
-SharpUp.fireeye,SharpUp is a C# port of various PowerUp functionality.,,Exploitation,https://github.com/GhostPack/SharpUp,cinst SharpUp.fireeye
-SharpView.fireeye,C# implementation of harmj0y's PowerView,,Exploitation,https://github.com/tevora-threat/SharpView,cinst SharpView.fireeye
-SharpWMI.fireeye,SharpWMI is a C# implementation of various WMI functionality.,,Exploitation,https://github.com/GhostPack/SharpWMI,cinst SharpWMI.fireeye
-SpoolerScanner.fireeye,Check if MS-RPRN is remotely available with powershell/c#,,Information Gathering,https://github.com/vletoux/SpoolerScanner,cinst SpoolerScanner.fireeye
-SpoolSample.fireeye,PoC tool to coerce Windows hosts authenticate to other machines via the MS-RPRN RPC interface. This is possible via other protocols as well.,,Exploitation,https://github.com/leechristensen/SpoolSample,cinst SpoolSample.fireeye
-sqlitebrowser.fireeye,Creates a DB Browser for SQLite shortcut in the Utilities folder,https://chocolatey.org/packages/sqlitebrowser,Utilities,https://sqlitebrowser.org,cinst sqlitebrowser.fireeye
-sqlserver-cmdlineutils.fireeye,Creates a shortcut for sqlcmd in the Active Directory Tools folder,https://chocolatey.org/packages/sqlserver-cmdlineutils,Active Directory Tools,https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility,cinst sqlserver-cmdlineutils.fireeye
-StarFighters.fireeye,A JavaScript and VBScript Based Empire Launcher which runs within their own embedded PowerShell Host.,,Evasion,https://github.com/Cn33liz/StarFighters,cinst StarFighters.fireeye
-subdomain-bruteforce.fireeye,a subdomain brute forcing tool for windows,,Information Gathering,https://github.com/visualbasic6/subdomain-bruteforce,cinst subdomain-bruteforce.fireeye
-SublimeText3.fireeye,Creates a Sublime Text 3 shortcut in the Utilities folder and pins Sublime Text to the taskbar,https://chocolatey.org/packages/SublimeText3,,https://www.sublimetext.com,cinst SublimeText3.fireeye
-sysinternals.fireeye,Creates a shortcut for all Sysinternals tools in the Active Directory Tools folder,https://chocolatey.org/packages/sysinternals,Active Directory Tools,https://docs.microsoft.com/en-us/sysinternals/,cinst sysinternals.fireeye
-telnet.fireeye,Creates a Telnet shortcut in the Networking Tools directory,https://chocolatey.org/packages/telnet,Networking Tools,https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/telnet,cinst telnet.fireeye
-thunderbird.fireeye,Creates a shortcut for Mozilla Thunderbird in the Utilities folder,https://chocolatey.org/packages/thunderbird,Utilities,https://www.thunderbird.net,cinst thunderbird.fireeye
-TrustVisualizer.fireeye,Python script that takes new output from Get-DomainTrustMapping .csvs and outputs graphml. Based on DomainTrustExplorer.,,Utilities,https://github.com/HarmJ0y/TrustVisualizer,cinst TrustVisualizer.fireeye
-UACME.fireeye,Defeating Windows User Account Control by abusing built-in Windows AutoElevate backdoor.,,Exploitation,https://github.com/hfiref0x/UACME,cinst UACME.fireeye
-vlc.fireeye,Creates a shortcut for VLC Media Player in the Utilities folder,,Utilities,https://chocolatey.org/packages/vlc,cinst vlc.fireeye
-vmware-horizon-client.fireeye,Creates a shortcut for VMware Horizon Client in the Networking Tools folder,https://chocolatey.org/packages/vmware-horizon-client,Networking Tools,https://www.vmware.com/products/horizon.html,cinst vmware-horizon-client.fireeye
-vmwarevsphereclient.fireeye,Creates a shortcut for VMware vSphere client in the Networking Tools folder,https://chocolatey.org/packages/vmwarevsphereclient,Networking Tools,https://www.vmware.com/go/download-vsphere,cinst vmwarevsphereclient.fireeye
-vnc-viewer.fireeye,Creates a shortcut for VNC Viewer in the Networking Tools folder,https://chocolatey.org/packages/vnc-viewer,Networking Tools,https://www.realvnc.com/en/connect/download/viewer/,cinst vnc-viewer.fireeye
-vscode.fireeye,Creates a shortcut for VS Code in the Developer Tools folder and pins VS Code to the taskbar,https://chocolatey.org/packages/vscode,Developer Tools,https://code.visualstudio.com,cinst vscode.fireeye
-vssown.fireeye,Volume Shadow Copy utility,,Exploitation,https://github.com/reider-roque/pentest-tools/blob/master/password-cracking/vssown.vbs,cinst vssown.fireeye
-vulcan.fireeye,a tool to make it easy and fast to test various forms of injection,,Exploitation,https://github.com/praetorian-code/vulcan,cinst vulcan.fireeye
-Watson.fireeye,Enumerate missing KBs and suggest exploits for useful Privilege Escalation vulnerabilities,,Exploitation,https://github.com/rasta-mouse/Watson,cinst Watson.fireeye
-wfuzz.fireeye,Web application fuzzer,,Web Application,https://github.com/xmendez/wfuzz,cinst wfuzz.fireeye
-windbg.fireeye,The Windows Debugger,,Debuggers,https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools,cinst windbg.fireeye
-windump.fireeye,WinDump is the Windows version of tcpdump,,Networking Tools,https://www.winpcap.org/windump/,cinst windump.fireeye
-winscp.fireeye,Creates a shortcut for WinSCP in the Networking Tools folder,https://chocolatey.org/packages/winscp,Networking Tools,https://winscp.net/eng/index.php,cinst winscp.fireeye
-wireshark.fireeye,Creates a shortcut for Wireshark in the Networking Tools folder,https://chocolatey.org/packages/wireshark,Networking Tools,https://www.wireshark.org,cinst wireshark.fireeye
-WMImplant.fireeye,WMImplant is a PowerShell based tool that leverages WMI to both perform actions against targeted machines but also as the C2 channel for issuing commands and receiving results.,,Command & Control,https://github.com/FortyNorthSecurity/WMImplant,cinst WMImplant.fireeye
-WMIOps.fireeye,WMIOps is a powershell script that uses WMI to perform a variety of actions on hosts local or remote within a Windows environment.,,Command & Control,https://github.com/FortyNorthSecurity/WMIOps,cinst WMIOps.fireeye
-x64dbg.fireeye,An open-source x64/x32 debugger for windows.,,Debuggers,https://x64dbg.com/#start,cinst x64dbg.fireeye
-yed.fireeye,Creates a shortcut for yEd in the Utilities folder,https://chocolatey.org/packages/yed,Utilities,https://www.yworks.com/yed,cinst yed.fireeye
-zap.fireeye,Creates a shortcut for Zap in the Web Application folder,https://chocolatey.org/packages/zap,Web Application,https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project,cinst zap.fireeye
-zBang.fireeye,zBang is a risk assessment tool that detects potential privileged account threats,,Vulnerability Analysis,https://github.com/cyberark/zBang,cinst zBang.fireeye
+Package Name, Dependencies, Category, URL, How to install
+010editor.flare, , Hex Editor, https://www.sweetscape.com, cinst -y 010editor.flare
+7zip.flare, , Hex Editor, https://www.7-zip.org/, cinst -y 7zip.flare
+AD-control-paths.fireeye, , "Vulnerability, , cinst -y AD-control-paths.fireeye
+ADACLScanner.fireeye, , Information Gathering, , cinst -y ADACLScanner.fireeye
+ADAPE-Script.fireeye, , 'Exploitation', , cinst -y ADAPE-Script.fireeye
+ADExplorer.fireeye, common.fireeye - https://chocolatey.org/packages//adexplorer, Information Gathering, http://technet.microsoft.com/en-us/sysinternals/bb842062, cinst -y ADExplorer.fireeye
+adobereader.fireeye, common.fireeye - https://chocolatey.org/packages//adobereader, 'Utilities', https://www.adobe.com/products/reader.html, cinst -y adobereader.fireeye
+ADOffline.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, Information Gathering, , cinst -y ADOffline.fireeye
+ADRecon.fireeye, , Information Gathering, , cinst -y ADRecon.fireeye
+amass.docker.fireeye, common.fireeye - https://chocolatey.org/packages//autohotkey.portable - docker.fireeye, "Docker", https://github.com/OWASP/Amass, cinst -y amass.docker.fireeye
+apimonitor.fireeye, common.fireeye - https://chocolatey.org/packages//apimonitor, 'Exploitation', http://www.rohitab.com/apimonitor, cinst -y apimonitor.fireeye
+apimonitor.flare, common.fireeye - https://chocolatey.org/packages//apimonitor, 'Utilities', http://www.rohitab.com/apimonitor, cinst -y apimonitor.flare
+apktool.flare, common.fireeye - https://chocolatey.org/packages//apktool, 'Android', https://ibotpeaches.github.io/Apktool/, cinst -y apktool.flare
+ASREPRoast.fireeye, , Password Attacks, , cinst -y ASREPRoast.fireeye
+autoit.fireeye, common.fireeye - https://chocolatey.org/packages//autoit, 'Utilities', http://www.autoitscript.com/autoit3, cinst -y autoit.fireeye
+binaryninja.flare, , 'Disassemblers', https://binary.ninja/demo.html, cinst -y binaryninja.flare
+BloodHound.fireeye, , Information Gathering, , cinst -y BloodHound.fireeye
+burp.free.fireeye, common.fireeye - https://chocolatey.org/packages//burp-suite-free-edition, Web Application, https://portswigger.net/burp, cinst -y burp.free.fireeye
+burp.free.flare, common.fireeye - https://chocolatey.org/packages//burp-suite-free-edition, Web Application, https://portswigger.net/burp, cinst -y burp.free.flare
+bytecode-viewer.flare, common.fireeye - https://chocolatey.org/packages//javaruntime, 'Java', https://bytecodeviewer.com/, cinst -y bytecode-viewer.flare
+bytehist.fireeye, , 'Utilities', https://cert.at/downloads/software/bytehist_en.html, cinst -y bytehist.fireeye
+CheckPlease.fireeye, , 'Evasion', , cinst -y CheckPlease.fireeye
+citrix-receiver.fireeye, common.fireeye - https://chocolatey.org/packages//citrix-receiver, 'Networking, http://www.citrix.com/downloads/citrix-receiver/windows/, cinst -y citrix-receiver.fireeye
+cmder.fireeye, common.fireeye - https://chocolatey.org/packages//cmder, 'Utilities', http://cmder.net/, cinst -y cmder.fireeye
+cmdermini.flare, common.fireeye - https://chocolatey.org/packages//cmdermini, Utilities, http://cmder.net/, cinst -y cmdermini.flare
+common.fireeye, , Utilities, , cinst -y common.fireeye
+contextmenu.fireeye, , Utilities, , cinst -y contextmenu.fireeye
+Covenant.fireeye, common.fireeye - https://chocolatey.org/packages//dotnetcore-sdk - Rubeus.fireeye - SharpSploit.fireeye - SharpDPAPI.fireeye - SharpUp.fireeye - Seatbelt.fireeye - SharpDump.fireeye - SharpWMI.fireeye, 'Command, , cinst -y Covenant.fireeye
+CrackMapExec.fireeye, , Utilities, , cinst -y CrackMapExec.fireeye
+CrackMapExecWin.fireeye, , 'Exploitation', , cinst -y CrackMapExecWin.fireeye
+CredNinja.fireeye, common.fireeye - https://chocolatey.org/packages//python3, Password Attacks, , cinst -y CredNinja.fireeye
+cutter.flare, , 'Disassemblers', https://github.com/radareorg/cutter, cinst -y cutter.flare
+cyberchef.flare, common.fireeye - https://chocolatey.org/packages//googlechrome, 'Utilities', https://github.com/gchq/CyberChef, cinst -y cyberchef.flare
+cygwin.flare, common.fireeye - https://chocolatey.org/packages//cygwin, 'Utilities', https://github.com/fireeye/flare-vm, cinst -y cygwin.flare
+DAMP.fireeye, , "Exploitation", , cinst -y DAMP.fireeye
+de4dot.flare, , 'dotNet', https://www.aldeid.com/wiki/PEiD, cinst -y de4dot.flare
+DefenderCheck.fireeye, , "Evasion", , cinst -y DefenderCheck.fireeye
+demiguise.fireeye, , 'Evasion', , cinst -y demiguise.fireeye
+dex2jar.flare, common.fireeye - https://chocolatey.org/packages//javaruntime, 'Android', https://github.com/pxb1988/dex2jar, cinst -y dex2jar.flare
+die.flare, , 'Utilities', http://ntinfo.biz, cinst -y die.flare
+dnsd.flare, , 'dotNet', http://progress-tools.x10.mx/dnsd.html, cinst -y dnsd.flare
+dnspy.flare, common.fireeye - https://chocolatey.org/packages//dotnet4.7.2, 'dotNET', https://github.com/0xd4d/dnSpy, cinst -y dnspy.flare
+dnsrecon.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, Information Gathering, , cinst -y dnsrecon.fireeye
+docker.fireeye, common.fireeye - https://chocolatey.org/packages//docker-desktop - https://chocolatey.org/packages//docker-compose - https://chocolatey.org/packages//docker-cli, 'Docker', https://www.docker.com/products/docker-desktop, cinst -y docker.fireeye
+DomainPasswordSpray.fireeye, , Password Attacks, , cinst -y DomainPasswordSpray.fireeye
+DotNetToJScript.fireeye, , 'Evasion', , cinst -y DotNetToJScript.fireeye
+dotPeek.flare, common.fireeye - https://chocolatey.org/packages//dotPeek, 'dotNET', http://www.jetbrains.com/decompiler, cinst -y dotPeek.flare
+DSInternals.fireeye, , Password Attacks, , cinst -y DSInternals.fireeye
+Egress-Assess.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'Vulnerability, , cinst -y Egress-Assess.fireeye
+Elite.fireeye, common.fireeye - https://chocolatey.org/packages//dotnetcore-sdk - Covenant.fireeye, 'Command, , cinst -y Elite.fireeye
+EvilClippy.fireeye, , "Exploitation", , cinst -y EvilClippy.fireeye
+Exchange-AD-Privesc.fireeye, , "Exploitation", , cinst -y Exchange-AD-Privesc.fireeye
+exe2aut.fireeye, , 'Utilities', https://exe2aut.com/, cinst -y exe2aut.fireeye
+exeinfope.flare, , 'Utilities', http://exeinfo.atwebpages.com/, cinst -y exeinfope.flare
+explorersuite.flare, , 'Utilities', http://www.ntcore.com/exsuite.php, cinst -y explorersuite.flare
+fakenet-ng.python.fireeye, common.fireeye - common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'Net', https://github.com/fireeye/flare-fakenet-ng, cinst -y fakenet-ng.python.fireeye
+fakenet-ng.python.flare, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'Net', https://github.com/fireeye/flare-fakenet-ng, cinst -y fakenet-ng.python.flare
+farmanager.flare, , 'Utilities', https://farmanager.com/, cinst -y farmanager.flare
+ffdec.flare, common.fireeye - https://chocolatey.org/packages//flashplayeractivex, 'Flash', https://www.free-decompiler.com/flash/, cinst -y ffdec.flare
+fiddler.fireeye, common.fireeye - https://chocolatey.org/packages//fiddler, Web Application, http://www.telerik.com/fiddler, cinst -y fiddler.fireeye
+fileinsight.flare, , Hex Editor, http://www.mcafee.com/us/downloads/free-tools/fileinsight.aspx, cinst -y fileinsight.flare
+firefox.fireeye, common.fireeye - https://chocolatey.org/packages//firefox, Web Application, https://www.mozilla.org/en-US/firefox/new/, cinst -y firefox.fireeye
+flare-floss.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//vcpython27 - libraries.python2.fireeye, 'Utilities', https://github.com/fireeye/flare-floss, cinst -y flare-floss.fireeye
+flare-qdb.python.flare, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//python3 - libraries.python2.fireeye, 'Debuggers', https://github.com/fireeye/flare-qdb, cinst -y flare-qdb.python.flare
+flarevm.config.flare, , "Desktop\Boxstarter, , cinst -y flarevm.config.flare
+flarevm.installer.flare, , Utilities, , cinst -y flarevm.installer.flare
+flarevm.installer_dev.flare, , Utilities, , cinst -y flarevm.installer_dev.flare
+floss.python.flare, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//vcpython27 - libraries.python2.fireeye, 'Utilities', https://github.com/fireeye/flare-floss, cinst -y floss.python.flare
+FOCA.fireeye, , Information Gathering, , cinst -y FOCA.fireeye
+fuzzdb.fireeye, , 'Wordlists', , cinst -y fuzzdb.fireeye
+Generate-Macro.fireeye, , "Exploitation", , cinst -y Generate-Macro.fireeye
+Get-LAPSPasswords.fireeye, , Password Attacks, , cinst -y Get-LAPSPasswords.fireeye
+Get-ReconInfo.fireeye, , Information Gathering, , cinst -y Get-ReconInfo.fireeye
+ghidra.fireeye, common.fireeye - https://chocolatey.org/packages//openjdk11, 'Disassemblers', https://www.ghidra-sre.org/, cinst -y ghidra.fireeye
+gimp.fireeye, common.fireeye - https://chocolatey.org/packages//gimp, 'Utilities', https://www.gimp.org/, cinst -y gimp.fireeye
+GoBuster.fireeye, , Information Gathering, , cinst -y GoBuster.fireeye
+GoFetch.fireeye, , 'Exploitation', , cinst -y GoFetch.fireeye
+googlechrome.fireeye, common.fireeye - https://chocolatey.org/packages//googlechrome, Web Application, https://www.google.com/chrome/browser/, cinst -y googlechrome.fireeye
+googlechrome.flare, common.fireeye - https://chocolatey.org/packages//googlechrome, Utilities, https://www.google.com/chrome/, cinst -y googlechrome.flare
+gowitness.fireeye, , Information Gathering, , cinst -y gowitness.fireeye
+Greenshot.fireeye, common.fireeye - https://chocolatey.org/packages//greenshot, 'Utilities', http://getgreenshot.org/, cinst -y Greenshot.fireeye
+Grouper2.fireeye, , "Vulnerability, , cinst -y Grouper2.fireeye
+hashcalc.flare, , 'Utilities', http://www.slavasoft.com/hashcalc/index.htm, cinst -y hashcalc.flare
+hashcat.fireeye, common.fireeye - https://chocolatey.org/packages//opencl-intel-cpu-runtime, Password Attacks, , cinst -y hashcat.fireeye
+hashmyfiles.flare, , 'Utilities', https://www.nirsoft.net/utils/hash_my_files.html, cinst -y hashmyfiles.flare
+hexchat.fireeye, common.fireeye - https://chocolatey.org/packages//vcredist2015 - https://chocolatey.org/packages//hexchat, 'Utilities', https://hexchat.github.io/, cinst -y hexchat.fireeye
+hxd.fireeye, common.fireeye - https://chocolatey.org/packages//hxd, 'Utilities', https://mh-nexus.de/en/hxd/, cinst -y hxd.fireeye
+hxd.flare, common.fireeye - https://chocolatey.org/packages//chocolatey, Hex Editor, https://mh-nexus.de/en/hxd/, cinst -y hxd.flare
+idafree.flare, , 'Disassemblers', https://www.hex-rays.com/products/ida/support/download_freeware.shtml, cinst -y idafree.flare
+idafree70.flare, , 'Disassemblers', https://www.hex-rays.com/products/ida/support/download_freeware.shtml, cinst -y idafree70.flare
+idr.small.flare, , 'Delphi', http://kpnc.org/idr32/en/, cinst -y idr.small.flare
+ilspy.flare, common.fireeye - https://chocolatey.org/packages//ilspy, 'dotNET', http://ilspy.net/, cinst -y ilspy.flare
+impacket-examples-windows.fireeye, , 'Exploitation', , cinst -y impacket-examples-windows.fireeye
+impacket.fireeye, , Utilities, , cinst -y impacket.fireeye
+innoextract.fireeye, , 'Utilities', http://constexpr.org/innoextract/, cinst -y innoextract.fireeye
+innounp.fireeye, , 'Utilities', http://innounp.sourceforge.net/, cinst -y innounp.fireeye
+Internal-Monologue.fireeye, , Password Attacks, , cinst -y Internal-Monologue.fireeye
+Inveigh.fireeye, common.fireeye - Invoke-TheHash.fireeye, Password Attacks, , cinst -y Inveigh.fireeye
+Invoke-ACLPwn.fireeye, , "Exploitation", , cinst -y Invoke-ACLPwn.fireeye
+Invoke-CradleCrafter.fireeye, , 'Evasion', , cinst -y Invoke-CradleCrafter.fireeye
+Invoke-DCOM.fireeye, , 'Exploitation', , cinst -y Invoke-DCOM.fireeye
+Invoke-DOSfuscation.fireeye, , "Evasion", , cinst -y Invoke-DOSfuscation.fireeye
+Invoke-Obfuscation.fireeye, , 'Evasion', , cinst -y Invoke-Obfuscation.fireeye
+Invoke-Phant0m.fireeye, , 'Evasion', , cinst -y Invoke-Phant0m.fireeye
+Invoke-PowerThIEf.fireeye, , "Exploitation", , cinst -y Invoke-PowerThIEf.fireeye
+Invoke-PSImage.fireeye, , "Exploitation", , cinst -y Invoke-PSImage.fireeye
+Invoke-TheHash.fireeye, , Password Attacks, , cinst -y Invoke-TheHash.fireeye
+jd-gui.flare, common.fireeye - https://chocolatey.org/packages//javaruntime, 'Java', http://jd.benow.ca/, cinst -y jd-gui.flare
+juicy-potato.fireeye, , 'Exploitation', , cinst -y juicy-potato.fireeye
+kali.fireeye, common.fireeye - https://chocolatey.org/packages//autohotkey.portable - https://chocolatey.org/packages//vcxsrv - https://chocolatey.org/packages//wsl-kalilinux, "Kali", https://www.kali.org/, cinst -y kali.fireeye
+kali_windowsbinaries.fireeye, , 'Exploitation', http://git.kali.org/gitweb/?p=packages/windows-binaries.git;a=summary, cinst -y kali_windowsbinaries.fireeye
+KeeFarce.fireeye, , Password Attacks, , cinst -y KeeFarce.fireeye
+keepass.fireeye, common.fireeye - https://chocolatey.org/packages//keepass, 'Utilities', http://keepass.info/, cinst -y keepass.fireeye
+KeeThief.fireeye, , Password Attacks, , cinst -y KeeThief.fireeye
+kmdloader.flare, , 'Utilities', http://www.novirusthanks.org/products/kernel-mode-driver-loader/, cinst -y kmdloader.flare
+LAPSToolkit.fireeye, , Password Attacks, , cinst -y LAPSToolkit.fireeye
+lessmsi.fireeye, common.fireeye - https://chocolatey.org/packages//lessmsi, 'Utilities', https://github.com/activescott/lessmsi, cinst -y lessmsi.fireeye
+libraries.go.fireeye, common.fireeye - https://chocolatey.org/packages//git - https://chocolatey.org/packages//golang, Utilities, , cinst -y libraries.go.fireeye
+libraries.python2.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//python3, Utilities, https://github.com/fireeye/flare-vm, cinst -y libraries.python2.fireeye
+libraries.python2.flare, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//python3, Utilities, https://github.com/fireeye/flare-vm, cinst -y libraries.python2.flare
+libraries.python3.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//python3, Utilities, https://github.com/fireeye/flare-vm, cinst -y libraries.python3.fireeye
+libraries.python3.flare, common.fireeye - https://chocolatey.org/packages//python2 - https://chocolatey.org/packages//python3, Utilities, https://github.com/fireeye/flare-vm, cinst -y libraries.python3.flare
+lordpe.flare, , 'Utilities', http://www.woodmann.com/collaborative/tools/index.php/LordPE, cinst -y lordpe.flare
+luckystrike.fireeye, , "Exploitation", , cinst -y luckystrike.fireeye
+MailSniper.fireeye, , Password Attacks, , cinst -y MailSniper.fireeye
+MAP.flare, , Utilities, http://sandsprite.com/iDef/MAP/, cinst -y MAP.flare
+metasploit.flare, , 'Exploitation', https://github.com/rapid7/metasploit-framework, cinst -y metasploit.flare
+metatwin.fireeye, , "Exploitation", , cinst -y metatwin.fireeye
+Mimikatz.fireeye, , Password Attacks, , cinst -y Mimikatz.fireeye
+mimikittenz.fireeye, , Password Attacks, , cinst -y mimikittenz.fireeye
+mobaxterm.fireeye, common.fireeye - https://chocolatey.org/packages//mobaxterm, 'Utilities', http://mobaxterm.mobatek.net/, cinst -y mobaxterm.fireeye
+nasm.fireeye, common.fireeye - https://chocolatey.org/packages//nasm, 'Developer, http://www.nasm.us/, cinst -y nasm.fireeye
+ncat.flare, , 'Net', https://nmap.org/ncat/, cinst -y ncat.flare
+neo4j-community.fireeye, common.fireeye - https://chocolatey.org/packages//jdk8 - https://chocolatey.org/packages//neo4j-community, 'Utilities', http://neo4j.com/, cinst -y neo4j-community.fireeye
+NetRipper.fireeye, , Information Gathering, , cinst -y NetRipper.fireeye
+NetshHelperBeacon.fireeye, , 'Exploitation', , cinst -y NetshHelperBeacon.fireeye
+nishang.fireeye, , 'Exploitation', , cinst -y nishang.fireeye
+nmap.fireeye, , Information Gathering, https://nmap.org/, cinst -y nmap.fireeye
+nmap.flare, , 'Net', https://nmap.org/, cinst -y nmap.flare
+notepadplusplus-textfx.fireeye, , Utilities, , cinst -y notepadplusplus-textfx.fireeye
+notepadplusplus.flare, common.fireeye - https://chocolatey.org/packages//notepadplusplus, Utilities, https://notepad-plus-plus.org/, cinst -y notepadplusplus.flare
+nps.fireeye, , 'Evasion', , cinst -y nps.fireeye
+NtdsAudit.fireeye, , "Vulnerability, , cinst -y NtdsAudit.fireeye
+officemalscanner.flare, , 'Office', http://www.reconstructer.org/, cinst -y officemalscanner.flare
+offvis.flare, , 'Office', http://www.microsoft.com, cinst -y offvis.flare
+oledump.fireeye, common.fireeye - libraries.python2.fireeye, 'Office', https://didierstevens.com/, cinst -y oledump.fireeye
+oletools.fireeye, common.fireeye - libraries.python2.fireeye, 'Office', https://github.com/decalage2/oletools, cinst -y oletools.fireeye
+ollydbg.flare, , 'Debuggers', http://www.ollydbg.de/, cinst -y ollydbg.flare
+ollydbg.ollydump.flare, common.fireeye - ollydbg.flare, Utilities, http://www.openrce.org/downloads/details/108/OllyDump, cinst -y ollydbg.ollydump.flare
+ollydbg.ollydumpex.flare, common.fireeye - ollydbg.flare, Utilities, https://low-priority.appspot.com/ollydumpex/, cinst -y ollydbg.ollydumpex.flare
+ollydbg2.flare, , 'Debuggers', http://www.ollydbg.de/version2.html, cinst -y ollydbg2.flare
+ollydbg2.ollydumpex.flare, common.fireeye - ollydbg2.flare, Utilities, https://low-priority.appspot.com/ollydumpex/, cinst -y ollydbg2.ollydumpex.flare
+OpenSSL.flare, , Utilities, https://slproweb.com/products/Win32OpenSSL.html, cinst -y OpenSSL.flare
+openvpn.fireeye, common.fireeye - https://chocolatey.org/packages//chocolatey - https://chocolatey.org/packages//gpg4win-vanilla - https://chocolatey.org/packages//autohotkey.portable, 'Networking, https://openvpn.net/index.php/open-source/, cinst -y openvpn.fireeye
+orca.fireeye, common.fireeye - https://chocolatey.org/packages//orca, 'Exploitation', https://msdn.microsoft.com/en-us/library/windows/desktop/aa370557(v=vs.85).aspx, cinst -y orca.fireeye
+pafishmacro.fireeye, , 'Evasion', , cinst -y pafishmacro.fireeye
+PayloadsAllTheThings.fireeye, , 'Wordlists', , cinst -y PayloadsAllTheThings.fireeye
+pdfid.flare, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'PDF', https://didierstevens.com/, cinst -y pdfid.flare
+pdfparser.flare, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'PDF', https://didierstevens.com/, cinst -y pdfparser.flare
+PdfStreamDumper.flare, , 'PDF', http://sandsprite.com/tools.php?id=17, cinst -y PdfStreamDumper.flare
+pebear.flare, , 'Utilities', https://hshrzd.wordpress.com/pe-bear/, cinst -y pebear.flare
+peid.flare, , 'Utilities', https://www.aldeid.com/wiki/PEiD, cinst -y peid.flare
+pesieve.fireeye, common.fireeye - https://chocolatey.org/packages//pesieve, 'Utilities', https://hshrzd.wordpress.com/pe-sieve/, cinst -y pesieve.fireeye
+pestudio.flare, , 'Utilities', https://www.winitor.com, cinst -y pestudio.flare
+peview.flare, , 'Utilities', http://wjradburn.com/software/, cinst -y peview.flare
+pidgin.fireeye, common.fireeye - https://chocolatey.org/packages//pidgin, 'Utilities', http://pidgin.im/, cinst -y pidgin.fireeye
+pmalabs.flare, , Utilities, https://github.com/mikesiko/PracticalMalwareAnalysis-Labs, cinst -y pmalabs.flare
+PoshC2.fireeye, , 'Command, , cinst -y PoshC2.fireeye
+PoshC2_Python.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'Command, , cinst -y PoshC2_Python.fireeye
+PowerLessShell.fireeye, common.fireeye - https://chocolatey.org/packages//python2, 'Evasion', , cinst -y PowerLessShell.fireeye
+PowerLurk.fireeye, , "Exploitation", , cinst -y PowerLurk.fireeye
+PowerPriv.fireeye, , 'Exploitation', , cinst -y PowerPriv.fireeye
+PowerShdll.fireeye, , 'Evasion', , cinst -y PowerShdll.fireeye
+PowerShell-Suite.fireeye, , 'Exploitation', , cinst -y PowerShell-Suite.fireeye
+PowerSploit.fireeye, , 'Exploitation', , cinst -y PowerSploit.fireeye
+PowerUpSQL.fireeye, , "Exploitation", , cinst -y PowerUpSQL.fireeye
+PowerView.fireeye, common.fireeye - PowerSploit.fireeye, Information Gathering, , cinst -y PowerView.fireeye
+ppee.fireeye, common.fireeye - https://chocolatey.org/packages//vcredist2010, 'Utilities', https://www.mzrst.com/, cinst -y ppee.fireeye
+PrivExchange.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - impacket.fireeye, 'Exploitation\PrivExchange', , cinst -y PrivExchange.fireeye
+Probable-Wordlists.fireeye, , 'Wordlists', , cinst -y Probable-Wordlists.fireeye
+processdump.fireeye, common.fireeye - https://chocolatey.org/packages//vcredist2015, 'Utilities', https://github.com/glmcdona/Process-Dump, cinst -y processdump.fireeye
+processhacker.flare, common.fireeye - https://chocolatey.org/packages//processhacker, 'Utilities', http://processhacker.sourceforge.net/, cinst -y processhacker.flare
+proxycap.fireeye, , 'Networking, http://www.proxycap.com/, cinst -y proxycap.fireeye
+PSAmsi.fireeye, , "Evasion", , cinst -y PSAmsi.fireeye
+PSAttack.fireeye, , "Evasion", , cinst -y PSAttack.fireeye
+PSReflect.fireeye, , "Exploitation", , cinst -y PSReflect.fireeye
+putty.fireeye, common.fireeye - https://chocolatey.org/packages//putty.portable, 'Networking, http://www.chiark.greenend.org.uk/~sgtatham/putty/, cinst -y putty.fireeye
+PwnedPasswordsNTLM.fireeye, , "Vulnerability, , cinst -y PwnedPasswordsNTLM.fireeye
+py2exedecompiler.flare, , 'Python', https://github.com/endgameinc/Py2ExeDecompiler, cinst -y py2exedecompiler.flare
+python2.x86.nopath.flare, , Utilities, http://www.python.org/, cinst -y python2.x86.nopath.flare
+radare2.flare, , 'Disassemblers', http://www.radare.org/r/, cinst -y radare2.flare
+RedTeamPowershellScripts.fireeye, , 'Exploitation', , cinst -y RedTeamPowershellScripts.fireeye
+regshot.flare, , 'Utilities', https://sourceforge.net/projects/regshot/, cinst -y regshot.flare
+resourcehacker.flare, common.fireeye - https://chocolatey.org/packages//reshack.portable, 'Utilities', http://www.angusj.com/resourcehacker/, cinst -y resourcehacker.flare
+RetDec.flare, , 'Decompilers', https://retdec.com/, cinst -y RetDec.flare
+RiskySPN.fireeye, , Password Attacks, , cinst -y RiskySPN.fireeye
+RobotsDisallowed.fireeye, , 'Wordlists', , cinst -y RobotsDisallowed.fireeye
+RottenPotatoNG.fireeye, , 'Exploitation', , cinst -y RottenPotatoNG.fireeye
+rsat.fireeye, common.fireeye - https://chocolatey.org/packages//rsat, 'Active, https://support.microsoft.com/en-us/help/2693643/remote-server-administration-tools-rsat-for-windows-operating-systems, cinst -y rsat.fireeye
+Rubeus.fireeye, , 'Exploitation\GhostPack', , cinst -y Rubeus.fireeye
+ruler.fireeye, , "Exploitation", , cinst -y ruler.fireeye
+SafetyKatz.fireeye, , 'Exploitation\GhostPack', , cinst -y SafetyKatz.fireeye
+scdbg.flare, , 'Debuggers', http://sandsprite.com/CodeStuff/scdbg_manual/MANUAL_EN.html, cinst -y scdbg.flare
+ScreenToGif.fireeye, common.fireeye - https://chocolatey.org/packages//screentogif, 'Utilities', https://github.com/NickeManarin/ScreenToGif, cinst -y ScreenToGif.fireeye
+Seatbelt.fireeye, , 'Exploitation\GhostPack', , cinst -y Seatbelt.fireeye
+SecLists.fireeye, , 'Wordlists', , cinst -y SecLists.fireeye
+SessionGopher.fireeye, , Password Attacks, , cinst -y SessionGopher.fireeye
+Sharp-Suite.fireeye, , "Exploitation", , cinst -y Sharp-Suite.fireeye
+SharpClipHistory.fireeye, , 'Exploitation', , cinst -y SharpClipHistory.fireeye
+SharpDPAPI.fireeye, , 'Exploitation\GhostPack', , cinst -y SharpDPAPI.fireeye
+SharpDump.fireeye, , 'Exploitation\GhostPack', , cinst -y SharpDump.fireeye
+SharpExchangePriv.fireeye, , "Exploitation", , cinst -y SharpExchangePriv.fireeye
+SharpExec.fireeye, , "Exploitation", , cinst -y SharpExec.fireeye
+SharpHound.fireeye, , Information Gathering, , cinst -y SharpHound.fireeye
+SharpRoast.fireeye, , 'Exploitation\GhostPack', , cinst -y SharpRoast.fireeye
+SharpSploit.fireeye, , 'Exploitation', https://github.com/cobbr/SharpSploit, cinst -y SharpSploit.fireeye
+SharpUp.fireeye, , 'Exploitation\GhostPack', , cinst -y SharpUp.fireeye
+SharpView.fireeye, , Information Gathering, , cinst -y SharpView.fireeye
+SharpWMI.fireeye, , 'Exploitation\GhostPack', , cinst -y SharpWMI.fireeye
+shellcode_launcher.flare, , 'Utilities', https://github.com/clinicallyinane/shellcode_launcher/, cinst -y shellcode_launcher.flare
+SilkETW.fireeye, , 'Utilities', https://github.com/fireeye/SilkETW, cinst -y SilkETW.fireeye
+spiderfoot.docker.fireeye, common.fireeye - docker.fireeye, 'Docker', https://github.com/smicallef/spiderfoot, cinst -y spiderfoot.docker.fireeye
+spiderfoot.fireeye, , Information Gathering, , cinst -y spiderfoot.fireeye
+SpoolerScanner.fireeye, , Information Gathering, , cinst -y SpoolerScanner.fireeye
+SpoolSample.fireeye, , 'Exploitation', , cinst -y SpoolSample.fireeye
+spystudio.flare, common.fireeye - https://chocolatey.org/packages//spystudio, 'Utilities', http://www.nektra.com/products/spystudio-api-monitor/, cinst -y spystudio.flare
+sqlitebrowser.fireeye, common.fireeye - https://chocolatey.org/packages//sqlitebrowser, 'Utilities', http://sqlitebrowser.org/, cinst -y sqlitebrowser.fireeye
+sqlserver-cmdlineutils.fireeye, common.fireeye - https://chocolatey.org/packages//sqlserver-cmdlineutils, 'Active, https://www.microsoft.com/en-us/download/details.aspx?id=53591, cinst -y sqlserver-cmdlineutils.fireeye
+StarFighters.fireeye, , "Evasion", , cinst -y StarFighters.fireeye
+subdomain-bruteforce.fireeye, , Information Gathering, , cinst -y subdomain-bruteforce.fireeye
+SublimeText3.fireeye, common.fireeye - https://chocolatey.org/packages//sublimetext3, 'Utilities', http://www.sublimetext.com/3, cinst -y SublimeText3.fireeye
+SysAnalyzer.flare, , 'Utilities', http://sandsprite.com/iDef/SysAnalyzer/, cinst -y SysAnalyzer.flare
+sysinternals.fireeye, common.fireeye - https://chocolatey.org/packages//sysinternals, 'Active, http://technet.microsoft.com/en-us/sysinternals/bb842062, cinst -y sysinternals.fireeye
+sysinternals.flare, common.fireeye - https://chocolatey.org/packages//sysinternals, 'Utilities', http://technet.microsoft.com/en-us/sysinternals/bb842062, cinst -y sysinternals.flare
+telnet.fireeye, common.fireeye - https://chocolatey.org/packages//telnet, 'Networking, https://technet.microsoft.com/en-us/library/bb491013.aspx, cinst -y telnet.fireeye
+thunderbird.fireeye, common.fireeye - https://chocolatey.org/packages//chocolatey-core.extension - https://chocolatey.org/packages//thunderbird, 'Utilities', https://www.mozilla.org/en/thunderbird/, cinst -y thunderbird.fireeye
+TrustVisualizer.fireeye, common.fireeye - https://chocolatey.org/packages//python3 - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, 'Utilities', , cinst -y TrustVisualizer.fireeye
+UACME.fireeye, , 'Exploitation', , cinst -y UACME.fireeye
+uniextract2.fireeye, , 'Utilities', https://github.com/Bioruebe/UniExtract2, cinst -y uniextract2.fireeye
+vbdecompiler.flare, , 'VB', http://www.mcafee.com/us/downloads/free-tools/fileinsight.aspx, cinst -y vbdecompiler.flare
+vcbuildtools.fireeye, common.fireeye - https://chocolatey.org/packages//vcbuildtools, 'Developer, http://landinghub.visualstudio.com/visual-cpp-build-tools, cinst -y vcbuildtools.fireeye
+vcredist-all.flare, , Utilities, https://support.microsoft.com/en-us/kb/2977003, cinst -y vcredist-all.flare
+vim.flare, common.fireeye - https://chocolatey.org/packages//autohotkey.portable, 'Text, https://www.vim.org/, cinst -y vim.flare
+vlc.fireeye, common.fireeye - https://chocolatey.org/packages//vlc, 'Utilities', http://www.videolan.org/vlc/, cinst -y vlc.fireeye
+vmware-horizon-client.fireeye, common.fireeye - https://chocolatey.org/packages//vmware-horizon-client, 'Networking, http://www.vmware.com/products/horizon-view, cinst -y vmware-horizon-client.fireeye
+vmwarevsphereclient.fireeye, common.fireeye - https://chocolatey.org/packages//vmwarevsphereclient, 'Networking, https://www.vmware.com/products/vsphere/, cinst -y vmwarevsphereclient.fireeye
+vnc-viewer.fireeye, common.fireeye - https://chocolatey.org/packages//vnc-viewer, 'Networking, https://www.realvnc.com/products/vnc/, cinst -y vnc-viewer.fireeye
+volatility.flare, , 'Forensic', https://www.volatilityfoundation.org/about, cinst -y volatility.flare
+vscode.fireeye, common.fireeye - https://chocolatey.org/packages//vscode, 'Developer, https://code.visualstudio.com, cinst -y vscode.fireeye
+vssown.fireeye, , 'Exploitation', , cinst -y vssown.fireeye
+vulcan.fireeye, , 'Exploitation', , cinst -y vulcan.fireeye
+Watson.fireeye, , Information Gathering, , cinst -y Watson.fireeye
+wfuzz.fireeye, common.fireeye - https://chocolatey.org/packages//python2 - libraries.python2.fireeye, Web Application, , cinst -y wfuzz.fireeye
+windbg.fireeye, , 'Debuggers', http://msdn.microsoft.com/en-us/windows/hardware/hh852365.aspx, cinst -y windbg.fireeye
+windbg.flare, , 'Debuggers', http://msdn.microsoft.com/en-us/windows/hardware/hh852365.aspx, cinst -y windbg.flare
+windbg.kenstheme.flare, common.fireeye - windbg.flare, Utilities, http://msdn.microsoft.com/en-us/windows/hardware/hh852365.aspx, cinst -y windbg.kenstheme.flare
+windbg.ollydumpex.flare, common.fireeye - windbg.flare, Utilities, https://low-priority.appspot.com/ollydumpex/, cinst -y windbg.ollydumpex.flare
+windbg.pykd.flare, common.fireeye - windbg.flare, Utilities, https://pykd.codeplex.com, cinst -y windbg.pykd.flare
+windump.fireeye, common.fireeye - https://chocolatey.org/packages//winpcap, 'Networking, http://www.winpcap.org/windump/, cinst -y windump.fireeye
+winscp.fireeye, common.fireeye - https://chocolatey.org/packages//winscp, 'Networking, https://winscp.net/, cinst -y winscp.fireeye
+wireshark.fireeye, common.fireeye - https://chocolatey.org/packages//wireshark, 'Networking, http://www.wireshark.org, cinst -y wireshark.fireeye
+wireshark.flare, common.fireeye - https://chocolatey.org/packages//wireshark, 'Net', http://www.wireshark.org, cinst -y wireshark.flare
+WMImplant.fireeye, , 'Command, , cinst -y WMImplant.fireeye
+WMIOps.fireeye, , 'Command, , cinst -y WMIOps.fireeye
+x64dbg.fireeye, common.fireeye - common.fireeye, 'Debuggers', http://x64dbg.com, cinst -y x64dbg.fireeye
+x64dbg.flare, , 'Debuggers', http://x64dbg.com, cinst -y x64dbg.flare
+x64dbg.ollydumpex.fireeye, common.fireeye - x64dbg.flare, Utilities, https://low-priority.appspot.com/ollydumpex/, cinst -y x64dbg.ollydumpex.fireeye
+x64dbg.py.flare, common.fireeye - x64dbg.flare, Utilities, https://github.com/x64dbg/x64dbgpy, cinst -y x64dbg.py.flare
+xorsearch.flare, , 'Utilities', https://didierstevens.com/, cinst -y xorsearch.flare
+xorstrings.flare, , 'Utilities', https://didierstevens.com/, cinst -y xorstrings.flare
+yara.flare, , 'Utilities', http://virustotal.github.io/yara/, cinst -y yara.flare
+yed.fireeye, common.fireeye - https://chocolatey.org/packages//yed, 'Utilities', http://www.yworks.com/en/products/yfiles/yed, cinst -y yed.fireeye
+zap.fireeye, common.fireeye - https://chocolatey.org/packages//zap, Web Application, https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project, cinst -y zap.fireeye
+zBang.fireeye, , 'Vulnerability, , cinst -y zBang.fireeye
