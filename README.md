@@ -12,7 +12,7 @@
 
                                    Developed by                                
                                    Jake Barteaux                               
-                                 Proactive Services  
+                                 Mandiant Red Team  
                                   Blaine Stancill                           
                                     Nhan Huynh   
                      FireEye Labs Advanced Reverse Engineering                            
