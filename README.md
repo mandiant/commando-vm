@@ -24,7 +24,7 @@ ______________________________________________________________________________
 
 Welcome to CommandoVM - a fully customizable, Windows-based security distribution for penetration testing and red teaming.
 
-For detailed install instructions or more information please see our [blog]()
+For detailed install instructions or more information please see our [blog](https://www.fireeye.com/blog/threat-research/2019/08/commando-vm-customization-containers-kali.html)
 
 Installation (Install Script)
 =============================
@@ -72,7 +72,7 @@ Custom install
 5.	Execute the install with the -profile_file argument.
 `.\install.ps1 -profile_file .\profile.json`
 
-For more detailed instructions about custom installations, see our [blog]()
+For more detailed instructions about custom installations, see our [blog](https://www.fireeye.com/blog/threat-research/2019/08/commando-vm-customization-containers-kali.html)
 
 Installing a new package
 ========================
