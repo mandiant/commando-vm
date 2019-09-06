@@ -8,6 +8,7 @@
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
                                    Version 2.0                                 
+                              commandovm@fireeye.com
                _____________________________________________________          
 
                                    Developed by                                
