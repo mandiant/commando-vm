@@ -200,7 +200,7 @@
         {"name": "vulcan.fireeye"},
         {"name": "RobotsDisallowed.fireeye"},
         {"name": "Probable-Wordlists.fireeye"},
-        {"name": "PwndPasswordsNTLM.fireeye"},
+        {"name": "PwnedPasswordsNTLM.fireeye"},
         {"name": "RottenPotatoNG.fireeye"},
         {"name": "SharpClipHistory.fireeye"},
         {"name": "SharpSploit.fireeye"},
