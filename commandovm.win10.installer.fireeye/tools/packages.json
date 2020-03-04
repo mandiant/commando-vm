@@ -1,4 +1,11 @@
 {
+    "env": {
+        "VM_COMMON_DIR": "%ProgramData%\\FEVM",
+        "TOOL_LIST_DIR": "%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Tools",
+        "TOOL_LIST_SHORTCUT": "%UserProfile%\\Desktop\\Tools.lnk",
+        "RAW_TOOLS_DIR": "%SystemDrive%\\Tools",
+        "TEMPLATE_DIR": "commandovm.win10.installer.fireeye"
+    },
     "packages": [
         {"name": "dotnet4.6.2"},
         {"name": "dotnet4.7.2"},
