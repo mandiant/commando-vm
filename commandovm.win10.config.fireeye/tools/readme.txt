@@ -7,7 +7,7 @@
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
                                    Version 2020.1
-                                commandoemail                                 
+                                commandovm@fireeye.com                                 
                _____________________________________________________          
 
                                     Created by                                
@@ -45,7 +45,7 @@ issues here:
 https://github.com/fireeye/commando-vm
 
 For support or questions please join the #commando-vm channel in the BloodHoundGang
-Slack or email the creators at commandoemail
+Slack or email the creators at commandovm@fireeye.com
 
 Keep an eye on our Changelog for new tools:
 https://github.com/fireeye/commando-vm/blob/master/changelog.md

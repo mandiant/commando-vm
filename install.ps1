@@ -187,7 +187,7 @@ Write-Host "|                       C O M P L E T E  M A N D I A N T            
 Write-Host "|                            O F F E N S I V E   V M                         |" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
 Write-Host "|                                  Version 2.0                               |" -ForegroundColor Red 
-Write-Host "|                             commandoemail                         |" -ForegroundColor Red 
+Write-Host "|                             commandovm@fireeye.com                         |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
 Write-Host "|                                  Developed by                              |" -ForegroundColor Red 
