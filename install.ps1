@@ -268,6 +268,7 @@ Write-Host "[+] Checking if script is running as administrator.."
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal( [Security.Principal.WindowsIdentity]::GetCurrent() )
 if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
   Write-Host "`t[ERR] Please run this script as administrator`n" -ForegroundColor Red
+  Write-Host "`n`t`tthis is not the way`n" -ForegroundColor Red
   Read-Host  "Press any key to continue"
   exit
 } else {
