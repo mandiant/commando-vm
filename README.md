@@ -32,19 +32,19 @@ Installation (Install Script)
 
 Requirements
 ------------
-* Windows 10
-  * Windows 7 is no longer supported. Install should work but issues will not be resolved.
+* Windows 10 1803, 1809, 1903 or 1909
+  * Windows 7 is no longer supported. Install should work but issues will not be resolved. New tools will not be added but can be manually installed.
 * 60 GB Hard Drive
 * 2 GB RAM
 
 Recommended
 -----------
-* Windows 10
+* Windows 10 1903
 * 80+ GB Hard Drive
 * 4+ GB RAM
 * 2 network adapters
 * Enable Virtualization support for VM
-  * REQUIRED FOR KALI OR DOCKER
+  * Required for Kali or Docker
 
 Instructions
 ============
@@ -52,12 +52,12 @@ Standard install
 ----------------
 1. Create and configure a new Windows Virtual Machine
   * Ensure VM is updated completely. You may have to check for updates, reboot, and check again until no more remain 
-* Take a snapshot of your machine!
-* Download and copy `install.ps1` on your newly configured machine. 
-* Open PowerShell as an Administrator
-* Enable script execution by running the following command:
-  * `Set-ExecutionPolicy Unrestricted`
-* Finally, execute the installer script as follows:
+2.  Take a snapshot of your machine!
+3.  Download and copy `install.ps1` on your newly configured machine. 
+4.  Open PowerShell as an Administrator
+5.  Unblock the install file by running `Unblock-File .\install.ps1`
+6.  Enable script execution by running `Set-ExecutionPolicy Unrestricted -f`
+7.  Finally, execute the installer script as follows:
   * `.\install.ps1`
   * You can also pass your password as an argument: `.\install.ps1 -password <password>`
   

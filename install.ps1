@@ -5,7 +5,8 @@
 # To execute this script:
 # 1) Open powershell window as administrator
 # 2) Allow script execution by running command "Set-ExecutionPolicy Unrestricted"
-# 3) Execute the script by running ".\install.ps1"
+# 3) Unblock the install script by running "Unblock-File .\install.ps1"
+# 4) Execute the script by running ".\install.ps1"
 #
 ###########################################
 param (
