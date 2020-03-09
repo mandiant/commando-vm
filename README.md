@@ -291,6 +291,7 @@ Installed Tools
 - Pidgin
 - Process Hacker 2
 - qBittorrent
+- SQLite DB Browser
 - Screentogif
 - Shellcode Launcher
 - SimpleDNSCrypt
