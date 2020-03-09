@@ -11,7 +11,6 @@
 - added Recon-AD
 - added Net-GPPPassword
 - added Gadget2JScript
-- added lonelypotato
 - added OffensiveCSharp - matterpreter
 - added powercat
 - added Privesc - enjoiz
@@ -25,16 +24,16 @@
 - added Tor Browser #88
 - added HeidiSQL #88
 - added HTTP File Server #88
-- Removed support for Windows 7
+- Removed support for Windows 7 (install should still work, but is no longer maintained)
 - improved error handling for commandovm.win10.config.fireeye package
 - updated commandovm.win10.preconfig.fireeye
 - Fixed taskbar pinning on 1903 (still not working for 1909)
 - Updated install instructions on readme
 - Updated ~45 packages
-- Removed Watson binaries
-- Removed PoshC2
-- Removed Covenant
-- Removed Elite
+- Removed Watson binaries (static binaries are not updated in this repo)
+- Removed PoshC2 (deprecated, will look at supporting PoshC2 Python)
+- Removed Covenant (will support again in a future release)
+- Removed Elite (deprecated)
 
 ## 2.0 - August 5 2019
 - Added Kali Linux https://www.kali.org
