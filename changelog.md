@@ -1,3 +1,40 @@
+## 2020.1 - March 3 2020
+- added logic to attempt automatically updating system #88
+- added qbittorrent #88
+- added dbeaver #88
+- added hfsexplorer #88
+- added lockhunter #88
+- fixed typo for PwnedPasswordsNTLM in packages.json #101
+- added BeRoot
+- added BloodHound Custom Queries - Hausec
+- added Dumpert
+- added Recon-AD
+- added Net-GPPPassword
+- added Gadget2JScript
+- added OffensiveCSharp - matterpreter
+- added powercat
+- added Privesc - enjoiz
+- added PSBits
+- added ThreadContinue
+- added SysWhispers
+- added TikiTorch
+- added Virus Total Uploader #88
+- added NirLauncher #88
+- added SimpleDnsCrypt #88
+- added Tor Browser #88
+- added HeidiSQL #88
+- added HTTP File Server #88
+- Removed support for Windows 7 (install should still work, but is no longer maintained)
+- improved error handling for commandovm.win10.config.fireeye package
+- updated commandovm.win10.preconfig.fireeye
+- Fixed taskbar pinning on 1903 (still not working for 1909)
+- Updated install instructions on readme
+- Updated ~45 packages
+- Removed Watson binaries (static binaries are not updated in this repo)
+- Removed PoshC2 (deprecated, will look at supporting PoshC2 Python)
+- Removed Covenant (will support again in a future release)
+- Removed Elite (deprecated)
+
 ## 2.0 - August 5 2019
 - Added Kali Linux https://www.kali.org
 - Added Docker https://www.docker.com #88

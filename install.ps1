@@ -5,14 +5,37 @@
 # To execute this script:
 # 1) Open powershell window as administrator
 # 2) Allow script execution by running command "Set-ExecutionPolicy Unrestricted"
-# 3) Execute the script by running ".\install.ps1"
+# 3) Unblock the install script by running "Unblock-File .\install.ps1"
+# 4) Execute the script by running ".\install.ps1"
 #
 ###########################################
 param (
   [string]$password = "",  
-	[string]$profile_file = $null, 
+  [string]$profile_file = $null, 
   [bool]$nochecks = $false
 )
+
+
+function Set-EnvironmentVariableWrap([string] $key, [string] $value)
+{
+<#
+.SYNOPSIS
+	Set the environment variable for all process, user and system wide scopes
+.OUTPUTS
+	True on success | False on error
+#>
+  try {
+	  [Environment]::SetEnvironmentVariable($key, $value)
+	  [Environment]::SetEnvironmentVariable($key, $value, 1)
+	  [Environment]::SetEnvironmentVariable($key, $value, 2)
+	
+	  $rc = $true
+	} catch {
+		$rc = $false
+	}
+	$rc
+}
+
 
 function ConvertFrom-Json([object] $item) {
 <#
@@ -103,9 +126,13 @@ function Make-InstallerPackage($PackageName, $TemplateDir, $packages) {
 	Write-Host -ForegroundColor Green "packages file is" + $tmp
 	ConvertTo-Json @{"packages" = $packages} | Out-File -FilePath $Tmp
 	
-	$Here = Get-Location
-	$ToolsDir = Join-Path (Join-Path $Here $TemplateDir) "tools"
-	$Dest = Join-Path $ToolsDir "packages.json"
+  if ([System.IO.Path]::IsPathRooted($TemplateDir)) {
+    $ToolsDir = Join-Path $TemplateDir "tools"
+  } else {
+	  $Here = Get-Location
+	  $ToolsDir = Join-Path (Join-Path $Here $TemplateDir) "tools"
+  }
+  $Dest = Join-Path $ToolsDir "packages.json"
 
 	Move-Item -Force -Path $Tmp -Destination $Dest
 	New-BoxstarterPackage -Name $PackageName -Description "My Own Instalelr" -Path $ToolsDir
@@ -161,7 +188,7 @@ function installBoxStarter()
   }  
   $prevSecProtocol = [System.Net.ServicePointManager]::SecurityProtocol
   $prevCertPolicy = [System.Net.ServicePointManager]::CertificatePolicy  
-  Write-Host "[ * ] Installing Boxstarter"
+  Write-Host "[+] Installing Boxstarter"
   # Become overly trusting
   [System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
   [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy  
@@ -173,7 +200,18 @@ function installBoxStarter()
   [System.Net.ServicePointManager]::CertificatePolicy = $prevCertPolicy
   return $true
 }
-Write-Host "[+] Beginning install..."
+function Wait-ForInstall ($seconds) {
+  $doneDT = (Get-Date).AddSeconds($seconds)
+  while($doneDT -gt (Get-Date)) {
+      $secondsLeft = $doneDT.Subtract((Get-Date)).TotalSeconds
+      $percent = ($seconds - $secondsLeft) / $seconds * 100
+      Write-Progress -Activity "Please read install notes on console below" -Status "Beginning install in..." -SecondsRemaining $secondsLeft -PercentComplete $percent
+      [System.Threading.Thread]::Sleep(500)
+  }
+  Write-Progress -Activity "Waiting" -Status "Beginning install..." -SecondsRemaining 0 -Completed
+}
+
+Write-Host "`n"
 Write-Host " ____________________________________________________________________________ " -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
 Write-Host "|    "  -ForegroundColor Red -NoNewline; Write-Host "                  " -ForegroundColor Green -NoNewline; Write-Host "                                                      |" -ForegroundColor Red 
@@ -186,19 +224,19 @@ Write-Host "|        "  -ForegroundColor Red -NoNewline; Write-Host "        \/ 
 Write-Host "|                       C O M P L E T E  M A N D I A N T                     |" -ForegroundColor Red 
 Write-Host "|                            O F F E N S I V E   V M                         |" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
-Write-Host "|                                  Version 2.0                               |" -ForegroundColor Red 
+Write-Host "|                                 Version 2020.1                             |" -ForegroundColor Red 
 Write-Host "|                             commandovm@fireeye.com                         |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
-Write-Host "|                                  Developed by                              |" -ForegroundColor Red 
-Write-Host "|                                  Jake Barteaux                             |" -ForegroundColor Red 
-Write-Host "|                                Mandiant Red Team                           |" -ForegroundColor Red 
-Write-Host "|                                 Blaine Stancill                            |" -ForegroundColor Red 
+Write-Host "|                                   Created by                               |" -ForegroundColor Red 
+Write-Host "|                            Jake Barteaux @day1player                       |" -ForegroundColor Red 
+Write-Host "|                               Proactive Services                           |" -ForegroundColor Red 
+Write-Host "|                         Blaine Stancill @MalwareMechanic                   |" -ForegroundColor Red 
 Write-Host "|                                   Nhan Huynh                               |" -ForegroundColor Red 
 Write-Host "|                    FireEye Labs Advanced Reverse Engineering               |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host ""
-
+  
 if ([string]::IsNullOrEmpty($profile_file)) {
   Write-Host "[+] No custom profile is provided..."
   $profile = $null
@@ -210,10 +248,8 @@ if ([string]::IsNullOrEmpty($profile_file)) {
     exit 1
   }
   # Confirmation message
-  $TemplateDir = $profile.env.TEMPLATE_DIR
-  $Packages = $profile.packages
-  Write-Warning "[+] You are using a custom profile and list of packages. You will NOT receive updates"
-  Write-Warning "[+] on new packages from Commando VM automatically when running choco update."
+  Write-Warning "[+] You are using a custom profile and list of packages,"
+  Write-Warning "[+] You will NOT receive new tools automatically when running choco update."
 
   if ($nochecks -eq $false) {
     Write-Host "[-] Do you want to continue? Y/N " -ForegroundColor Yellow -NoNewline
@@ -221,10 +257,9 @@ if ([string]::IsNullOrEmpty($profile_file)) {
     if ($response -ne "Y") {
       Write-Host "[*] Exiting..." -ForegroundColor Red
       exit
+    }
   }
-}
-
-Write-Host "`tContinuing..." -ForegroundColor Green
+  Write-Host "`tContinuing..." -ForegroundColor Green
 }
 
 
@@ -233,23 +268,19 @@ Write-Host "[+] Checking if script is running as administrator.."
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal( [Security.Principal.WindowsIdentity]::GetCurrent() )
 if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
   Write-Host "`t[ERR] Please run this script as administrator`n" -ForegroundColor Red
+  Write-Host "`n`t`tthis is not the way`n" -ForegroundColor Red
   Read-Host  "Press any key to continue"
   exit
-}
-else {
+} else {
   Start-Sleep -Milliseconds 500
-  Write-Host "`tphenomenal " -ForegroundColor Magenta -NoNewLine
-  Start-Sleep -Milliseconds 500
-  Write-Host "cosmic " -ForegroundColor Cyan -NoNewLine
-  Start-Sleep -Milliseconds 500
-  Write-Host "powers " -ForegroundColor Green
+  Write-Host "`tthis is the way" -ForegroundColor Cyan
   Start-Sleep -Milliseconds 500
 }
 
 if ($nochecks -eq $false) {
   
   # Check to make sure Tamper Protection is off
-  # This setting is not able to be changed via command line
+  # This setting is not able to be changed via command line or via scripts
   Write-Host "[+] Checking to make sure Windows Defender Tamper Protection is disabled"
   if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection") {
     if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -ne 0){
@@ -263,31 +294,66 @@ if ($nochecks -eq $false) {
     }
       Write-Host "`tContinuing..." -ForegroundColor Green
     }
-  }
-  else {
+  } else {
     Write-Host "`tTamper Protection is off, looks good." -ForegroundColor Green
   }
   
   # Check to make sure host is supported
   Write-Host "[+] Checking to make sure Operating System is compatible"
-  if (-Not (((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601") -or ([System.Environment]::OSVersion.Version.Major -eq 10))){
-    Write-Host "`t[ERR] $((Get-WmiObject -class Win32_OperatingSystem).Caption) is not supported, please use Windows 7 Service Pack 1 or Windows 10" -ForegroundColor Red
-    exit 
+  if ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601"){
+    Write-Host "Windows 7 is no longer supported. Do you want to continue install? Y/N" -ForegroundColor Yellow
+    $response = Read-Host
+    if ($response -ne "Y"){
+      exit
+    }
   }
-  else
-  {
-    Write-Host "`t$((Get-WmiObject -class Win32_OperatingSystem).Caption) supported" -ForegroundColor Green
+  
+  ## Windows 10 Versions/Build Numbers
+  # https://github.com/Disassembler0/Win10-Initial-Setup-Script
+  # 1909 (November 2019 Update)	18363
+  # 1903 (May 2019 Update)    	18362
+  # 1809 (October 2018 Update)	17763
+  # 1803 (April 2018 Update)   	17134
+
+  $osversion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
+  if (-Not (($osversion -eq 18363) -or ($osversion -eq 18361) -or ($osversion -eq 17763) -or ($osversion -eq 17134) )){
+    Write-Host "`t[ERR] Windows version $osversion is not has not been tested, please use Windows 10 version 1803, 1809, 1903 or 1909." -ForegroundColor Yellow
+    Write-Host "`t      Do you still wish to proceed? Y/N" -ForegroundColor Yellow
+    $response = Read-Host 
+    if ($response -ne "Y"){
+      exit
+    }
+  } else {
+    Write-Host "`tWindows build $osversion supported." -ForegroundColor Green
   }
 
   # Check to make sure host has been updated
   Write-Host "[+] Checking if host has been configured with updates"
   if (-Not (get-hotfix | where { (Get-Date($_.InstalledOn)) -gt (get-date).adddays(-30) })) {
-    Write-Host "`t[ERR] This machine has not been updated in the last 30 days, please run Windows Updates to continue`n" -ForegroundColor Red
-    Read-Host  "Press any key to continue"
-    exit
-  }
-  else
-  {
+    try 
+    {
+      Write-Host "`t[ERR] This machine has not been updated in the last 30 days, do you want to try installing updates automatically? Y/N " -ForegroundColor Yellow -NoNewline
+      $response = Read-Host
+      if ($response -eq "Y"){
+        Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+        Install-Module PSWindowsUpdate -Force
+        Import-Module PSWindowsUpdate
+        Get-WindowsUpdate
+        Install-WindowsUpdate -AcceptAll -IgnoreReboot -IgnoreRebootRequired
+      } else {
+        Write-Host "Please install updates manually." -ForegroundColor Red
+        exit
+      }
+    }
+    catch 
+    {
+      Write-Host "`t[ERR] Could not update automatically, please run Windows Updates manually to continue`n" -ForegroundColor Red
+      Read-Host  "Press any key to exit"
+      exit
+      
+    }
+    
+  } else {
 	  Write-Host "`tupdates appear to be in order" -ForegroundColor Green
   }
 
@@ -299,9 +365,7 @@ if ($nochecks -eq $false) {
     Write-Host "`t[ERR] This install requires a minimum 60 GB hard drive, please increase hard drive space to continue`n" -ForegroundColor Red
     Read-Host "Press any key to continue"
     exit
-  }
-  else
-  {
+  } else {
     Write-Host "`t> 60 GB hard drive. looks good" -ForegroundColor Green
   }
 
@@ -309,14 +373,14 @@ if ($nochecks -eq $false) {
   Write-Host "[-] Do you need to take a snapshot before continuing? Y/N " -ForegroundColor Yellow -NoNewline
   $response = Read-Host
   if ($response -ne "N") {
-    Write-Host "[ * ] Exiting..." -ForegroundColor Red
+    Write-Host "[+] Exiting..." -ForegroundColor Red
     exit
   }
   Write-Host "`tContinuing..." -ForegroundColor Green
 }
 
 # Get user credentials for autologin during reboots
-Write-Host "[ * ] Getting user credentials ..."
+Write-Host "[+] Getting user credentials ..."
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds" -Name "ConsolePrompting" -Value $True
 if ([string]::IsNullOrEmpty($password)) {
 	$cred=Get-Credential $env:username
@@ -325,7 +389,37 @@ if ([string]::IsNullOrEmpty($password)) {
 	$cred=New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $env:username, $spasswd
 }
 
-Write-Host "[ * ] Installing Boxstarter"
+if ($nochecks -eq $false){
+  Write-Host @"
+
+[!] INSTALL NOTES [!]
+
+- This install is not 100% unattended. Please monitor the install for possible failures. If install
+fails you may restart the install by re-running the install script with the following command:
+
+      .\install.ps1 -nochecks 1 [<password>]
+
+
+- Install is not complete until the desktop is cleaned, the readme is placed on the desktop, and the
+desktop background is set with the Commando VM logo. 
+
+- You can check what packages failed install by listing the C:\ProgramData\chocolatey\lib-bad 
+directory. Failed packages are stored by folder name. You can attempt manual install with the 
+following command:
+
+      cinst -y <package name>
+
+
+- For any issues please submit to GitHub or reach out to commandovm@fireeye.com
+
+[!] Please copy these notes for reference [!]
+"@ -ForegroundColor Yellow
+  Wait-ForInstall -seconds 60
+}
+
+Write-Host "`n[+] Beginning Install...`n" -ForegroundColor Green
+
+Write-Host "[+] Installing Boxstarter"
 $rc = installBoxStarter
 if ( -Not $rc ) {
 	Write-Host "[ERR] Failed to install BoxStarter"
@@ -351,7 +445,7 @@ iex "refreshenv"
 if ($profile -eq $null) {
   # Default install
   Write-Host "[+] Performing normal installation..."
-  iex "choco upgrade -y common.fireeye"
+  choco upgrade -y common.fireeye
   if ([System.Environment]::OSVersion.Version.Major -eq 6) {
     Install-BoxstarterPackage -PackageName commandovm.win7.installer.fireeye -Credential $cred
     Install-BoxStarterPackage -PackageName commandovm.win7.config.fireeye  -Credential $cred
@@ -374,25 +468,26 @@ $EnvVars = @(
 
 foreach ($envVar in $EnvVars) {
   try {
-    [Environment]::SetEnvironmentVariable($envVar, [Environment]::ExpandEnvironmentVariables($profile.env.($envVar)), 2)
+		$value = [Environment]::ExpandEnvironmentVariables($profile.env.($envVar))
+		if (-Not (Set-EnvironmentVariableWrap $envVar $value)) {
+			Write-Warning "[ - ] Failed to set environment variable $envVar"
+		}
   } catch {}
 }
 
-if ([System.Environment]::OSVersion.Version.Major -eq 10) {
-  choco config set cacheLocation ${Env:TEMP}
-  iex "choco upgrade -y commandovm.win10.preconfig.fireeye"
-}
-
-iex "choco install -y common.fireeye"
+choco install -y common.fireeye
 refreshenv
 
 $PackageName = "MyInstaller"
+$TemplateDir = $profile.env.TEMPLATE_DIR
+$Packages = $profile.packages
 Make-InstallerPackage $PackageName $TemplateDir $Packages
 Invoke-BoxStarterBuild $PackageName
 Install-BoxStarterPackage -PackageName $PackageName -Credential $cred
 if ([System.Environment]::OSVersion.Version.Major -eq 6) {
   Install-BoxStarterPackage -PackageName commandovm.win7.config.fireeye  -Credential $cred
 } elseif ([System.Environment]::OSVersion.Version.Major -eq 10) {
+  iex "choco upgrade -y commandovm.win10.preconfig.fireeye"
   Install-BoxStarterPackage -PackageName commandovm.win10.config.fireeye  -Credential $cred
 }
 exit 0
