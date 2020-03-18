@@ -67,7 +67,7 @@ Write-Host "[-] Pinning items to Taskbar" -ForegroundColor Green
 $target_file = Join-Path ${Env:WinDir} "explorer.exe"
 try {
   Write-Host "`tPinning $target_file to taskbar" -ForegroundColor Green
-  syspin.exe "$target_file" 5387
+  syspin.exe "$target_file" 5386
 } catch {
   Write-Host "`tCould not pin $target_file to the taskbar" -ForegroundColor Red
 }
@@ -79,7 +79,7 @@ $shortcut = Join-Path ${Env:UserProfile} "temp\cmd.lnk"
 Install-ChocolateyShortcut -shortcutFilePath $shortcut -targetPath $target_file -Arguments $target_args -WorkingDirectory $target_dir -PinToTaskbar -RunasAdmin
 try {
   Write-Host "`tPinning $target_file to taskbar" -ForegroundColor Green
-  syspin.exe "$shortcut" 5387
+  syspin.exe "$shortcut" 5386
 } catch {
   Write-Host "`tCould not pin $target_file to the taskbar" -ForegroundColor Red
 }
@@ -91,7 +91,7 @@ $shortcut = Join-Path ${Env:UserProfile} "temp\PowerShell.lnk"
 Install-ChocolateyShortcut -shortcutFilePath $shortcut -targetPath $target_file -Arguments $target_args -WorkingDirectory $target_dir -PinToTaskbar -RunasAdmin
 try {
   Write-Host "`tPinning $target_file to taskbar" -ForegroundColor Green
-  syspin.exe "$shortcut" 5387
+  syspin.exe "$shortcut" 5386
 } catch {
   Write-Host "`tCould not pin $target_file to the taskbar" -ForegroundColor Red
 }
