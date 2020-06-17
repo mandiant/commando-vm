@@ -44,7 +44,7 @@ IfWinExist %title%
   
   SendInput, \\*
   SendInput, {tab}
-  SendInput, RequireMutualAuthentication=0,RequireIntegrity=0,RequirePrivacy=0RequireMutualAuthentication=0,RequireIntegrity=0,RequirePrivacy=0
+  SendInput, RequireMutualAuthentication=0,RequireIntegrity=0,RequirePrivacy=0
   
   Sleep, 500
   SendInput, !O

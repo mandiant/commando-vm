@@ -224,7 +224,7 @@ Write-Host "|        "  -ForegroundColor Red -NoNewline; Write-Host "        \/ 
 Write-Host "|                       C O M P L E T E  M A N D I A N T                     |" -ForegroundColor Red 
 Write-Host "|                            O F F E N S I V E   V M                         |" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
-Write-Host "|                                 Version 2020.1                             |" -ForegroundColor Red 
+Write-Host "|                                 Version 2020.2                             |" -ForegroundColor Red 
 Write-Host "|                             commandovm@fireeye.com                         |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
@@ -310,15 +310,17 @@ if ($nochecks -eq $false) {
   
   ## Windows 10 Versions/Build Numbers
   # https://github.com/Disassembler0/Win10-Initial-Setup-Script
+  # 2004 (TBD)                  19041
   # 1909 (November 2019 Update)	18363
   # 1903 (May 2019 Update)    	18362
   # 1809 (October 2018 Update)	17763
   # 1803 (April 2018 Update)   	17134
 
+
   $osversion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
-  if (-Not (($osversion -eq 18363) -or ($osversion -eq 18361) -or ($osversion -eq 17763) -or ($osversion -eq 17134) )){
-    Write-Host "`t[ERR] Windows version $osversion is not has not been tested, please use Windows 10 version 1803, 1809, 1903 or 1909." -ForegroundColor Yellow
-    Write-Host "`t      Do you still wish to proceed? Y/N" -ForegroundColor Yellow
+  if (-Not (($osversion -eq 18363) -or ($osversion -eq 18361) -or ($osversion -eq 17763) -or ($osversion -eq 17134) -or ($osversion -eq 19041) )){
+    Write-Host "`t[ERR] Windows version $osversion is not has not been tested, please use Windows 10 version 1803, 1809, 1903, 1909, or 2004." -ForegroundColor Yellow
+    Write-Host "[-] Do you still wish to proceed? Y/N " -ForegroundColor Yellow -NoNewline
     $response = Read-Host 
     if ($response -ne "Y"){
       exit
@@ -392,16 +394,22 @@ if ([string]::IsNullOrEmpty($password)) {
 if ($nochecks -eq $false){
   Write-Host @"
 
-[!] INSTALL NOTES [!]
+[!] INSTALL NOTES - PLEASE READ CAREFULLY [!]
 
 - This install is not 100% unattended. Please monitor the install for possible failures. If install
 fails you may restart the install by re-running the install script with the following command:
 
       .\install.ps1 -nochecks 1 [<password>]
+                   OR
+      .\install.ps1 -nochecks 1 -profile_file .\Profiles\<profile>.json [<password>]
 
+- Please be familiar with these two issues:
+https://github.com/fireeye/commando-vm/issues/123
+https://github.com/fireeye/commando-vm/issues/122
 
 - Install is not complete until the desktop is cleaned, the readme is placed on the desktop, and the
-desktop background is set with the Commando VM logo. 
+desktop background is set with the Commando VM logo. For details see 
+https://github.com/fireeye/commando-vm/issues/139
 
 - You can check what packages failed install by listing the C:\ProgramData\chocolatey\lib-bad 
 directory. Failed packages are stored by folder name. You can attempt manual install with the 
@@ -410,10 +418,11 @@ following command:
       cinst -y <package name>
 
 
-- For any issues please submit to GitHub or reach out to commandovm@fireeye.com
+- For any issues please submit to GitHub, find @day1player in the BloodHound Slack, or reach 
+out to commandovm@fireeye.com
 
 [!] Please copy these notes for reference [!]
-"@ -ForegroundColor Yellow
+"@ -ForegroundColor Red -BackgroundColor White
   Wait-ForInstall -seconds 60
 }
 
@@ -440,11 +449,15 @@ iex "choco sources add -n=fireeye -s $fireeyeFeed --priority 1"
 iex "choco upgrade -y vcredist-all.flare"
 iex "choco install -y powershell"
 iex "refreshenv"
-
+iex "choco install -y common.fireeye"
+iex "refreshenv"
 
 if ($profile -eq $null) {
   # Default install
   Write-Host "[+] Performing normal installation..."
+  if (-Not (Set-EnvironmentVariableWrap "FEVM_PROFILE" "Commando_Default")) {
+    Write-Warning "Failed to set environment variable FEVM_PROFILE"
+  }
   choco upgrade -y common.fireeye
   if ([System.Environment]::OSVersion.Version.Major -eq 6) {
     Install-BoxstarterPackage -PackageName commandovm.win7.installer.fireeye -Credential $cred
@@ -463,7 +476,8 @@ $EnvVars = @(
   "VM_COMMON_DIR",
   "TOOL_LIST_DIR",
   "TOOL_LIST_SHORTCUT",
-  "RAW_TOOLS_DIR"
+  "RAW_TOOLS_DIR",
+  "FEVM_PROFILE"
   )
 
 foreach ($envVar in $EnvVars) {
@@ -475,19 +489,17 @@ foreach ($envVar in $EnvVars) {
   } catch {}
 }
 
-choco install -y common.fireeye
-refreshenv
-
 $PackageName = "MyInstaller"
 $TemplateDir = $profile.env.TEMPLATE_DIR
 $Packages = $profile.packages
 Make-InstallerPackage $PackageName $TemplateDir $Packages
 Invoke-BoxStarterBuild $PackageName
-Install-BoxStarterPackage -PackageName $PackageName -Credential $cred
 if ([System.Environment]::OSVersion.Version.Major -eq 6) {
+  Install-BoxStarterPackage -PackageName $PackageName -Credential $cred
   Install-BoxStarterPackage -PackageName commandovm.win7.config.fireeye  -Credential $cred
 } elseif ([System.Environment]::OSVersion.Version.Major -eq 10) {
   iex "choco upgrade -y commandovm.win10.preconfig.fireeye"
+  Install-BoxStarterPackage -PackageName $PackageName -Credential $cred
   Install-BoxStarterPackage -PackageName commandovm.win10.config.fireeye  -Credential $cred
 }
 exit 0
