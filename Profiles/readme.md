@@ -6,15 +6,15 @@ If you would like a more specialized loadout for your instance of Commando VM pl
  We currently maintain five profiles for varying purposes:
 
 - Default
-  - The default install contains numerous packages for pentesting. This install will come with almost everything except for Nested Virtualization. This package is installed by default and therefore there are no special arguments when installing.
+  - The [`default`](https://github.com/fireeye/commando-vm/blob/master/commandovm.win10.installer.fireeye/tools/packages.json) install contains numerous packages for pentesting. This install will come with almost everything except for Nested Virtualization. This package is installed by default and therefore there are no special arguments when installing.
 - NestedV
-  - The [`nestedv.json`](https://github.com/fireeye/commando-vm/Profiles/nestedv.json) package is a copy of the `default` package, but supports Nested Virtualization such as Docker and the Linux Subsystem.
+  - The [`nestedv.json`](https://github.com/fireeye/commando-vm/blob/master/Profiles/nestedv.json) package is a copy of the `default` package, but supports Nested Virtualization such as Docker and the Linux Subsystem.
 - Lite
-  - The [`lite.json`](https://github.com/fireeye/commando-vm/Profiles/lite.json) profile contains only the bare minimum tools essential for pentesting. Tools such as Nmap, Burp, PowerSploit, Ghostpack, and so on. This profile does not install Python or other large installation packages.
+  - The [`lite.json`](https://github.com/fireeye/commando-vm/blob/master/Profiles/lite.json) profile contains only the bare minimum tools essential for pentesting. Tools such as Nmap, Burp, PowerSploit, Ghostpack, and so on. This profile does not install Python or other large installation packages.
 - Full
-  - The [`full.json`](https://github.com/fireeye/commando-vm/Profiles/full.json) package is the whole shebang. Every package we deem suitable for Commando.
+  - The [`full.json`](https://github.com/fireeye/commando-vm/blob/master/Profiles/full.json) package is the whole shebang. Every package we deem suitable for Commando.
 - Developer
-  - The [`developer.json`](https://github.com/fireeye/commando-vm/Profiles/developer.json) package will install developer tools onto the target such as Visual Studio, VS Code, Sublime Text, Sysinternals, and so on.
+  - The [`developer.json`](https://github.com/fireeye/commando-vm/blob/master/Profiles/developer.json) package will install developer tools onto the target such as Visual Studio, VS Code, Sublime Text, Sysinternals, and so on.
 
 # Installation
 
@@ -26,7 +26,7 @@ Please ensure to follow steps outlined below. <br> These steps are modified from
 1.	Change to the unzipped project directory.
 `cd ${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\`
 1.  Unblock the install script with `Unblock-File .\install.ps1`
-1.	Execute the install with the -profile_file argument.
+1.	Execute the install with the `-profile_file` argument.
 `.\install.ps1 -profile_file .\Profiles\<profile-name>.json`
 
 | Profile | Recommended Disk Space | Recommended RAM | Install Command |

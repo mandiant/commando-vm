@@ -1,3 +1,21 @@
+## 2020.2 - June 17 2020
+- Added support for Windows 10 2004
+- Corrected syspin verb #124
+- Removed WSL from default install #146, #120
+- Removed Hyper V from default install #146, #120
+- Removed Kali from default install #95, #120
+- Removed Docker from default install #95, #120
+- Created wsl.fireeye package #95, #120
+- Created hyperv.fireeye package #95, #120 
+- Created multiple install profiles #95, #120
+  - Default, NestedV, Lite, Full, and Developer
+- Removed some dependencies causing %PATH% variable to be truncated to 1024 characters #141
+- Added logic to help speed up install
+- Removed dependency on custom libraries file #131
+- Added custom logging for installation of packages #70
+- Fixed bug in autohotkey script for unhardening of UNC paths #68
+- Updated Readme #140
+
 ## 2020.1 - March 3 2020
 - added logic to attempt automatically updating system #88
 - added qbittorrent #88

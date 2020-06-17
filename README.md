@@ -7,7 +7,7 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                  Version 2020.1                                 
+                                  Version 2020.2                                 
                               commandovm@fireeye.com
                _____________________________________________________          
 
@@ -32,46 +32,47 @@ Installation (Install Script)
 
 Requirements
 ------------
-* Windows 10 1803, 1809, 1903 or 1909
-  * Windows 7 is no longer supported. Install should work but issues will not be resolved. New tools will not be added but can be manually installed.
+* Windows 10 1803, 1809, 1903, 1909, or 2004
+> Insider Preview editions of Windows are not supported
 * 60 GB Hard Drive
 * 2 GB RAM
 
 Recommended
 -----------
-* Windows 10 1903
+* Windows 10 2004
 * 80+ GB Hard Drive
 * 4+ GB RAM
 * 2 network adapters
-* Enable Virtualization support for VM
-  * Required for Kali or Docker
 
 Instructions
 ============
 Standard install
 ----------------
 1. Create and configure a new Windows Virtual Machine
-  * Ensure VM is updated completely. You may have to check for updates, reboot, and check again until no more remain 
+  > Ensure VM is updated completely. You may have to check for updates, reboot, and check again until no more remain 
 2.  Take a snapshot of your machine!
 3.  Download and copy `install.ps1` on your newly configured machine. 
 4.  Open PowerShell as an Administrator
 5.  Unblock the install file by running `Unblock-File .\install.ps1`
 6.  Enable script execution by running `Set-ExecutionPolicy Unrestricted -f`
 7.  Finally, execute the installer script as follows:
-  * `.\install.ps1`
-  * You can also pass your password as an argument: `.\install.ps1 -password <password>`
+   * `.\install.ps1`
+   * You can also pass your password as an argument: `.\install.ps1 -password <password>`
   
 The script will set up the Boxstarter environment and proceed to download and install the Commando VM environment. You will be prompted for the administrator password in order to automate host restarts during installation. If you do not have a password set, hitting enter when prompted will also work.
 
 Custom install
 --------------
+> Please see our [custom profiles](https://github.com/fireeye/commando-vm/tree/master/Profiles) for more custom install options or create your own following the instructions below.
 1.	Download the zip from https://github.com/fireeye/commando-vm into your Downloads folder.
-2.	Decompress the zip and edit the `${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\profile.json` file by removing tools or adding tools in the “packages” section. Tools are available from our [package list](https://github.com/fireeye/commando-vm/blob/master/packages.csv) or from the chocolatey repository.
+2.	Decompress the zip and edit the `${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\profile.json` file by removing tools or adding tools in the “packages” section. You can add any package listed in our [package list](https://github.com/fireeye/commando-vm/blob/master/packages.csv) or any package from the [chocolatey repository](https://chocolatey.org/packages).
 3.	Open an administrative PowerShell window and enable script execution.
 `Set-ExecutionPolicy Unrestricted -f`
 4.	Change to the unzipped project directory.
 `cd ${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\`
-5.	Execute the install with the -profile_file argument.
+5.  Unblock the install file by running `Unblock-File .\install.ps1`
+6.	Take a snapshot of your machine!
+7. Execute the install with the `-profile_file` argument.
 `.\install.ps1 -profile_file .\profile.json`
 
 For more detailed instructions about custom installations, see our [blog](https://www.fireeye.com/blog/threat-research/2019/08/commando-vm-customization-containers-kali.html)
@@ -79,9 +80,11 @@ For more detailed instructions about custom installations, see our [blog](https:
 Installing a new package
 ========================
 
-Commando VM uses the Chocolatey Windows package manager. It is easy to install a new package. For example, enter the following command as Administrator to deploy Github Desktop on your system:
+Commando VM uses the [Chocolatey](https://chocolatey.org/) Windows package manager. It is easy to install a new package. For example, enter the following command as Administrator to deploy Github Desktop on your system:
 
     cinst github
+
+You can find packages to install from our [package list](https://github.com/fireeye/commando-vm/blob/master/packages.csv), which hosts more than just pentesting tools, or from the [chocolatey repository](https://chocolatey.org/packages).
 
 
 Staying up to date
@@ -92,7 +95,7 @@ Type the following command to update all of the packages to the most recent vers
     cup all
 
 
-Installed Tools
+Available Tools
 ===============
 
 ### Active Directory Tools
