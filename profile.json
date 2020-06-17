@@ -4,7 +4,8 @@
         "TOOL_LIST_DIR": "%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Tools",
         "TOOL_LIST_SHORTCUT": "%UserProfile%\\Desktop\\Tools.lnk",
         "RAW_TOOLS_DIR": "%SystemDrive%\\Tools",
-        "TEMPLATE_DIR": "commandovm.win10.installer.fireeye"
+        "TEMPLATE_DIR": "commandovm.win10.installer.fireeye",
+        "FEVM_PROFILE": "Commando_Custom"
     },
     "packages": [
         {"name": "dotnet4.6.2"},

@@ -5,12 +5,14 @@
         "TOOL_LIST_SHORTCUT": "%UserProfile%\\Desktop\\Tools.lnk",
         "RAW_TOOLS_DIR": "%SystemDrive%\\Tools",
         "TEMPLATE_DIR": "commandovm.win10.installer.fireeye",
-        "FEVM_PROFILE": "Commando_Default"
+        "FEVM_PROFILE": "Commando_NestedV"
     },
     "packages": [
         {"name": "dotnet3.5"},
         {"name": "dotnet4.6.2"},
         {"name": "dotnet4.7.2"},
+        {"name": "wsl.fireeye"},
+        {"name": "hyperv.fireeye"},
         {
             "name": "git",
             "args": "--params \'/GitOnlyOnPath /NoShellIntegration\'"
@@ -78,10 +80,14 @@
         {"name": "notepadplusplus-textfx.fireeye"},
         {"name": "hxd.fireeye"},
         {"name": "burp.free.fireeye"},
+        {"name": "kali-lite.fireeye", "args": "--timeout 7200"},
         {"name": "kali_windowsbinaries.fireeye"},
         {"name": "nirlauncher.fireeye"},
         {"name": "unxUtils"},
         {"name": "virustotaluploader.fireeye"},
+        {"name": "docker.fireeye"},
+        {"name": "amass.docker.fireeye"},
+        {"name": "spiderfoot.docker.fireeye"},
 
         {"name": "ADACLScanner.fireeye"},
         {"name": "ADAPE-Script.fireeye"},

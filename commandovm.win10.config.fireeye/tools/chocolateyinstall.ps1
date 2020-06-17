@@ -3,6 +3,7 @@
 $packageName = 'commandovm.win10.config.fireeye'
 $toolsDir    = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 
+FE-Check-Reboot $packageName
 
 ### Commando Windows 10 Attack VM ###
 Write-Host "[+] Beginning host configuration..." -ForegroundColor Green
@@ -67,9 +68,9 @@ Write-Host "[-] Pinning items to Taskbar" -ForegroundColor Green
 $target_file = Join-Path ${Env:WinDir} "explorer.exe"
 try {
   Write-Host "`tPinning $target_file to taskbar" -ForegroundColor Green
-  syspin.exe "$target_file" 5387
+  syspin.exe "$target_file" 5386
 } catch {
-  Write-Host "`tCould not pin $target_file to the taskbar" -ForegroundColor Red
+  FE-Write-Log "ERROR" "`tCould not pin $target_file to the taskbar"
 }
 # CMD prompt
 $target_file = Join-Path ${Env:WinDir} "system32\cmd.exe"
@@ -79,9 +80,9 @@ $shortcut = Join-Path ${Env:UserProfile} "temp\cmd.lnk"
 Install-ChocolateyShortcut -shortcutFilePath $shortcut -targetPath $target_file -Arguments $target_args -WorkingDirectory $target_dir -PinToTaskbar -RunasAdmin
 try {
   Write-Host "`tPinning $target_file to taskbar" -ForegroundColor Green
-  syspin.exe "$shortcut" 5387
+  syspin.exe "$shortcut" 5386
 } catch {
-  Write-Host "`tCould not pin $target_file to the taskbar" -ForegroundColor Red
+  FE-Write-Log "ERROR" "`tCould not pin $target_file to the taskbar"
 }
 # Powershell
 $target_file = Join-Path (Join-Path ${Env:WinDir} "system32\WindowsPowerShell\v1.0") "powershell.exe"
@@ -91,9 +92,9 @@ $shortcut = Join-Path ${Env:UserProfile} "temp\PowerShell.lnk"
 Install-ChocolateyShortcut -shortcutFilePath $shortcut -targetPath $target_file -Arguments $target_args -WorkingDirectory $target_dir -PinToTaskbar -RunasAdmin
 try {
   Write-Host "`tPinning $target_file to taskbar" -ForegroundColor Green
-  syspin.exe "$shortcut" 5387
+  syspin.exe "$shortcut" 5386
 } catch {
-  Write-Host "`tCould not pin $target_file to the taskbar" -ForegroundColor Red
+  FE-Write-Log "ERROR" "`tCould not pin $target_file to the taskbar"
 }
 
 
@@ -199,7 +200,7 @@ ForEach ($name in $scripts) {
 # Should be PS >5.1 now, enable transcription and script block logging
 # More info: https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
 if ($PSVersionTable -And $PSVersionTable.PSVersion.Major -ge 5) {
-  Write-Host "Enabling PowerShell Script Block Logging" -ForegroundColor Green
+  Write-Host "[+] Enabling PowerShell Script Block Logging" -ForegroundColor Green
   $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell'
   if (-Not (Test-Path $psLoggingPath)) {
     New-Item -Path $psLoggingPath -Force | Out-Null
@@ -217,7 +218,24 @@ if ($PSVersionTable -And $PSVersionTable.PSVersion.Major -ge 5) {
     New-Item -Path $psLoggingPath -Force | Out-Null
   }
   New-ItemProperty -Path $psLoggingPath -Name "EnableScriptBlockLogging" -Value 1 -PropertyType DWORD -Force | Out-Null
+  Write-Host "`t[i] Powershell transcripts will be saved to the desktop." -ForegroundColor Green
 }
 
 # Done
-Write-Host "[!] Done with configuration, shutting down Boxstarter..." -ForegroundColor Green
+Write-Host @"
+
+[!]   Done with configuration, PLEASE ENSURE YOUR DESKTOP BACKGROUND HAS CHANGED.  [!]
+[!] If your background has not changed, please open an administrative terminal and [!]
+[!]    enter the following command: cinst -y commandovm.win10.config.fireeye -f    [!]
+
+[i]   For more information see  https://github.com/fireeye/commando-vm/issues/139  [i]
+
+"@ -ForegroundColor Red -BackgroundColor White
+
+Write-Host @"
+
+[+] Please enjoy your new VM. For any problems or ideas please submit GitHub issues, [+]
+[+]     find @day1player in the BloodHound Slack #commando-vm channel, or email      [+]
+[+]                             commandovm@fireeye.com                               [+]
+
+"@ -ForegroundColor White -BackgroundColor DarkGreen

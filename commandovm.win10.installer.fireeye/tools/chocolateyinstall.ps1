@@ -88,7 +88,7 @@ function InitialSetup {
 
   # Create the cache directory
   New-Item -Path $cache -ItemType directory -Force
-
+  
   # Update old env var if it points to a directory vs a file (.lnk)
   $toolListDirShortcut = [Environment]::GetEnvironmentVariable("TOOL_LIST_SHORTCUT", 2)
   if (-Not ($toolListDirShortcut -eq $null) -And ((Get-Item $toolListDirShortcut) -is [System.IO.Directory])) {
@@ -135,14 +135,20 @@ function Main {
   $packages = $json.packages
   foreach ($pkg in $packages) {
     $name = $pkg.name
-    $rc = InstallOnePackage $pkg
-    if ($rc) {
-      # Try not to get rate-limited
-      if (-Not ($name.Contains(".flare") -or $name.Contains(".fireeye"))) {
-        Start-Sleep -Seconds 5
+    if (-Not $(Test-Path $(Join-Path $Env:ProgramData "chocolatey\lib\$name"))){
+      FE-Write-Log "INFO" "Attempting install of $name"
+      $rc = InstallOnePackage $pkg
+      if ($rc) {
+        FE-Write-Log "INFO" "Install of $name finished successfully"
+        # Try not to get rate-limited
+        if (-Not ($name.Contains(".flare") -or $name.Contains(".fireeye"))) {
+          Start-Sleep -Seconds 5
+        } elseif (Test-PendingReboot) {
+          Invoke-Reboot
+        }
+      } else {
+        FE-Write-Log "ERROR" "Failed to install $name"
       }
-    } else {
-      Write-Error "Failed to install $name"
     }
   }
 

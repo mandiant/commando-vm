@@ -1,7 +1,7 @@
 ##########
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script - Default preset
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v3.8, 2019-09-11
+# Version: v3.9, 2020-04-02
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -39,7 +39,7 @@ SetUACLow                     # SetUACHigh
 # EnableSharingMappedDrives     # DisableSharingMappedDrives
 DisableAdminShares              # EnableAdminShares
 DisableFirewall               # EnableFirewall
-# HideDefenderTrayIcon          # ShowDefenderTrayIcon
+HideDefenderTrayIcon          # ShowDefenderTrayIcon
 DisableDefender               # EnableDefender
 DisableDefenderCloud          # EnableDefenderCloud
 # EnableCtrldFolderAccess       # DisableCtrldFolderAccess
@@ -47,7 +47,7 @@ DisableDefenderCloud          # EnableDefenderCloud
 # EnableDefenderAppGuard        # DisableDefenderAppGuard
 HideAccountProtectionWarn       # ShowAccountProtectionWarn
 DisableDownloadBlocking       # EnableDownloadBlocking
-EnableScriptHost                # DisableScriptHost
+EnableScriptHost
 EnableDotNetStrongCrypto        # DisableDotNetStrongCrypto
 # EnableMeltdownCompatFlag      # DisableMeltdownCompatFlag
 EnableF8BootMenu                # DisableF8BootMenu
@@ -60,7 +60,7 @@ SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 SetUnknownNetworksPrivate     # SetUnknownNetworksPublic
 DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
 # DisableHomeGroups             # EnableHomeGroups
-EnableSMB1                      # DisableSMB1
+EnableSMB1
 # DisableSMBServer              # EnableSMBServer
 # DisableNetBIOS                # EnableNetBIOS
 DisableLLMNR                  # EnableLLMNR
@@ -76,13 +76,13 @@ DisableRemoteAssistance         # EnableRemoteAssistance
 # EnableRemoteDesktop           # DisableRemoteDesktop
 
 ### Service Tweaks ###
-DisableUpdateMSRT               # EnableUpdateMSRT
+DisableUpdateMSRT             # EnableUpdateMSRT
 # DisableUpdateDriver           # EnableUpdateDriver
 EnableUpdateMSProducts          # DisableUpdateMSProducts
-DisableUpdateAutoDownload       # EnableUpdateAutoDownload
+DisableUpdateAutoDownload     # EnableUpdateAutoDownload
 DisableUpdateRestart            # EnableUpdateRestart
 DisableMaintenanceWakeUp        # EnableMaintenanceWakeUp
-DisableAutoRestartSignOn        # EnableAutoRestartSignOn
+DisableAutoRestartSignOn      # EnableAutoRestartSignOn
 DisableSharedExperiences        # EnableSharedExperiences
 # EnableClipboardHistory        # DisableClipboardHistory
 DisableAutoplay                 # EnableAutoplay
@@ -99,8 +99,8 @@ EnableNTFSLongPaths             # DisableNTFSLongPaths
 # SetBIOSTimeUTC                # SetBIOSTimeLocal
 # EnableHibernation             # DisableHibernation
 # DisableSleepButton            # EnableSleepButton
-DisableSleepTimeout             # EnableSleepTimeout
-EnableFastStartupp              # DisableFastStartup
+DisableSleepTimeout           # EnableSleepTimeout
+EnableFastStartup
 # DisableAutoRebootOnCrash      # EnableAutoRebootOnCrash
 
 ### UI Tweaks ###
@@ -116,22 +116,24 @@ ShowTaskManagerDetails          # HideTaskManagerDetails
 ShowFileOperationsDetails       # HideFileOperationsDetails
 # EnableFileDeleteConfirm       # DisableFileDeleteConfirm
 HideTaskbarSearch               # ShowTaskbarSearchIcon         # ShowTaskbarSearchBox
-ShowTaskView                    # HideTaskView
+# HideTaskView                    # ShowTaskView
 # ShowSmallTaskbarIcons           # ShowLargeTaskbarIcons
 SetTaskbarCombineWhenFull       # SetTaskbarCombineNever        # SetTaskbarCombineAlways
 HideTaskbarPeopleIcon           # ShowTaskbarPeopleIcon
 ShowTrayIcons                   # HideTrayIcons
 # ShowSecondsInTaskbar          # HideSecondsFromTaskbar
-# DisableSearchAppInStore         # EnableSearchAppInStore
+DisableSearchAppInStore         # EnableSearchAppInStore
 DisableNewAppPrompt             # EnableNewAppPrompt
 # HideRecentlyAddedApps         # ShowRecentlyAddedApps
 # HideMostUsedApps              # ShowMostUsedApps
+# SetWinXMenuPowerShell         # SetWinXMenuCmd
 SetControlPanelSmallIcons     # SetControlPanelLargeIcons     # SetControlPanelCategories
 DisableShortcutInName           # EnableShortcutInName
 # HideShortcutArrow             # ShowShortcutArrow
 SetVisualFXPerformance          # SetVisualFXAppearance
 # EnableTitleBarColor           # DisableTitleBarColor
-EnableDarkTheme               # DisableDarkTheme
+SetAppsDarkMode               # SetAppsLightMode
+# SetSystemLightMode            # SetSystemDarkMode
 # AddENKeyboard                 # RemoveENKeyboard
 EnableNumlock                 # DisableNumlock
 # DisableEnhPointerPrecision    # EnableEnhPointerPrecision
@@ -164,6 +166,7 @@ ShowThisPCOnDesktop             # HideThisPCFromDesktop
 # ShowUserFolderOnDesktop       # HideUserFolderFromDesktop
 # ShowControlPanelOnDesktop     # HideControlPanelFromDesktop
 # ShowNetworkOnDesktop          # HideNetworkFromDesktop
+# HideDesktopIcons              # ShowDesktopIcons
 # ShowBuildNumberOnDesktop      # HideBuildNumberFromDesktop
 # HideDesktopFromThisPC           # ShowDesktopInThisPC
 # HideDesktopFromExplorer       # ShowDesktopInExplorer
@@ -174,14 +177,14 @@ ShowThisPCOnDesktop             # HideThisPCFromDesktop
 HideMusicFromThisPC             # ShowMusicInThisPC
 HideMusicFromExplorer         # ShowMusicInExplorer
 HidePicturesFromThisPC          # ShowPicturesInThisPC
-HidePicturesFromExplorer      # ShowPicturesInExplorer
+# HidePicturesFromExplorer      # ShowPicturesInExplorer
 HideVideosFromThisPC            # ShowVideosInThisPC
 HideVideosFromExplorer        # ShowVideosInExplorer
 Hide3DObjectsFromThisPC         # Show3DObjectsInThisPC
 Hide3DObjectsFromExplorer     # Show3DObjectsInExplorer
 HideIncludeInLibraryMenu      # ShowIncludeInLibraryMenu
 HideGiveAccessToMenu          # ShowGiveAccessToMenu
-# HideShareMenu                 # ShowShareMenu
+HideShareMenu                 # ShowShareMenu
 # DisableThumbnails             # EnableThumbnails
 DisableThumbnailCache           # EnableThumbnailCache
 DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
@@ -204,11 +207,15 @@ EnableDeveloperMode           # DisableDeveloperMode
 # UninstallMediaPlayer          # InstallMediaPlayer
 # UninstallInternetExplorer     # InstallInternetExplorer
 # UninstallWorkFolders          # InstallWorkFolders
+# UninstallHelloFace            # InstallHelloFace
+# UninstallMathRecognizer       # InstallMathRecognizer
 # UninstallPowerShellV2         # InstallPowerShellV2
-InstallLinuxSubsystem         # UninstallLinuxSubsystem
-InstallHyperV                 # UninstallHyperV
+# UninstallPowerShellISE        # InstallPowerShellISE
+# InstallLinuxSubsystem         # UninstallLinuxSubsystem
+# InstallHyperV                 # UninstallHyperV
 # UninstallSSHClient            # InstallSSHClient
 # InstallSSHServer              # UninstallSSHServer
+# InstallTelnetClient           # UninstallTelnetClient
 # InstallNET23                  # UninstallNET23
 SetPhotoViewerAssociation       # UnsetPhotoViewerAssociation
 AddPhotoViewerOpenWith          # RemovePhotoViewerOpenWith

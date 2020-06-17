@@ -1,7 +1,7 @@
 ##########
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script - Tweak library
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v3.8, 2019-09-11
+# Version: v3.9, 2020-04-02
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -165,10 +165,10 @@ Function DisableAppSuggestions {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353696Enabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Force | Out-Null
 	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -Type DWord -Value 0
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace" -Force | Out-Null
 	}
@@ -199,7 +199,7 @@ Function EnableAppSuggestions {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace" -Name "AllowSuggestedAppsInWindowsInkWorkspace" -ErrorAction SilentlyContinue
 }
 
@@ -221,10 +221,15 @@ Function EnableActivityHistory {
 }
 
 # Disable Background application access - ie. if apps can download or update when they aren't used
-# Cortana is excluded as its inclusion breaks start menu search, ShellExperience host breaks toasts and notifications
+# Cortana (resp. Search since 2004) is excluded as its inclusion breaks start menu search, ShellExperienceHost breaks toasts and notifications
 Function DisableBackgroundApps {
 	Write-Output "Disabling Background application access..."
-	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*","Microsoft.Windows.ShellExperienceHost*" | ForEach-Object {
+	If ([System.Environment]::OSVersion.Version.Build -ge 19041) {
+		$exclude = "Microsoft.Windows.Search*", "Microsoft.Windows.ShellExperienceHost*"
+	} Else {
+		$exclude = "Microsoft.Windows.Cortana*", "Microsoft.Windows.ShellExperienceHost*"
+	}
+	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude $exclude | ForEach-Object {
 		Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
 		Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
 	}
@@ -471,7 +476,7 @@ Function SetP2PUpdateInternet {
 			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
 		}
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 3
-	} ElseIf ([System.Environment]::OSVersion.Version.Build -eq 14393) {
+	} ElseIf ([System.Environment]::OSVersion.Version.Build -le 14393) {
 		# Method used in 1511 and 1607
 		Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" -Name "DODownloadMode" -ErrorAction SilentlyContinue
 	} Else {
@@ -1100,12 +1105,14 @@ Function EnableConnectionSharing {
 Function DisableRemoteAssistance {
 	Write-Output "Disabling Remote Assistance..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "App.Support.QuickAssist*" } | Remove-WindowsCapability -Online | Out-Null
 }
 
 # Enable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
 Function EnableRemoteAssistance {
 	Write-Output "Enabling Remote Assistance..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 1
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "App.Support.QuickAssist*" } | Add-WindowsCapability -Online | Out-Null
 }
 
 # Enable Remote Desktop
@@ -1159,9 +1166,7 @@ Function DisableUpdateDriver {
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Force | Out-Null
 	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontPromptForWindowsUpdate" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontSearchWindowsUpdate" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DriverUpdateWizardWuSearchEnabled" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 0
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" | Out-Null
 	}
@@ -1172,9 +1177,7 @@ Function DisableUpdateDriver {
 Function EnableUpdateDriver {
 	Write-Output "Enabling driver offering through Windows Update..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontPromptForWindowsUpdate" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontSearchWindowsUpdate" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DriverUpdateWizardWuSearchEnabled" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "SearchOrderConfig" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
 }
 
@@ -1894,6 +1897,26 @@ Function ShowMostUsedApps {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoStartMenuMFUprogramsList" -ErrorAction SilentlyContinue
 }
 
+# Set PowerShell instead of Command prompt in Start Button context menu (Win+X) - Default since 1703
+Function SetWinXMenuPowerShell {
+	Write-Output "Setting PowerShell instead of Command prompt in WinX menu..."
+	If ([System.Environment]::OSVersion.Version.Build -le 14393) {
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DontUsePowerShellOnWinX" -Type DWord -Value 0
+	} Else {
+		Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DontUsePowerShellOnWinX" -ErrorAction SilentlyContinue
+	}
+}
+
+# Set Command prompt instead of PowerShell in Start Button context menu (Win+X) - Default in 1507 - 1607
+Function SetWinXMenuCmd {
+	Write-Output "Setting Command prompt instead of PowerShell in WinX menu..."
+	If ([System.Environment]::OSVersion.Version.Build -le 14393) {
+		Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DontUsePowerShellOnWinX" -ErrorAction SilentlyContinue
+	} Else {
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DontUsePowerShellOnWinX" -Type DWord -Value 1
+	}
+}
+
 # Set Control Panel view to Small icons (Classic)
 Function SetControlPanelSmallIcons {
 	Write-Output "Setting Control Panel view to small icons..."
@@ -1990,16 +2013,28 @@ Function DisableTitleBarColor {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 0
 }
 
-# Enable Dark Theme
-Function EnableDarkTheme {
-	Write-Output "Enabling Dark Theme..."
+# Set Dark Mode for Applications
+Function SetAppsDarkMode {
+	Write-Output "Setting Dark Mode for Applications..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 0
 }
 
-# Disable Dark Theme
-Function DisableDarkTheme {
-	Write-Output "Disabling Dark Theme..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -ErrorAction SilentlyContinue
+# Set Light Mode for Applications
+Function SetAppsLightMode {
+	Write-Output "Setting Light Mode for Applications..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 1
+}
+
+# Set Light Mode for System - Applicable since 1903
+Function SetSystemLightMode {
+	Write-Output "Setting Light Mode for System..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 1
+}
+
+# Set Dark Mode for System - Applicable since 1903
+Function SetSystemDarkMode {
+	Write-Output "Setting Dark Mode for System..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 0
 }
 
 # Add secondary en-US keyboard
@@ -2489,6 +2524,18 @@ Function HideNetworkFromDesktop {
 	Write-Output "Hiding Network shortcut from desktop..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -ErrorAction SilentlyContinue
+}
+
+# Hide all icons from desktop
+Function HideDesktopIcons {
+	Write-Output "Hiding all icons from desktop..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 1
+}
+
+# Show all icons on desktop
+Function ShowDesktopIcons {
+	Write-Output "Showing all icons on desktop..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 0
 }
 
 # Show Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
@@ -3295,46 +3342,74 @@ Function DisableDeveloperMode {
 # Uninstall Windows Media Player
 Function UninstallMediaPlayer {
 	Write-Output "Uninstalling Windows Media Player..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "WindowsMediaPlayer" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Media.WindowsMediaPlayer*" } | Remove-WindowsCapability -Online | Out-Null
 }
 
 # Install Windows Media Player
 Function InstallMediaPlayer {
 	Write-Output "Installing Windows Media Player..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "WindowsMediaPlayer" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Media.WindowsMediaPlayer*" } | Add-WindowsCapability -Online | Out-Null
 }
 
 # Uninstall Internet Explorer
 Function UninstallInternetExplorer {
 	Write-Output "Uninstalling Internet Explorer..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "Internet-Explorer-Optional-$env:PROCESSOR_ARCHITECTURE" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -like "Internet-Explorer-Optional*" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Browser.InternetExplorer*" } | Remove-WindowsCapability -Online | Out-Null
 }
 
 # Install Internet Explorer
 Function InstallInternetExplorer {
 	Write-Output "Installing Internet Explorer..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "Internet-Explorer-Optional-$env:PROCESSOR_ARCHITECTURE" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -like "Internet-Explorer-Optional*" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Browser.InternetExplorer*" } | Add-WindowsCapability -Online | Out-Null
 }
 
 # Uninstall Work Folders Client - Not applicable to Server
 Function UninstallWorkFolders {
 	Write-Output "Uninstalling Work Folders Client..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "WorkFolders-Client" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "WorkFolders-Client" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Work Folders Client - Not applicable to Server
 Function InstallWorkFolders {
 	Write-Output "Installing Work Folders Client..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "WorkFolders-Client" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "WorkFolders-Client" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
-# Uninstall PowerShell 2.0 Environment.
+# Uninstall Windows Hello Face - Not applicable to Server
+Function UninstallHelloFace {
+	Write-Output "Uninstalling Windows Hello Face..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Hello.Face*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install Windows Hello Face - Not applicable to Server
+Function InstallHelloFace {
+	Write-Output "Installing Windows Hello Face..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Hello.Face*" } | Add-WindowsCapability -Online | Out-Null
+}
+
+# Uninstall Math Recognizer - Not applicable to Server
+Function UninstallMathRecognizer {
+	Write-Output "Uninstalling Math Recognizer..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "MathRecognizer*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install Math Recognizer - Not applicable to Server
+Function InstallMathRecognizer {
+	Write-Output "Installing Math Recognizer..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "MathRecognizer*" } | Add-WindowsCapability -Online | Out-Null
+}
+
+# Uninstall PowerShell 2.0 Environment
 # PowerShell 2.0 is deprecated since September 2018. This doesn't affect PowerShell 5 or newer which is the default PowerShell environment.
 # May affect Microsoft Diagnostic Tool and possibly other scripts. See https://blogs.msdn.microsoft.com/powershell/2017/08/24/windows-powershell-2-0-deprecation/
 Function UninstallPowerShellV2 {
 	Write-Output "Uninstalling PowerShell 2.0 Environment..."
 	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
-		Disable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "MicrosoftWindowsPowerShellV2Root" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	} Else {
 		Uninstall-WindowsFeature -Name "PowerShell-V2" -WarningAction SilentlyContinue | Out-Null
 	}
@@ -3344,10 +3419,23 @@ Function UninstallPowerShellV2 {
 Function InstallPowerShellV2 {
 	Write-Output "Installing PowerShell 2.0 Environment..."
 	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
-		Enable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "MicrosoftWindowsPowerShellV2Root" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	} Else {
 		Install-WindowsFeature -Name "PowerShell-V2" -WarningAction SilentlyContinue | Out-Null
 	}
+}
+
+# Uninstall PowerShell Integrated Scripting Environment - Applicable since 2004
+# Note: Also removes built-in graphical methods like Out-GridView
+Function UninstallPowerShellISE {
+	Write-Output "Uninstalling PowerShell Integrated Scripting Environment..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Microsoft.Windows.PowerShell.ISE*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install PowerShell Integrated Scripting Environment - Applicable since 2004
+Function InstallPowerShellISE {
+	Write-Output "Installing PowerShell Integrated Scripting Environment..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Microsoft.Windows.PowerShell.ISE*" } | Add-WindowsCapability -Online | Out-Null
 }
 
 # Install Linux Subsystem - Applicable since Win10 1607 and Server 1709
@@ -3355,20 +3443,20 @@ Function InstallPowerShellV2 {
 # For automated Linux distribution installation, see https://docs.microsoft.com/en-us/windows/wsl/install-on-server
 Function InstallLinuxSubsystem {
 	Write-Output "Installing Linux Subsystem..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Microsoft-Windows-Subsystem-Linux" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Uninstall Linux Subsystem - Applicable since Win10 1607 and Server 1709
 Function UninstallLinuxSubsystem {
 	Write-Output "Uninstalling Linux Subsystem..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Microsoft-Windows-Subsystem-Linux" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Hyper-V - Not applicable to Home
 Function InstallHyperV {
 	Write-Output "Installing Hyper-V..."
 	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
-		Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-All" -NoRestart -WarningAction SilentlyContinue | Out-Null
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Microsoft-Hyper-V-All" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	} Else {
 		Install-WindowsFeature -Name "Hyper-V" -IncludeManagementTools -WarningAction SilentlyContinue | Out-Null
 	}
@@ -3378,7 +3466,7 @@ Function InstallHyperV {
 Function UninstallHyperV {
 	Write-Output "Uninstalling Hyper-V..."
 	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
-		Disable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-All" -NoRestart -WarningAction SilentlyContinue | Out-Null
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Microsoft-Hyper-V-All" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	} Else {
 		Uninstall-WindowsFeature -Name "Hyper-V" -IncludeManagementTools -WarningAction SilentlyContinue | Out-Null
 	}
@@ -3390,7 +3478,7 @@ Function UninstallSSHClient {
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Client*" } | Remove-WindowsCapability -Online | Out-Null
 }
 
-# Install OpenSSH Client
+# Install OpenSSH Client - Applicable since 1803
 Function InstallSSHClient {
 	Write-Output "Installing OpenSSH Client..."
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Client*" } | Add-WindowsCapability -Online | Out-Null
@@ -3400,22 +3488,39 @@ Function InstallSSHClient {
 Function InstallSSHServer {
 	Write-Output "Installing OpenSSH Server..."
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Server*" } | Add-WindowsCapability -Online | Out-Null
-	Set-Service "sshd" -StartupType Automatic
-	Start-Service "sshd" -WarningAction SilentlyContinue
 }
 
-# Uninstall OpenSSH Server
+# Uninstall OpenSSH Server - Applicable since 1809
 Function UninstallSSHServer {
 	Write-Output "Uninstalling OpenSSH Server..."
-	Stop-Service "sshd" -WarningAction SilentlyContinue
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Server*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install Telnet Client
+Function InstallTelnetClient {
+	Write-Output "Installing Telnet Client..."
+	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "TelnetClient" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	} Else {
+		Install-WindowsFeature -Name "Telnet-Client" -WarningAction SilentlyContinue | Out-Null
+	}
+}
+
+# Uninstall Telnet Client
+Function UninstallTelnetClient {
+	Write-Output "Uninstalling Telnet Client..."
+	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "TelnetClient" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	} Else {
+		Uninstall-WindowsFeature -Name "Telnet-Client" -WarningAction SilentlyContinue | Out-Null
+	}
 }
 
 # Install .NET Framework 2.0, 3.0 and 3.5 runtimes - Requires internet connection
 Function InstallNET23 {
 	Write-Output "Installing .NET Framework 2.0, 3.0 and 3.5 runtimes..."
 	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
-		Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "NetFx3" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	} Else {
 		Install-WindowsFeature -Name "NET-Framework-Core" -WarningAction SilentlyContinue | Out-Null
 	}
@@ -3425,7 +3530,7 @@ Function InstallNET23 {
 Function UninstallNET23 {
 	Write-Output "Uninstalling .NET Framework 2.0, 3.0 and 3.5 runtimes..."
 	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
-		Disable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+		Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "NetFx3" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	} Else {
 		Uninstall-WindowsFeature -Name "NET-Framework-Core" -WarningAction SilentlyContinue | Out-Null
 	}
@@ -3485,25 +3590,25 @@ Function RemovePhotoViewerOpenWith {
 # Uninstall Microsoft Print to PDF
 Function UninstallPDFPrinter {
 	Write-Output "Uninstalling Microsoft Print to PDF..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "Printing-PrintToPDFServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-PrintToPDFServices-Features" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Microsoft Print to PDF
 Function InstallPDFPrinter {
 	Write-Output "Installing Microsoft Print to PDF..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "Printing-PrintToPDFServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-PrintToPDFServices-Features" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Uninstall Microsoft XPS Document Writer
 Function UninstallXPSPrinter {
 	Write-Output "Uninstalling Microsoft XPS Document Writer..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "Printing-XPSServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-XPSServices-Features" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Microsoft XPS Document Writer
 Function InstallXPSPrinter {
 	Write-Output "Installing Microsoft XPS Document Writer..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "Printing-XPSServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-XPSServices-Features" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Remove Default Fax Printer
@@ -3521,13 +3626,15 @@ Function AddFaxPrinter {
 # Uninstall Windows Fax and Scan Services - Not applicable to Server
 Function UninstallFaxAndScan {
 	Write-Output "Uninstalling Windows Fax and Scan Services..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "FaxServicesClientPackage" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Print.Fax.Scan*" } | Remove-WindowsCapability -Online | Out-Null
 }
 
 # Install Windows Fax and Scan Services - Not applicable to Server
 Function InstallFaxAndScan {
 	Write-Output "Installing Windows Fax and Scan Services..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "FaxServicesClientPackage" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Print.Fax.Scan*" } | Add-WindowsCapability -Online | Out-Null
 }
 
 ##########
