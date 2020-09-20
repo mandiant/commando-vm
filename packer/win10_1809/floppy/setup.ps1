@@ -47,6 +47,3 @@ $AutoName = "AutoAdminLogon"
 New-ItemProperty -Path $registryPath -Name $Name -Value $NameValue -PropertyType "String" -Force | Out-Null
 New-ItemProperty -Path $registryPath -Name $Password -Value $PasswordValue -PropertyType "String" -Force | Out-Null
 New-ItemProperty -Path $registryPath -Name $AutoName -Value "1" -PropertyType "String" -Force | Out-Null
-
-# Disable Windows Defender like a boss
-"C:\ProgramData\Microsoft\Windows Defender:omgwtfbbq" "\??\NUL"

@@ -26,9 +26,14 @@
   "provisioners": [
     {
       "inline": [
-        "dir c:\\"
+        "mklink 'C:\\ProgramData\\Microsoft\\Windows Defender:omgwtfbbq' '\\??\\NUL'"
       ],
+      "pause_before": "5m",
       "type": "windows-shell"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "10m"
     },
     {
       "filters": [
