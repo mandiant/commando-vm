@@ -1,0 +1,47 @@
+{
+  "_comment_space": "Requires that you have made a snapshot of the VM you intend to modify.",
+  "builders": [
+    {
+      "attach_snapshot": "Snapshot_1",
+      "communicator": "winrm",
+      "disable_shutdown": true,
+      "force_delete_snapshot": true,
+      "keep_registered": true,
+      "shutdown_timeout": "30m",
+      "skip_export": true,
+      "target_snapshot": "commando-snapshot",
+      "type": "virtualbox-vm",
+      "vm_name": "Windows_10_1809_x64_commando",
+      "winrm_password": "packer-commando",
+      "winrm_username": "packer-commando"
+    }
+  ],
+  "provisioners": [
+    {
+      "destination": "C:/Users/packer-commando/Downloads/install.ps1",
+      "source": "../../install.ps1",
+      "type": "file"
+    },
+    {
+      "destination": "C:/Users/packer-commando/Downloads/{{ user `profile_file_name` }}",
+      "source": "../../Profiles/{{ user `profile_file_name` }}",
+      "type": "file"
+    },
+    {
+      "inline": [
+        "Unblock-File C:/Users/packer-commando/Downloads/install.ps1",
+        "C:/Users/packer-commando/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password packer-commando -snapshot_check 0"
+      ],
+      "pause_before": "30s",
+      "type": "powershell"
+    },
+    {
+      "inline": [
+        "dir c:\\"
+      ],
+      "max_retries": 10,
+      "pause_before": "60m",
+      "type": "windows-shell"
+    }
+  ]
+}

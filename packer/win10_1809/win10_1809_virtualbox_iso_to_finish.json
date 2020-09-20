@@ -1,0 +1,63 @@
+{
+  "builders": [
+    {
+      "communicator": "winrm",
+      "cpus": "4",
+      "disk_size": "71680",
+      "floppy_files": [
+        "./floppy/Autounattend.xml",
+        "./floppy/setup.ps1"
+      ],
+      "guest_os_type": "Windows10_64",
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "iso_checksum": "sha1:164F022A22D2305E6FBD82F6E35D530B6BBADCA8",
+      "iso_url": "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+      "keep_registered": true,
+      "memory": "4096",
+      "shutdown_command": "shutdown /s /t 0",
+      "shutdown_timeout": "30m",
+      "type": "virtualbox-iso",
+      "vm_name": "Windows_10_1809_x64_commando",
+      "winrm_password": "packer-commando",
+      "winrm_username": "packer-commando"
+    }
+  ],
+  "provisioners": [
+    {
+      "filters": [
+        "exclude:$_.Title -like '*Preview*'",
+        "include:$true"
+      ],
+      "pause_before": "10m",
+      "search_criteria": "IsInstalled=0",
+      "type": "windows-update"
+    },
+    {
+      "destination": "C:/Users/packer-commando/Downloads/install.ps1",
+      "source": "../../install.ps1",
+      "type": "file"
+    },
+    {
+      "destination": "C:/Users/packer-commando/Downloads/{{ user `profile_file_name` }}",
+      "source": "../../Profiles/{{ user `profile_file_name` }}",
+      "type": "file"
+    },
+    {
+      "inline": [
+        "Unblock-File C:/Users/packer-commando/Downloads/install.ps1",
+        "C:/Users/packer-commando/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password packer-commando -snapshot_check 0"
+      ],
+      "pause_before": "30s",
+      "type": "powershell"
+    },
+    {
+      "inline": [
+        "dir c:\\"
+      ],
+      "max_retries": 10,
+      "pause_before": "60m",
+      "type": "windows-shell"
+    }
+  ]
+}

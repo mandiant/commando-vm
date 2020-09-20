@@ -12,7 +12,8 @@
 param (
   [string]$password = "",  
   [string]$profile_file = $null, 
-  [bool]$nochecks = $false
+  [bool]$nochecks = $false,
+  [bool]$snapshot_check = $true
 )
 
 
@@ -370,15 +371,16 @@ if ($nochecks -eq $false) {
   } else {
     Write-Host "`t> 60 GB hard drive. looks good" -ForegroundColor Green
   }
-
-  # Prompt user to remind them to take a snapshot
-  Write-Host "[-] Do you need to take a snapshot before continuing? Y/N " -ForegroundColor Yellow -NoNewline
-  $response = Read-Host
-  if ($response -ne "N") {
-    Write-Host "[+] Exiting..." -ForegroundColor Red
-    exit
+  if ($snapshot_check -eq $true) {
+    # Prompt user to remind them to take a snapshot
+    Write-Host "[-] Do you need to take a snapshot before continuing? Y/N " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -ne "N") {
+      Write-Host "[+] Exiting..." -ForegroundColor Red
+      exit
+    }
+    Write-Host "`tContinuing..." -ForegroundColor Green
   }
-  Write-Host "`tContinuing..." -ForegroundColor Green
 }
 
 # Get user credentials for autologin during reboots
