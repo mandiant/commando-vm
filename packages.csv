@@ -136,7 +136,7 @@ lonelypotato.fireeye,Modified version of RottenPotatoNG C++,common.fireeye,Explo
 lordpe.flare,PE utility, , Utilities, http://www.woodmann.com/collaborative/tools/index.php/LordPE, cinst -y lordpe.flare
 luckystrike.fireeye,A PowerShell based utility for the creation of malicious Office macro documents., , Exploitation,https://github.com/curi0usJack/luckystrike, cinst -y luckystrike.fireeye
 MailSniper.fireeye,MailSniper is a penetration testing tool for searching through email in a Microsoft Exchange environment for specific terms. It can be used as a non-administrative user to search their own email or by an administrator to search the mailboxes of every user in a domain., , Password Attacks,https://github.com/dafthack/MailSniper, cinst -y MailSniper.fireeye
-malware-jail.fireeye,Sandbox for semi-automatic Javascript malware analysis deobfuscation and payload extraction. Written for Node.js, common.fireeye nodejs, Javascript, https://github.com/HynekPetrak/malware-jail, cinst -y malware-jail.fireeye,,
+malware-jail.fireeye,Sandbox for semi-automatic Javascript malware analysis deobfuscation and payload extraction. Written for Node.js, common.fireeye nodejs Javascript, https://github.com/HynekPetrak/malware-jail, cinst -y malware-jail.fireeye,
 MAP.flare,Malware Analyst Pack, , Utilities, http://sandsprite.com/iDef/MAP/, cinst -y MAP.flare
 metasploit.flare,Metasploit for windows, , Exploitation, https://github.com/rapid7/metasploit-framework, cinst -y metasploit.flare
 metatwin.fireeye,The project is designed as a file resource cloner. Metadata including digital signature is extracted from one file and injected into another., , Exploitation,https://github.com/threatexpress/metatwin, cinst -y metatwin.fireeye
