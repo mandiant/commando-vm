@@ -93,13 +93,13 @@
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>packer-commando</Value>
+                            <Value>vagrant</Value>
                             <PlainText>true</PlainText>
                         </Password>
                         <Description>Primary local account</Description>
-                        <DisplayName>packer-commando</DisplayName>
+                        <DisplayName>vagrant</DisplayName>
                         <Group>Administrators</Group>
-                        <Name>packer-commando</Name>
+                        <Name>vagrant</Name>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
@@ -108,12 +108,12 @@
             </WindowsFeatures>
             <AutoLogon>
                 <Password>
-                    <Value>packer-commando</Value>
+                    <Value>vagrant</Value>
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>
                 <LogonCount>999</LogonCount>
-                <Username>packer-commando</Username>
+                <Username>vagrant</Username>
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
@@ -137,7 +137,7 @@
                 <SynchronousCommand wcm:action="add">
                     <Order>4</Order>
                     <RequiresUserInput>false</RequiresUserInput>
-                    <CommandLine>cmd /C wmic useraccount where name="packer-commando" set PasswordExpires=false</CommandLine>
+                    <CommandLine>cmd /C wmic useraccount where name="vagrant" set PasswordExpires=false</CommandLine>
                     <Description>Password Never Expires</Description>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">

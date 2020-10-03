@@ -40,9 +40,9 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
 $registryPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\WinLogon"
 
 $Name = "DefaultUserName"
-$NameValue = "packer-commando"
+$NameValue = "vagrant"
 $Password = "DefaultPassword"
-$PasswordValue = "packer-commando"
+$PasswordValue = "vagrant"
 $AutoName = "AutoAdminLogon"
 New-ItemProperty -Path $registryPath -Name $Name -Value $NameValue -PropertyType "String" -Force | Out-Null
 New-ItemProperty -Path $registryPath -Name $Password -Value $PasswordValue -PropertyType "String" -Force | Out-Null

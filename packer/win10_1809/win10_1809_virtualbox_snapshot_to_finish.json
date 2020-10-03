@@ -12,25 +12,25 @@
       "target_snapshot": "commando-snapshot",
       "type": "virtualbox-vm",
       "vm_name": "Windows_10_1809_x64_commando",
-      "winrm_password": "packer-commando",
-      "winrm_username": "packer-commando"
+      "winrm_password": "vagrant",
+      "winrm_username": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "destination": "C:/Users/packer-commando/Downloads/install.ps1",
+      "destination": "C:/Users/vagrant/Downloads/install.ps1",
       "source": "../../install.ps1",
       "type": "file"
     },
     {
-      "destination": "C:/Users/packer-commando/Downloads/{{ user `profile_file_name` }}",
+      "destination": "C:/Users/vagrant/Downloads/{{ user `profile_file_name` }}",
       "source": "../../Profiles/{{ user `profile_file_name` }}",
       "type": "file"
     },
     {
       "inline": [
-        "Unblock-File C:/Users/packer-commando/Downloads/install.ps1",
-        "C:/Users/packer-commando/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password packer-commando -snapshot_check 0"
+        "Unblock-File C:/Users/vagrant/Downloads/install.ps1",
+        "C:/Users/vagrant/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password vagrant -snapshot_check 0"
       ],
       "pause_before": "30s",
       "type": "powershell"

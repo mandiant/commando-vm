@@ -1,9 +1,16 @@
 {
+  "variables": {
+      "iso_url": "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+      "iso_checksum": "sha1:164F022A22D2305E6FBD82F6E35D530B6BBADCA8",
+      "memory": "4096",
+      "disk_size":"71680",
+      "cpus":"2"
+  },
   "builders": [
     {
       "communicator": "winrm",
-      "cpus": "4",
-      "disk_size": "71680",
+      "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{ user `disk_size` }}",
       "floppy_files": [
         "./floppy/Autounattend.xml",
         "./floppy/setup.ps1"
@@ -11,16 +18,16 @@
       "guest_os_type": "Windows10_64",
       "hard_drive_interface": "sata",
       "hard_drive_nonrotational": true,
-      "iso_checksum": "sha1:164F022A22D2305E6FBD82F6E35D530B6BBADCA8",
-      "iso_url": "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_url": "{{ user `iso_url` }}",
       "keep_registered": true,
-      "memory": "4096",
+      "memory": "{{ user `memory` }}",
       "shutdown_command": "shutdown /s /t 0",
       "shutdown_timeout": "30m",
       "type": "virtualbox-iso",
       "vm_name": "Windows_10_1809_x64_commando",
-      "winrm_password": "packer-commando",
-      "winrm_username": "packer-commando"
+      "winrm_password": "vagrant",
+      "winrm_username": "vagrant"
     }
   ],
   "provisioners": [
@@ -45,19 +52,19 @@
       "type": "windows-update"
     },
     {
-      "destination": "C:/Users/packer-commando/Downloads/install.ps1",
+      "destination": "C:/Users/vagrant/Downloads/install.ps1",
       "source": "../../install.ps1",
       "type": "file"
     },
     {
-      "destination": "C:/Users/packer-commando/Downloads/{{ user `profile_file_name` }}",
+      "destination": "C:/Users/vagrant/Downloads/{{ user `profile_file_name` }}",
       "source": "../../Profiles/{{ user `profile_file_name` }}",
       "type": "file"
     },
     {
       "inline": [
-        "Unblock-File C:/Users/packer-commando/Downloads/install.ps1",
-        "C:/Users/packer-commando/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password packer-commando -snapshot_check 0"
+        "Unblock-File C:/Users/vagrant/Downloads/install.ps1",
+        "C:/Users/vagrant/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password vagrant -snapshot_check 0"
       ],
       "pause_before": "30s",
       "type": "powershell"
