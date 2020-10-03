@@ -2,8 +2,8 @@ $ErrorActionPreference = "Stop"
 
 # Switch network connection to private mode
 # Required for WinRM firewall rules
-$profile = Get-NetConnectionProfile
-Set-NetConnectionProfile -Name $profile.Name -NetworkCategory Private
+$net_profile = Get-NetConnectionProfile
+Set-NetConnectionProfile -Name $net_profile.Name -NetworkCategory Private
 
 # Enable WinRM service
 winrm quickconfig -quiet
@@ -22,9 +22,9 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlo
 
 # Change some standard windows explorer settings that suck
 $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
-Set-ItemProperty $key Hidden 1
-Set-ItemProperty $key HideFileExt 0
-Set-ItemProperty $key ShowSuperHidden 1
+Set-ItemProperty $key -Name Hidden -Value 1
+Set-ItemProperty $key -Name HideFileExt -Value 0
+Set-ItemProperty $key -Name ShowSuperHidden -Value 1
 
 # Reboot of explorer needed for these to take effect
 Stop-Process -processname explorer
