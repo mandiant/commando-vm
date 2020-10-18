@@ -1,0 +1,4 @@
+packer_cache/
+*.iso
+*.ova
+*.box
