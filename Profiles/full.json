@@ -52,6 +52,7 @@
         {"name": "hashcat.fireeye"},
         {"name": "7zip"},
         {"name": "Greenshot.fireeye"},
+        {"name": "ShareX.fireeye"},
         {"name": "winscp.fireeye"},
         {"name": "keepass.fireeye"},
         {"name": "zap.fireeye"},
