@@ -280,6 +280,7 @@ Available Tools
 - Explorer Suite
 - Gimp
 - Greenshot
+- ShareX
 - Hashcheck
 - HeidiSQL
 - Hexchat
