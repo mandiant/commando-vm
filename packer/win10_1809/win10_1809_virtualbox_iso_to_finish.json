@@ -4,7 +4,8 @@
       "iso_checksum": "sha1:164F022A22D2305E6FBD82F6E35D530B6BBADCA8",
       "memory": "4096",
       "disk_size":"71680",
-      "cpus":"2"
+      "cpus":"2",
+      "profile_file_name":"lite.json"
   },
   "builders": [
     {
@@ -32,14 +33,14 @@
   ],
   "provisioners": [
     {
-      "inline": [
-        "mklink 'C:\\ProgramData\\Microsoft\\Windows Defender:omgwtfbbq' '\\??\\NUL'"
-      ],
+      "script": "./scripts/disable_defender_script.cmd",
       "pause_before": "5m",
-      "type": "windows-shell"
+      "type": "windows-shell",
+      "valid_exit_codes": [0,1]
     },
     {
       "type": "windows-restart",
+      "pause_before": "5m",
       "restart_timeout": "10m"
     },
     {
@@ -49,12 +50,25 @@
       ],
       "pause_before": "10m",
       "search_criteria": "IsInstalled=0",
-      "type": "windows-update"
+      "type": "windows-update",
+      "update_limit": "20"
+    },
+    {
+      "script": "./scripts/disable_defender_script.cmd",
+      "pause_before": "5m",
+      "type": "windows-shell",
+      "valid_exit_codes": [0,1]
     },
     {
       "destination": "C:/Users/vagrant/Downloads/install.ps1",
       "source": "../../install.ps1",
       "type": "file"
+    },
+    {
+      "script": "./scripts/disable_defender_script.cmd",
+      "pause_before": "5m",
+      "type": "windows-shell",
+      "valid_exit_codes": [0,1]
     },
     {
       "destination": "C:/Users/vagrant/Downloads/{{ user `profile_file_name` }}",
@@ -64,7 +78,7 @@
     {
       "inline": [
         "Unblock-File C:/Users/vagrant/Downloads/install.ps1",
-        "C:/Users/vagrant/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password vagrant -snapshot_check 0"
+        "C:/Users/vagrant/Downloads/install.ps1 -profile_file C:/Users/vagrant/Downloads/{{ user `profile_file_name` }} -password vagrant -snapshot_check $false -nochecks $true"
       ],
       "pause_before": "30s",
       "type": "powershell"

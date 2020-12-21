@@ -1,5 +1,8 @@
 {
   "_comment_space": "Requires that you have made a snapshot of the VM you intend to modify.",
+  "variables": {
+      "profile_file_name":"lite.json"
+  },
   "builders": [
     {
       "attach_snapshot": "Snapshot_1",
@@ -30,7 +33,7 @@
     {
       "inline": [
         "Unblock-File C:/Users/vagrant/Downloads/install.ps1",
-        "C:/Users/vagrant/Downloads/install.ps1 -profile_file {{ user `profile_file_name` }} -password vagrant -snapshot_check 0"
+        "C:/Users/vagrant/Downloads/install.ps1 -profile_file C:/Users/vagrant/Downloads/{{ user `profile_file_name` }} -password vagrant -snapshot_check $false -nochecks $true"
       ],
       "pause_before": "30s",
       "type": "powershell"
