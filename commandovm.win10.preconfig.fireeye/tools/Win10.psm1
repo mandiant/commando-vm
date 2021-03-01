@@ -946,14 +946,26 @@ Function EnableHomeGroups {
 	Start-Service "HomeGroupProvider" -WarningAction SilentlyContinue
 }
 
+
 # Disable obsolete SMB 1.0 protocol - Disabled by default since 1709
 Function DisableSMB1 {
 	Write-Output "Disabling SMB 1.0 protocol..."
 	Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+
+	Write-Output "Disabling SMB 1.0 optional feature..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol-Server" -NoRestart
+	Disable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol-Client" -NoRestart
+	Disable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart
 }
+
 
 # Enable obsolete SMB 1.0 protocol - Disabled by default since 1709
 Function EnableSMB1 {
+	Write-Output "Enabling SMB 1.0 optional feature..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart
+	Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol-Client" -NoRestart
+	Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol-Server" -NoRestart
+
 	Write-Output "Enabling SMB 1.0 protocol..."
 	Set-SmbServerConfiguration -EnableSMB1Protocol $true -Force
 }
