@@ -282,8 +282,7 @@ if ($nochecks -eq $false) {
   # Check to make sure Tamper Protection is off
   # This setting is not able to be changed via command line or via scripts
   Write-Host "[+] Checking to make sure Windows Defender Tamper Protection is disabled"
-  if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection") {
-    if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -ne 0){
+  if ((Get-MpComputerStatus).istamperprotected -ne $False){
     Write-Host "[!] Please disable Windows Defender Tamper Protection and retry install." -ForegroundColor Red
     Write-Host "`t[+] Hint: https://www.tenforums.com/tutorials/123792-turn-off-tamper-protection-windows-defender-antivirus.html" -ForegroundColor Yellow
     Write-Host "[-] Do you need to change this setting? Y/N " -ForegroundColor Yellow -NoNewline
