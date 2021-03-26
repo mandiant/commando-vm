@@ -305,7 +305,7 @@ if ($nochecks -eq $false) {
     if ($response -ne "Y"){
       exit
     }
-  }
+  
   
   ## Windows 10 Versions/Build Numbers
   # https://github.com/Disassembler0/Win10-Initial-Setup-Script
