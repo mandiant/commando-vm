@@ -1,7 +1,7 @@
 ##########
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script - Default preset
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v3.9, 2020-04-02
+# Version: v3.10, 2020-07-15
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -10,12 +10,12 @@ RequireAdmin
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry
+DisableCortana                  # EnableCortana
 DisableWiFiSense                # EnableWiFiSense
 DisableSmartScreen            # EnableSmartScreen
 DisableWebSearch              # EnableWebSearch
 DisableAppSuggestions           # EnableAppSuggestions
 DisableActivityHistory          # EnableActivityHistory
-DisableBackgroundApps           # EnableBackgroundApps
 # DisableSensors                # EnableSensors
 DisableLocation                 # EnableLocation
 DisableMapUpdates               # EnableMapUpdates
@@ -23,7 +23,6 @@ DisableFeedback                 # EnableFeedback
 DisableTailoredExperiences      # EnableTailoredExperiences
 DisableAdvertisingID            # EnableAdvertisingID
 DisableWebLangList              # EnableWebLangList
-DisableCortana                  # EnableCortana
 # DisableBiometrics             # EnableBiometrics
 # DisableCamera                 # EnableCamera
 # DisableMicrophone             # EnableMicrophone
@@ -34,14 +33,32 @@ DisableWAPPush                  # EnableWAPPush
 # EnableClearRecentFiles        # DisableClearRecentFiles
 # DisableRecentFiles            # EnableRecentFiles
 
+### UWP Privacy Tweaks ###
+DisableUWPBackgroundApps        # EnableUWPBackgroundApps
+# DisableUWPVoiceActivation     # EnableUWPVoiceActivation
+# DisableUWPNotifications       # EnableUWPNotifications
+# DisableUWPAccountInfo         # EnableUWPAccountInfo
+# DisableUWPContacts            # EnableUWPContacts
+# DisableUWPCalendar            # EnableUWPCalendar
+# DisableUWPPhoneCalls          # EnableUWPPhoneCalls
+# DisableUWPCallHistory         # EnableUWPCallHistory
+# DisableUWPEmail               # EnableUWPEmail
+# DisableUWPTasks               # EnableUWPTasks
+# DisableUWPMessaging           # EnableUWPMessaging
+# DisableUWPRadios              # EnableUWPRadios
+# DisableUWPOtherDevices        # EnableUWPOtherDevices
+# DisableUWPDiagInfo            # EnableUWPDiagInfo
+# DisableUWPFileSystem          # EnableUWPFileSystem
+# DisableUWPSwapFile            # EnableUWPSwapFile
+
 ### Security Tweaks ###
 SetUACLow                     # SetUACHigh
 # EnableSharingMappedDrives     # DisableSharingMappedDrives
 DisableAdminShares              # EnableAdminShares
 DisableFirewall               # EnableFirewall
-HideDefenderTrayIcon          # ShowDefenderTrayIcon
-DisableDefender               # EnableDefender
-DisableDefenderCloud          # EnableDefenderCloud
+# HideDefenderTrayIcon          # ShowDefenderTrayIcon
+# DisableDefender               # EnableDefender
+# DisableDefenderCloud          # EnableDefenderCloud
 # EnableCtrldFolderAccess       # DisableCtrldFolderAccess
 # EnableCIMemoryIntegrity       # DisableCIMemoryIntegrity
 # EnableDefenderAppGuard        # DisableDefenderAppGuard
@@ -60,7 +77,7 @@ SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 SetUnknownNetworksPrivate     # SetUnknownNetworksPublic
 DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
 # DisableHomeGroups             # EnableHomeGroups
-EnableSMB1
+# DisableSMB1                   # EnableSMB1
 # DisableSMBServer              # EnableSMBServer
 # DisableNetBIOS                # EnableNetBIOS
 DisableLLMNR                  # EnableLLMNR
@@ -92,7 +109,6 @@ DisableAutorun                  # EnableAutorun
 # DisableDefragmentation        # EnableDefragmentation
 # DisableSuperfetch             # EnableSuperfetch
 # DisableIndexing               # EnableIndexing
-# DisableSwapFile               # EnableSwapFile
 # DisableRecycleBin             # EnableRecycleBin
 EnableNTFSLongPaths             # DisableNTFSLongPaths
 # DisableNTFSLastAccess         # EnableNTFSLastAccess
@@ -131,7 +147,7 @@ SetControlPanelSmallIcons     # SetControlPanelLargeIcons     # SetControlPanelC
 DisableShortcutInName           # EnableShortcutInName
 # HideShortcutArrow             # ShowShortcutArrow
 SetVisualFXPerformance          # SetVisualFXAppearance
-# EnableTitleBarColor           # DisableTitleBarColor
+EnableTitleBarColor           # DisableTitleBarColor
 SetAppsDarkMode               # SetAppsLightMode
 # SetSystemLightMode            # SetSystemDarkMode
 # AddENKeyboard                 # RemoveENKeyboard
@@ -152,6 +168,7 @@ ShowEmptyDrives               # HideEmptyDrives
 ShowFolderMergeConflicts      # HideFolderMergeConflicts
 EnableNavPaneExpand             # DisableNavPaneExpand
 ShowNavPaneAllFolders         # HideNavPaneAllFolders
+# ShowNavPaneLibraries          # HideNavPaneLibraries
 # EnableFldrSeparateProcess     # DisableFldrSeparateProcess
 # EnableRestoreFldrWindows      # DisableRestoreFldrWindows
 # ShowEncCompFilesColor         # HideEncCompFilesColor
@@ -182,9 +199,10 @@ HideVideosFromThisPC            # ShowVideosInThisPC
 HideVideosFromExplorer        # ShowVideosInExplorer
 Hide3DObjectsFromThisPC         # Show3DObjectsInThisPC
 Hide3DObjectsFromExplorer     # Show3DObjectsInExplorer
-HideIncludeInLibraryMenu      # ShowIncludeInLibraryMenu
-HideGiveAccessToMenu          # ShowGiveAccessToMenu
-HideShareMenu                 # ShowShareMenu
+# HideNetworkFromExplorer       # ShowNetworkInExplorer
+# HideIncludeInLibraryMenu      # ShowIncludeInLibraryMenu
+# HideGiveAccessToMenu          # ShowGiveAccessToMenu
+# HideShareMenu                 # ShowShareMenu
 # DisableThumbnails             # EnableThumbnails
 DisableThumbnailCache           # EnableThumbnailCache
 DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
@@ -203,6 +221,7 @@ DisableEdgeShortcutCreation     # EnableEdgeShortcutCreation
 DisableIEFirstRun               # EnableIEFirstRun
 DisableFirstLogonAnimation      # EnableFirstLogonAnimation
 DisableMediaSharing             # EnableMediaSharing
+# DisableMediaOnlineAccess      # EnableMediaOnlineAccess
 EnableDeveloperMode           # DisableDeveloperMode
 # UninstallMediaPlayer          # InstallMediaPlayer
 # UninstallInternetExplorer     # InstallInternetExplorer

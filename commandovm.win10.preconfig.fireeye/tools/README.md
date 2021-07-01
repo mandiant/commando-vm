@@ -1,3 +1,15 @@
+## The project is archived
+
+This project has been archived because I no longer use Windows. I grew tired with the system being unable to keep itself configured in the desired state, group policies randomly stopping working for hundreds of managed workstations at once, advertisements, unwanted tips and content popping up on various places throughout the user interface, and incompetent support even for enterprise products. Ultimately I have migrated virtually all my servers, workstations and laptops to linux. Even though there are areas where the open source products are still lacking, the transparency, configurability and reliability greatly outweighs the drawbacks for me.
+
+I also lost faith in humanity throughout the years I was actively maintaining the project. The influx of pings, bumps, repeating questions already answered in FAQ, and various other unreasonable demands without any givebacks was just astounding. Please do not contact me regarding this project as I have no desire to invest any more time into it. As per MIT license, you're still free to use, modify, and distribute the code further, as long as you keep the license and copyright notice.
+
+&nbsp;
+
+---
+
+&nbsp;
+
 ## Contents
  - [Description](#description)
  - [Usage](#usage)
@@ -84,7 +96,8 @@ The script supports command line options and parameters which can help you custo
 |  1809   | Redstone 5 (RS5)        | October 2018 Update    | 17763 |
 |  1903   | 19H1                    | May 2019 Update        | 18362 |
 |  1909   | 19H2                    | November 2019 Update   | 18363 |
-|  2004   | 20H1                    | TBA                    | 19041 |
+|  2004   | 20H1                    | May 2020 Update        | 19041 |
+|  20H2   | 20H2                    | October 2020 Update    | 19042 |
 
 &nbsp;
 
