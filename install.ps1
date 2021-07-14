@@ -340,7 +340,8 @@ if ($nochecks -eq $false) {
 
 
   $osversion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
-  if (-Not (($osversion -eq 18363) -or ($osversion -eq 18361) -or ($osversion -eq 17763) -or ($osversion -eq 17134) -or ($osversion -eq 19041) -or ($osversion -eq 19042) -or ($osversion -eq 19043) )){
+  $valid_versions = @(18363, 18361, 17763, 17134, 19041, 19042, 19043)
+  if ($osversion -notin $valid_versions) {
     Write-Host "`t[ERR] Windows version $osversion is not has not been tested, please use Windows 10 version 1803, 1809, 1903, 1909, 2004, 20H2, or 21H1." -ForegroundColor Yellow
     Write-Host "[-] Do you still wish to proceed? Y/N " -ForegroundColor Yellow -NoNewline
     $response = Read-Host 
