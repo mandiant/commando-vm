@@ -12,7 +12,7 @@
 
                                     Created by                                
                               Jake Barteaux @day1player                              
-                                 Proactive Services  
+                                  Mandiant Red Team  
                           Blaine Stancill @MalwareMechanic                          
                                     Nhan Huynh   
                      FireEye Labs Advanced Reverse Engineering                            
