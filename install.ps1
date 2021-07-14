@@ -277,21 +277,12 @@ if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adm
   Start-Sleep -Milliseconds 500
 }
 
-# Check to make sure Defender is disabled
-Write-Host "[+] Checking if Windows Defender service is running.."
-$defender = Get-Service -Name WinDefend
-if ($defender.Status -eq "Running"){
-  Write-Host "`t[ERR] Please disable Windows Defender through Group Policy" -ForegroundColor Red
-  Write-Host "`t[+] Hint: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo" -ForegroundColor Yellow
-  Write-Host "[-] Do you need to change this setting? Y/N " -ForegroundColor Yellow -NoNewline
-  $response = Read-Host
-  if ($response -eq "Y") {
-    Write-Host "[*] Exiting..." -ForegroundColor Red
-    exit
-  }else {
-    Start-Sleep -Milliseconds 500
-    Write-Host "`tLooks good" -ForegroundColor Cyan
-    Start-Sleep -Milliseconds 500
+if ($nochecks -eq $true){
+  $defender = Get-Service -Name WinDefend
+  if ($defender.Status -eq "Running"){
+    Write-Host "[!] Windows Defender is running! ctrl+c to stop script..." -ForegroundColor Yellow
+    Start-Sleep -Milliseconds 5000
+    Write-Host "[i] Continuing..."
   }
 }
 
@@ -316,6 +307,23 @@ if ($nochecks -eq $false) {
     Write-Host "`tTamper Protection is off, looks good." -ForegroundColor Green
   }
   
+  # Check to make sure Defender is disabled
+  Write-Host "[+] Checking if Windows Defender service is running.."
+  $defender = Get-Service -Name WinDefend
+  if ($defender.Status -eq "Running"){
+    Write-Host "[ERR] Please disable Windows Defender through Group Policy" -ForegroundColor Red
+    Write-Host "`t[+] Hint: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo" -ForegroundColor Yellow
+    Write-Host "[-] Do you need to change this setting? Y/N " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -eq "Y") {
+      Write-Host "[*] Exiting..." -ForegroundColor Red
+      exit
+    }
+  }else {
+      Start-Sleep -Milliseconds 500
+      Write-Host "`tLooks good" -ForegroundColor Cyan
+      Start-Sleep -Milliseconds 500
+  }
   # Check to make sure host is supported
   Write-Host "[+] Checking to make sure Operating System is compatible"
   if ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601"){
@@ -348,36 +356,6 @@ if ($nochecks -eq $false) {
     }
   } else {
     Write-Host "`tWindows build $osversion supported." -ForegroundColor Green
-  }
-
-  # Check to make sure host has been updated
-  Write-Host "[+] Checking if host has been configured with updates"
-  if (-Not (get-hotfix | where { (Get-Date($_.InstalledOn)) -gt (get-date).adddays(-30) })) {
-    try 
-    {
-      Write-Host "`t[ERR] This machine has not been updated in the last 30 days, do you want to try installing updates automatically? Y/N " -ForegroundColor Yellow -NoNewline
-      $response = Read-Host
-      if ($response -eq "Y"){
-        Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-        Install-Module PSWindowsUpdate -Force
-        Import-Module PSWindowsUpdate
-        Get-WindowsUpdate
-        Install-WindowsUpdate -AcceptAll -IgnoreReboot -IgnoreRebootRequired
-      } else {
-        Write-Host "Please install updates manually." -ForegroundColor Red
-        exit
-      }
-    }
-    catch 
-    {
-      Write-Host "`t[ERR] Could not update automatically, please run Windows Updates manually to continue`n" -ForegroundColor Red
-      Read-Host  "Press any key to exit"
-      exit
-      
-    }
-    
-  } else {
-	  Write-Host "`tupdates appear to be in order" -ForegroundColor Green
   }
 
   #Check to make sure host has enough disk space
