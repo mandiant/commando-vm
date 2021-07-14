@@ -1,6 +1,7 @@
 ## 2021.2 - July 14 2021
 - Require users to disable Defender before installing
   * Too many issues arise from Defender magically turning itself back on. Disabling defender with the preconfig script has been unreliable since Win10 1909.
+- removed update requirement (legacy  requirement for Windows 7. Windows 7 support was  removed last year)
 - Added support for Windows 10 20H2 and 21H1
 - Removed vcpython27 #204
 - updated proxycap install args #203, #200. #196
