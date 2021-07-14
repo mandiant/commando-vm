@@ -288,13 +288,11 @@ if ($defender.Status -eq "Running"){
   if ($response -eq "Y") {
     Write-Host "[*] Exiting..." -ForegroundColor Red
     exit
+  }else {
+    Start-Sleep -Milliseconds 500
+    Write-Host "`tLooks good" -ForegroundColor Cyan
+    Start-Sleep -Milliseconds 500
   }
-    Write-Host "`tContinuing..." -ForegroundColor Green
-  }
-}else {
-  Start-Sleep -Milliseconds 500
-  Write-Host "`tLooks good" -ForegroundColor Cyan
-  Start-Sleep -Milliseconds 500
 }
 
 if ($nochecks -eq $false) {
