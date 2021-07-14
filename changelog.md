@@ -1,3 +1,13 @@
+## 2021.2 - July 14 2021
+- Require users to disable Defender before installing
+  * Too many issues arise from Defender magically turning itself back on. Disabling defender with the preconfig script has been unreliable since Win10 1909.
+- removed update requirement (legacy  requirement for Windows 7. Windows 7 support was  removed last year)
+- Added support for Windows 10 20H2 and 21H1
+- Removed vcpython27 #204
+- updated proxycap install args #203, #200. #196
+- updated sqlitebrowser.fireeye to remove newly created desktop shortcuts #200
+- Closed issues #203, #204, #202, #200, #196, #195, #192, #191, #190, #189, #188, #186, #185, #184, #177, #175, #174, #170, #169, #160, #134, #133
+
 ## 2020.2 - June 17 2020
 - Added support for Windows 10 2004
 - Corrected syspin verb #124
