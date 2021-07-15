@@ -1,10 +1,10 @@
                                                                    
-       _________                                           .___      
-       \_   ___ \  ____   _____   _____ _____    ____    __| _/____  
-       /    \  \/ /  _ \ /     \ /     \\__  \  /    \  / __ |/  _ \ 
-       \     \___(  <_> )  Y Y  \  Y Y  \/ __ \|   |  \/ /_/ (  <_> )
-        \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ |\____/ 
-               \/             \/      \/     \/     \/      \/       
+          _________                                           .___      
+          \_   ___ \  ____   _____   _____ _____    ____    __| _/____  
+          /    \  \/ /  _ \ /     \ /     \\__  \  /    \  / __ |/  _ \ 
+          \     \___(  <_> )  Y Y  \  Y Y  \/ __ \|   |  \/ /_/ (  <_> )
+           \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ |\____/ 
+                  \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
                                   Version 2021.2                                 
@@ -49,6 +49,7 @@ Instructions
 Pre-Install Procedures
 ----------------------
 You MUST disable Windows Defender for a smooth install. The best way to accomplish this is through Group Policy
+
 In Windows versions 1909 and higher, Tamper Protection was added.
 **Tamper Protection must be disabled, otherwise Group Policy settings are ignored.**
 
