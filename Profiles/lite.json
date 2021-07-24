@@ -41,7 +41,10 @@
             "name": "neo4j-community.fireeye",
             "x64Only": true
         },
-        {"name": "proxycap.fireeye"},
+                {
+            "name": "proxycap.fireeye",
+            "args": "--ignorepackagecodes"
+        },
         {"name": "windump.fireeye"},
         {"name": "hxd.fireeye"},
         {"name": "burp.free.fireeye"},
