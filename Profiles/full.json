@@ -75,7 +75,10 @@
         {"name": "x64dbg.fireeye"},
         {"name": "windbg.fireeye"},
         {"name": "windbg.kenstheme.flare"},
-        {"name": "proxycap.fireeye"},
+                {
+            "name": "proxycap.fireeye",
+            "args": "--ignorepackagecodes"
+        },
         {"name": "windump.fireeye"},
         {"name": "hexchat.fireeye"},
         {"name": "pidgin.fireeye"},
