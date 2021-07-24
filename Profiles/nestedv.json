@@ -68,7 +68,10 @@
         {"name": "x64dbg.fireeye"},
         {"name": "windbg.fireeye"},
         {"name": "windbg.kenstheme.flare"},
-        {"name": "proxycap.fireeye"},
+                {
+            "name": "proxycap.fireeye",
+            "args": "--ignorepackagecodes"
+        },
         {"name": "windump.fireeye"},
         {"name": "apimonitor.fireeye"},
         {"name": "orca.fireeye"},
