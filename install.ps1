@@ -224,7 +224,7 @@ Write-Host "|        "  -ForegroundColor Red -NoNewline; Write-Host "        \/ 
 Write-Host "|                       C O M P L E T E  M A N D I A N T                     |" -ForegroundColor Red 
 Write-Host "|                            O F F E N S I V E   V M                         |" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
-Write-Host "|                                 Version 2020.2                             |" -ForegroundColor Red 
+Write-Host "|                                 Version 2021.2                             |" -ForegroundColor Red 
 Write-Host "|                             commandovm@fireeye.com                         |" -ForegroundColor Red 
 Write-Host "|____________________________________________________________________________|" -ForegroundColor Red 
 Write-Host "|                                                                            |" -ForegroundColor Red 
@@ -277,6 +277,15 @@ if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adm
   Start-Sleep -Milliseconds 500
 }
 
+if ($nochecks -eq $true){
+  $defender = Get-Service -Name WinDefend
+  if ($defender.Status -eq "Running"){
+    Write-Host "[!] Windows Defender is running! ctrl+c to stop script..." -ForegroundColor Yellow
+    Start-Sleep -Milliseconds 5000
+    Write-Host "[i] Continuing..."
+  }
+}
+
 if ($nochecks -eq $false) {
   
   # Check to make sure Tamper Protection is off
@@ -298,6 +307,23 @@ if ($nochecks -eq $false) {
     Write-Host "`tTamper Protection is off, looks good." -ForegroundColor Green
   }
   
+  # Check to make sure Defender is disabled
+  Write-Host "[+] Checking if Windows Defender service is running.."
+  $defender = Get-Service -Name WinDefend
+  if ($defender.Status -eq "Running"){
+    Write-Host "[ERR] Please disable Windows Defender through Group Policy" -ForegroundColor Red
+    Write-Host "`t[+] Hint: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo" -ForegroundColor Yellow
+    Write-Host "[-] Do you need to change this setting? Y/N " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -eq "Y") {
+      Write-Host "[*] Exiting..." -ForegroundColor Red
+      exit
+    }
+  }else {
+      Start-Sleep -Milliseconds 500
+      Write-Host "`tLooks good" -ForegroundColor Cyan
+      Start-Sleep -Milliseconds 500
+  }
   # Check to make sure host is supported
   Write-Host "[+] Checking to make sure Operating System is compatible"
   if ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601"){
@@ -310,6 +336,8 @@ if ($nochecks -eq $false) {
   
   ## Windows 10 Versions/Build Numbers
   # https://github.com/Disassembler0/Win10-Initial-Setup-Script
+  # 21H1                        19043
+  # 20H2                        19042
   # 2004 (TBD)                  19041
   # 1909 (November 2019 Update)	18363
   # 1903 (May 2019 Update)    	18362
@@ -318,8 +346,9 @@ if ($nochecks -eq $false) {
 
 
   $osversion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
-  if (-Not (($osversion -eq 18363) -or ($osversion -eq 18361) -or ($osversion -eq 17763) -or ($osversion -eq 17134) -or ($osversion -eq 19041) )){
-    Write-Host "`t[ERR] Windows version $osversion is not has not been tested, please use Windows 10 version 1803, 1809, 1903, 1909, or 2004." -ForegroundColor Yellow
+  $valid_versions = @(18363, 18361, 17763, 17134, 19041, 19042, 19043)
+  if ($osversion -notin $valid_versions) {
+    Write-Host "`t[ERR] Windows version $osversion is not has not been tested, please use Windows 10 version 1803, 1809, 1903, 1909, 2004, 20H2, or 21H1." -ForegroundColor Yellow
     Write-Host "[-] Do you still wish to proceed? Y/N " -ForegroundColor Yellow -NoNewline
     $response = Read-Host 
     if ($response -ne "Y"){
@@ -327,36 +356,6 @@ if ($nochecks -eq $false) {
     }
   } else {
     Write-Host "`tWindows build $osversion supported." -ForegroundColor Green
-  }
-
-  # Check to make sure host has been updated
-  Write-Host "[+] Checking if host has been configured with updates"
-  if (-Not (get-hotfix | where { (Get-Date($_.InstalledOn)) -gt (get-date).adddays(-30) })) {
-    try 
-    {
-      Write-Host "`t[ERR] This machine has not been updated in the last 30 days, do you want to try installing updates automatically? Y/N " -ForegroundColor Yellow -NoNewline
-      $response = Read-Host
-      if ($response -eq "Y"){
-        Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-        Install-Module PSWindowsUpdate -Force
-        Import-Module PSWindowsUpdate
-        Get-WindowsUpdate
-        Install-WindowsUpdate -AcceptAll -IgnoreReboot -IgnoreRebootRequired
-      } else {
-        Write-Host "Please install updates manually." -ForegroundColor Red
-        exit
-      }
-    }
-    catch 
-    {
-      Write-Host "`t[ERR] Could not update automatically, please run Windows Updates manually to continue`n" -ForegroundColor Red
-      Read-Host  "Press any key to exit"
-      exit
-      
-    }
-    
-  } else {
-	  Write-Host "`tupdates appear to be in order" -ForegroundColor Green
   }
 
   #Check to make sure host has enough disk space
@@ -446,8 +445,6 @@ Set-BoxstarterConfig -NugetSources "https://www.myget.org/F/fireeye/api/v2;https
 # Set up the correct feed
 $fireeyeFeed = "https://www.myget.org/F/fireeye/api/v2"
 iex "choco sources add -n=fireeye -s $fireeyeFeed --priority 1"
-iex "choco upgrade -y vcredist-all.flare"
-iex "choco install -y powershell"
 iex "refreshenv"
 iex "choco install -y common.fireeye"
 iex "refreshenv"

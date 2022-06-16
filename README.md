@@ -1,13 +1,13 @@
                                                                    
-       _________                                           .___      
-       \_   ___ \  ____   _____   _____ _____    ____    __| _/____  
-       /    \  \/ /  _ \ /     \ /     \\__  \  /    \  / __ |/  _ \ 
-       \     \___(  <_> )  Y Y  \  Y Y  \/ __ \|   |  \/ /_/ (  <_> )
-        \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ |\____/ 
-               \/             \/      \/     \/     \/      \/       
+          _________                                           .___      
+          \_   ___ \  ____   _____   _____ _____    ____    __| _/____  
+          /    \  \/ /  _ \ /     \ /     \\__  \  /    \  / __ |/  _ \ 
+          \     \___(  <_> )  Y Y  \  Y Y  \/ __ \|   |  \/ /_/ (  <_> )
+           \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ |\____/ 
+                  \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                  Version 2020.2                                 
+                                  Version 2021.2                                 
                               commandovm@fireeye.com
                _____________________________________________________          
 
@@ -32,20 +32,51 @@ Installation (Install Script)
 
 Requirements
 ------------
-* Windows 10 1803, 1809, 1903, 1909, or 2004
+* Windows 10 1803, 1809, 1903, 1909, 2004, 20H2, or 21H1
 > Insider Preview editions of Windows are not supported
 * 60 GB Hard Drive
 * 2 GB RAM
 
 Recommended
 -----------
-* Windows 10 2004
+* Windows 10 21H1
 * 80+ GB Hard Drive
 * 4+ GB RAM
 * 2 network adapters
 
 Instructions
 ============
+Pre-Install Procedures
+----------------------
+You MUST disable Windows Defender for a smooth install. The best way to accomplish this is through Group Policy
+
+In Windows versions 1909 and higher, Tamper Protection was added.
+**Tamper Protection must be disabled, otherwise Group Policy settings are ignored.**
+
+1. Open Windows Security (type `Windows Security` in the search box)
+2. Virus & threat protection > Virus & threat protection settings > Manage settings
+3. Switch `Tamper Protection` to `Off` 
+> It is not necessary to change any other setting (`Real Time Protection`, etc.)
+
+> **Important.** Tamper Protection must be disabled before changing Group Policy settings.
+
+To permanently disable Real Time Protection
+
+1. Open Local Group Policy Editor (type `gpedit` in the search box)
+2. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus > Real-time Protection
+3. Enable `Turn off real-time protection`
+4. **Reboot**
+> Make sure to **reboot** before making the next change
+
+To permanently disable Microsoft Defender:
+
+1. Open Local Group Policy Editor (type `gpedit` in the search box)
+2. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus
+3. Enable `Turn off Microsoft Defender Antivirus`
+4. **Reboot**
+
+  [1]: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo
+
 Standard install
 ----------------
 1. Create and configure a new Windows Virtual Machine

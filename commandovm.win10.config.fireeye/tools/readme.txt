@@ -6,13 +6,13 @@
                \/             \/      \/     \/     \/      \/       
                         C O M P L E T E  M A N D I A N T                    
                              O F F E N S I V E   V M                        
-                                   Version 2020.2
+                                   Version 2021.2
                                 commandovm@fireeye.com                                 
                _____________________________________________________          
 
                                     Created by                                
                               Jake Barteaux @day1player                              
-                                 Proactive Services  
+                                  Mandiant Red Team  
                           Blaine Stancill @MalwareMechanic                          
                                     Nhan Huynh   
                      FireEye Labs Advanced Reverse Engineering                            
