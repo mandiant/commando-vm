@@ -8,6 +8,14 @@
         <env name="RAW_TOOLS_DIR" value="%SystemDrive%\Tools"/>
     </envs>
     <packages>
-        <package name="7zip-15-05.vm"/>
+        <package name="apimonitor.vm"/>
+        <package name="asreproast.vm"/>
+        <package name="bloodhound.vm"/>
+        <package name="capa.vm"/>
+        <package name="cygwin.vm"/>
+        <package name="dnspyex.vm"/>
+        <package name="exiftool.vm"/>
+        <package name="ghidra.vm"/>
+        <package name="nmap.vm"/>
     </packages>
 </config>
