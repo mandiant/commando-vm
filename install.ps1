@@ -615,9 +615,9 @@ function Set-PackageInformation {
 
     # Populate the package information fields
     if ($package) {
-        $global:Description.Text = $package.PackageSummary
-        $global:Authors.Text     = $package.PackageAuthor
-        $global:Version.Text     = $package.PackageVersion
+        $Description.Text = $package.PackageSummary
+        $Authors.Text     = $package.PackageAuthor
+        $Version.Text     = $package.PackageVersion
     } else {
         Write-Host "[!] Package not found."
     }
