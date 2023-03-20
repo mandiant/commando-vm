@@ -36,8 +36,6 @@ param (
 # Load the GUI controls
 if (-not $noGui.IsPresent) {
 
-    [Console.Window]::ShowWindow([Console.Window]::GetConsoleWindow(), 0)
-  
     Add-Type -AssemblyName System.Windows.Forms
     [System.Windows.Forms.Application]::EnableVisualStyles()
 
