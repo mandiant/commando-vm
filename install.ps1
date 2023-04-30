@@ -36,9 +36,8 @@ param (
 # Load the GUI controls
 if (-not $noGui.IsPresent) {
 
-    [Console.Window]::ShowWindow([Console.Window]::GetConsoleWindow(), 0)
-  
     Add-Type -AssemblyName System.Windows.Forms
+  
     [System.Windows.Forms.Application]::EnableVisualStyles()
 
     $iconPath = Join-Path $PSScriptRoot "logo.png"
@@ -526,7 +525,7 @@ function Get-PackagesFromProfile {
 
 function Get-AvailablePackages {
     $apiUrl = "https://www.myget.org/F/vm-packages/Packages"
-    $destination = "./available_packages.xml"
+    $destination = Join-Path $PSScriptRoot "./available_packages.xml"
 
     # Download the XML from MyGet API
     try {
@@ -615,9 +614,9 @@ function Set-PackageInformation {
 
     # Populate the package information fields
     if ($package) {
-        $global:Description.Text = $package.PackageSummary
-        $global:Authors.Text     = $package.PackageAuthor
-        $global:Version.Text     = $package.PackageVersion
+        $Description.Text = $package.PackageSummary
+        $Authors.Text     = $package.PackageAuthor
+        $Version.Text     = $package.PackageVersion
     } else {
         Write-Host "[!] Package not found."
     }
