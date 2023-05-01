@@ -701,7 +701,7 @@ function Remove-AllPackages {
 
 function Save-Profile {
     param (
-        [string]$ProfilePath = "$(Join-Path -Path $PSScriptRoot ".\Profiles" -ChildPath "Custom.xml")"
+        [string]$ProfilePath = $(Join-Path -Path $PSScriptRoot (".\Profiles" + "\Custom.xml"))
     )
 
     # Get the path to the XML of the preset we're basing the profile on and read it into memory
@@ -757,12 +757,11 @@ function Install-Profile {
 
     try {
         $PackageName = "flarevm.installer.vm"
-        Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
-        Install-BoxstarterPackage -PackageName $PackageName
+        
         Write-Host "Profile installation complete: $ProfileName" -ForegroundColor Green
 
-        $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName)
-        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml" -Resolve
+        $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
+        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
 
         if (Test-Path $profilePath) {
             Copy-Item $profilePath $destinationPath -Force
@@ -770,13 +769,15 @@ function Install-Profile {
         } else {
             Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
         }
+
+        Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
+        Install-BoxstarterPackage -PackageName $PackageName
     }
     catch {
         Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
         Write-Host $_.Exception.Message -ForegroundColor Red
     }
 }
-
 
 ################################# Functions that Open GUI Windows #################################
 
