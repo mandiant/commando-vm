@@ -237,7 +237,7 @@ if (-not $noGui.IsPresent) {
     $InstallButton.height            = 60
     $InstallButton.location          = New-Object System.Drawing.Point(548,446)
     $InstallButton.Font              = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
-    $InstallButton.Add_Click({Start-Install})
+    $InstallButton.Add_Click({Install-Profile -ProfileName $global:selectedProfile})
 
     $CommandoInstaller.controls.AddRange(@($CommandoLogo,$InstallButton,$ProfileSelector,$ConfigureProfileButton,$ProfileLabels,$RecommendedDiskSpaceLabel,$DisclaimerLabelLine1,$DisclaimerLabelLine2,$DisclaimerLabelLine3,$DisclaimerLabelLine4,$RecommendedDiskSpace))
     $ProfileLabels.controls.AddRange(@($ProfileLabelDescriptionLite,$Label1,$ProfileLabelLite,$ProfileLabelFull,$ProfileLabelDescriptionFull,$ProfileLabelDefault,$ProfileLabelDescriptionDefault,$ProfileLabelDeveloper,$ProfileLabelDescriptionDeveloper,$ProfileLabelVictim,$ProfileLabelDescriptionVictim))
@@ -483,7 +483,7 @@ if (-not $noGui.IsPresent) {
 ################################# Functions that Get Profiles and Packages #################################
 
 function Get-ProfileData {
-    $profilesFolder = "./Profiles/"
+    $profilesFolder = Join-Path $PSScriptRoot "./Profiles/"
     $profiles = @()
 
     # Loop over the profiles folder
@@ -701,7 +701,7 @@ function Remove-AllPackages {
 
 function Save-Profile {
     param (
-        [string]$ProfilePath = "$(Join-Path -Path ".\Profiles" -ChildPath "Custom.xml")"
+        [string]$ProfilePath = "$(Join-Path -Path $PSScriptRoot ".\Profiles" -ChildPath "Custom.xml")"
     )
 
     # Get the path to the XML of the preset we're basing the profile on and read it into memory
@@ -747,6 +747,37 @@ function Save-ProfileAs {
     }
 }
 
+################################# Functions that Install Packages #################################
+
+function Install-Profile {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$ProfileName
+    )
+
+    try {
+        $PackageName = "commando.installer.vm"
+        Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
+        Install-BoxstarterPackage -PackageName $PackageName
+        Write-Host "Profile installation complete: $ProfileName" -ForegroundColor Green
+
+        $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName)
+        $destinationPath = Join-Path ([Environment]::GetFolderPath('Desktop')) "commando.xml"
+
+        if (Test-Path $profilePath) {
+            Copy-Item $profilePath $destinationPath -Force
+            Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
+        } else {
+            Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
+        }
+    }
+    catch {
+        Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
+    }
+}
+
+
 ################################# Functions that Open GUI Windows #################################
 
 function Open-Installer {
@@ -789,12 +820,239 @@ $global:profileData = Get-ProfileData
 $global:packageData = Get-AvailablePackages
 $global:selectedProfile = "Default"
 
+################################# Checks Workflow #################################
+
+if (-not $noChecks.IsPresent) {
+    # Ensure script is ran as administrator
+    Write-Host "[+] Checking if script is running as administrator..."
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        Write-Host "`t[!] Please run this script as administrator" -ForegroundColor Red
+        Read-Host "Press any key to exit..."
+        exit 1
+    } else {
+        Write-Host "`t[+] Running as administrator" -ForegroundColor Green
+        Start-Sleep -Milliseconds 500
+    }
+
+    # Ensure execution policy is unrestricted
+    Write-Host "[+] Checking if execution policy is unrestricted..."
+    if ((Get-ExecutionPolicy).ToString() -ne "Unrestricted") {
+        Write-Host "`t[!] Please run this script after updating your execution policy to unrestricted" -ForegroundColor Red
+        Write-Host "`t[-] Hint: Set-ExecutionPolicy Unrestricted" -ForegroundColor Yellow
+        Read-Host "Press any key to exit..."
+        exit 1
+    } else {
+        Write-Host "`t[+] Execution policy is unrestricted" -ForegroundColor Green
+        Start-Sleep -Milliseconds 500
+    }
+
+    # Check if Tamper Protection is disabled
+    Write-Host "[+] Checking if Windows Defender Tamper Protection is disabled..."
+    if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
+        if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -eq 5) {
+            Write-Host "`t[!] Please disable Tamper Protection, reboot, and rerun installer" -ForegroundColor Red
+            Write-Host "`t[+] Hint: https://support.microsoft.com/en-us/windows/prevent-changes-to-security-settings-with-tamper-protection-31d51aaa-645d-408e-6ce7-8d7f8e593f87" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://www.tenforums.com/tutorials/123792-turn-off-tamper-protection-windows-defender-antivirus.html" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://github.com/jeremybeaume/tools/blob/master/disable-defender.ps1" -ForegroundColor Yellow
+            Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
+            Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+            $response = Read-Host
+            if ($response -notin @("y","Y")) {
+                exit 1
+            }
+        } else {
+            Write-Host "`t[+] Tamper Protection is disabled" -ForegroundColor Green
+            Start-Sleep -Milliseconds 500
+        }
+    }
+
+    # Check if Defender is disabled
+    Write-Host "[+] Checking if Windows Defender service is disabled..."
+    $defender = Get-Service -Name WinDefend -ea 0
+    if ($null -ne $defender) {
+        if ($defender.Status -eq "Running") {
+            Write-Host "`t[!] Please disable Windows Defender through Group Policy, reboot, and rerun installer" -ForegroundColor Red
+            Write-Host "`t[+] Hint: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://www.windowscentral.com/how-permanently-disable-windows-defender-windows-10" -ForegroundColor Yellow
+            Write-Host "`t[+] Hint: https://github.com/jeremybeaume/tools/blob/master/disable-defender.ps1" -ForegroundColor Yellow
+            Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
+            Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+            $response = Read-Host
+            if ($response -notin @("y","Y")) {
+                exit 1
+            }
+        } else {
+            Write-Host "`t[+] Defender is disabled" -ForegroundColor Green
+            Start-Sleep -Milliseconds 500
+        }
+    }
+
+    # Check if Windows 7
+    Write-Host "[+] Checking to make sure Operating System is compatible..."
+    if ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601") {
+        Write-Host "`t[!] Windows 7 is no longer supported / tested" -ForegroundColor Yellow
+        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+        $response = Read-Host
+        if ($response -notin @("y","Y")) {
+            exit 1
+        }
+    }
+
+    # Check if host has been tested
+    $osVersion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
+    $testedVersions = @(17763, 19042)
+    if ($osVersion -notin $testedVersions) {
+        Write-Host "`t[!] Windows version $osVersion has not been tested. Tested versions: $($testedVersions -join ', ')" -ForegroundColor Yellow
+        Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
+        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+        $response = Read-Host
+        if ($response -notin @("y","Y")) {
+            exit 1
+        }
+    } else {
+        Write-Host "`t[+] Installing on Windows version $osVersion" -ForegroundColor Green
+    }
+
+    # Check if host has enough disk space
+    Write-Host "[+] Checking if host has enough disk space..."
+    $disk = Get-PSDrive (Get-Location).Drive.Name
+    Start-Sleep -Seconds 1
+    if (-Not (($disk.used + $disk.free)/1GB -gt 58.8)) {
+        Write-Host "`t[!] A minimum of 60 GB hard drive space is preferred. Please increase hard drive space of the VM, reboot, and retry install" -ForegroundColor Red
+        Write-Host "`t[+] If you have multiple drives, you may change the tool installation location via the envrionment variable %RAW_TOOLS_DIR% in config.xml or GUI" -ForegroundColor Yellow
+        Write-Host "`t[+] However, packages provided from the Chocolatey community repository will install to their default location" -ForegroundColor Yellow
+        Write-Host "`t[+] See: https://stackoverflow.com/questions/19752533/how-do-i-set-chocolatey-to-install-applications-onto-another-drive" -ForegroundColor Yellow
+        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+        $response = Read-Host
+        if ($response -notin @("y","Y")) {
+            exit 1
+        }
+    } else {
+        Write-Host "`t[+] Disk is larger than 60 GB" -ForegroundColor Green
+    }
+
+    # Check if system is a virtual machine
+    $virtualModels = @('VirtualBox', 'VMware', 'Virtual Machine', 'Hyper-V')
+    $computerSystemModel = (Get-WmiObject win32_computersystem).model
+    $isVirtualModel = $false
+    
+    foreach ($model in $virtualModels) {
+        if ($computerSystemModel.Contains($model)) {
+            $isVirtualModel = $true
+            break
+        }
+    }
+
+    if (!$isVirtualModel) {
+        Write-Host "`t[!] You are not on a virual machine or have hardened your machine to not appear as a virtual machine" -ForegroundColor Red
+        Write-Host "`t[!] Please do NOT install this on your host system as it can't be uninstalled completely" -ForegroundColor Red
+        Write-Host "`t[!] ** Please only install on a virtual machine **" -ForegroundColor Red
+        Write-Host "`t[!] ** Only continue if you know what you are doing! **" -ForegroundColor Red
+        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
+        $response = Read-Host
+        if ($response -notin @("y","Y")) {
+            exit 1
+        }
+    }
+
+    # Prompt user to remind them to take a snapshot
+    Write-Host "[-] Have you taken a VM snapshot to ensure you can revert to pre-installation state? (Y/N): " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -notin @("y","Y")) {
+        exit 1
+    }
+}
+
+################################# Password Workflow #################################
+
+if (-not $noPassword.IsPresent) {
+    # Get user credentials for autologin during reboots
+    if ([string]::IsNullOrEmpty($password)) {
+        Write-Host "[+] Getting user credentials ..."
+        Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds" -Name "ConsolePrompting" -Value $True
+        Start-Sleep -Milliseconds 500
+        $credentials = Get-Credential ${Env:username}
+    } else {
+        $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
+        $credentials = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList ${Env:username}, $securePassword
+    }
+}
+
+################################# Dependency Workflow #################################
+
+# Check Chocolatey and Boxstarter versions
+$boxstarterVersionGood = $false
+$chocolateyVersionGood = $false
+if(${Env:ChocolateyInstall} -and (Test-Path "${Env:ChocolateyInstall}\bin\choco.exe")) {
+    $chocoVersion = choco --version
+    $chocolateyVersionGood = [System.Version]$chocoVersion -ge [System.Version]"0.10.13"
+    choco info -l -r "boxstarter" | ForEach-Object { $name, $chocoVersion = $_ -split '\|' }
+    $boxstarterVersionGood = [System.Version]$chocoVersion -ge [System.Version]"3.0.0"
+}
+
+# Install Chocolatey and Boxstarter if needed
+if (-not ($chocolateyVersionGood -and $boxstarterVersionGood)) {
+    Write-Host "[+] Installing Boxstarter..." -ForegroundColor Cyan
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1'))
+    Get-Boxstarter -Force
+
+    # Fix verbosity issues with Boxstarter v3
+    # See: https://github.com/chocolatey/boxstarter/issues/501
+    $fileToFix = "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\Chocolatey.ps1"
+    $offendingString = 'if ($val -is [string] -or $val -is [boolean]) {'
+    if ((Get-Content $fileToFix -raw) -contains $offendingString) {
+        $fixString = 'if ($val -is [string] -or $val -is [boolean] -or $val -is [system.management.automation.actionpreference]) {'
+        ((Get-Content $fileToFix -raw) -replace [regex]::escape($offendingString),$fixString) | Set-Content $fileToFix
+    }
+    $fileToFix = "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\invoke-chocolatey.ps1"
+    $offendingString = 'Verbose           = $VerbosePreference'
+    if ((Get-Content $fileToFix -raw) -contains $offendingString) {
+        $fixString = 'Verbose           = ($global:VerbosePreference -eq "Continue")'
+        ((Get-Content $fileToFix -raw) -replace [regex]::escape($offendingString),$fixString) | Set-Content $fileToFix
+    }
+    Start-Sleep -Milliseconds 500
+}
+Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
+
+# Set Boxstarter options
+$Boxstarter.RebootOk = (-not $noReboots.IsPresent)
+$Boxstarter.NoPassword = $noPassword.IsPresent
+$Boxstarter.AutoLogin = $true
+$Boxstarter.SuppressLogging = $True
+$global:VerbosePreference = "SilentlyContinue"
+Set-BoxstarterConfig -NugetSources "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2;https://chocolatey.org/api/v2"
+Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitleBar
+
+# Set Chocolatey options
+Write-Host "[+] Updating Chocolatey settings..."
+choco sources add -n="vm-packages" -s "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2" --priority 1
+choco feature enable -n allowGlobalConfirmation
+choco feature enable -n allowEmptyChecksums
+$cache = "${Env:LocalAppData}\ChocoCache"
+New-Item -Path $cache -ItemType directory -Force | Out-Null
+choco config set cacheLocation $cache
+
+# Set power options to prevent installs from timing out
+powercfg -change -monitor-timeout-ac 0 | Out-Null
+powercfg -change -monitor-timeout-dc 0 | Out-Null
+powercfg -change -disk-timeout-ac 0 | Out-Null
+powercfg -change -disk-timeout-dc 0 | Out-Null
+powercfg -change -standby-timeout-ac 0 | Out-Null
+powercfg -change -standby-timeout-dc 0 | Out-Null
+powercfg -change -hibernate-timeout-ac 0 | Out-Null
+powercfg -change -hibernate-timeout-dc 0 | Out-Null
+
 ################################# GUI Workflow #################################
 
 if (-not $noGui.IsPresent) {
 
     # Draw the profile manager GUI
     Open-Installer
+    $psProcess = [System.Diagnostics.Process]::GetCurrentProcess()
+    [System.Windows.Forms.SendKeys]::SendWait("%")
+    $psProcess.MainWindowHandle | Set-ForegroundWindow
 }
 
 ################################# CLI Workflow #################################
