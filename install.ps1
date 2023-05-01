@@ -756,13 +756,13 @@ function Install-Profile {
     )
 
     try {
-        $PackageName = "commando.installer.vm"
+        $PackageName = "flarevm.installer.vm"
         Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
         Install-BoxstarterPackage -PackageName $PackageName
         Write-Host "Profile installation complete: $ProfileName" -ForegroundColor Green
 
         $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName)
-        $destinationPath = Join-Path ([Environment]::GetFolderPath('Desktop')) "commando.xml"
+        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml" -Resolve
 
         if (Test-Path $profilePath) {
             Copy-Item $profilePath $destinationPath -Force
