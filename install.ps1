@@ -756,9 +756,11 @@ function Install-Profile {
     )
 
     try {
+        Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
+        choco install common.vm -y --force
+        refreshenv
+
         $PackageName = "flarevm.installer.vm"
-        
-        Write-Host "Profile installation complete: $ProfileName" -ForegroundColor Green
 
         $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
         $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
