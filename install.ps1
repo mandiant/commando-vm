@@ -3,35 +3,34 @@
         Installation script for CommandoVM.
     .DESCRIPTION
         Placeholder
-    .PARAMETER password
-        Current user password to allow reboot resiliency via Boxstarter
-    .PARAMETER noPassword
-        Switch parameter indicating a password is not needed for reboots.
-    .PARAMETER customProfile
-        Path to a configuration XML file. May be a file path or URL.
-    .PARAMETER noGui
+    .PARAMETER cli
         Switch parameter to skip customization GUI.
-    .PARAMETER noWait
-    Switch parameter to skip installation message before installation begins.
-    .PARAMETER noReboots
-        Switch parameter to prevent reboots.
-    .PARAMETER noChecks
+    .PARAMETER skipChecks
         Switch parameter to skip validation checks (not recommended).
+    .PARAMETER password
+        [CLI INSTALL] Current user password to allow reboot resiliency via Boxstarter
+    .PARAMETER customProfile
+        [CLI INSTALL] Path to a configuration XML file. May be a file path or URL.
+    .PARAMETER noReboots
+        [CLI INSTALL] Switch parameter to prevent reboots.
     .EXAMPLE
         .\install.ps1
     .LINK
         https://github.com/mandiant/commando-vm
         https://github.com/mandiant/VM-Packages
 #>
+
 param (
-  [string]$password = $null,
-  [switch]$noPassword,
-  [string]$customProfile = $null,
-  [switch]$noWait,
-  [switch]$noGui,
-  [switch]$noReboots,
-  [switch]$noChecks
+    [switch]$cli,
+    [switch]$skipChecks,
+    [string]$password = $null,
+    [string]$customProfile = $null,
+    [switch]$noReboots
 )
+
+$errorColor = [System.Drawing.ColorTranslator]::FromHtml("#c80505")
+$successColor = [System.Drawing.ColorTranslator]::FromHtml("#417505")
+$grayedColor = [System.Drawing.ColorTranslator]::FromHtml("#959393")
 
 # Load the GUI controls
 if (-not $noGui.IsPresent) {
@@ -44,13 +43,239 @@ if (-not $noGui.IsPresent) {
     $icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -ArgumentList $iconPath).GetHicon())
 
     #################################################################################################
+    ################################ Installer Checks Form Controls #################################
+    #################################################################################################
+
+    $CommandoChecksManager           = New-Object system.Windows.Forms.Form
+    $CommandoChecksManager.ClientSize  = New-Object System.Drawing.Point(510,376)
+    $CommandoChecksManager.text      = "CommandoVM Pre-Install Checks"
+    $CommandoChecksManager.TopMost   = $true
+    $CommandoChecksManager.Icon      = $icon
+    $CommandoChecksManager.StartPosition = 'CenterScreen'
+    
+    $ChecksPanel                     = New-Object system.Windows.Forms.Panel
+    $ChecksPanel.height              = 274
+    $ChecksPanel.width               = 89
+    $ChecksPanel.location            = New-Object System.Drawing.Point(365,8)
+    
+    $InstallChecksGroup              = New-Object system.Windows.Forms.Groupbox
+    $InstallChecksGroup.height       = 289
+    $InstallChecksGroup.width        = 462
+    $InstallChecksGroup.text         = "Installation Checks"
+    $InstallChecksGroup.location     = New-Object System.Drawing.Point(23,14)
+    
+    ################################# Check Labels #################################
+
+    $RunningAsAdminLabel             = New-Object system.Windows.Forms.Label
+    $RunningAsAdminLabel.text        = "Running as Administrator"
+    $RunningAsAdminLabel.AutoSize    = $true
+    $RunningAsAdminLabel.width       = 25
+    $RunningAsAdminLabel.height      = 10
+    $RunningAsAdminLabel.location    = New-Object System.Drawing.Point(15,18)
+    $RunningAsAdminLabel.Font        = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $ExecutionPolicyLabel            = New-Object system.Windows.Forms.Label
+    $ExecutionPolicyLabel.text       = "Execution Policy Unrestricted"
+    $ExecutionPolicyLabel.AutoSize   = $true
+    $ExecutionPolicyLabel.width      = 25
+    $ExecutionPolicyLabel.height     = 10
+    $ExecutionPolicyLabel.location   = New-Object System.Drawing.Point(15,59)
+    $ExecutionPolicyLabel.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $TamperProtectionLabel           = New-Object system.Windows.Forms.Label
+    $TamperProtectionLabel.text      = "Tamper Protection Disabled"
+    $TamperProtectionLabel.AutoSize  = $true
+    $TamperProtectionLabel.width     = 25
+    $TamperProtectionLabel.height    = 10
+    $TamperProtectionLabel.location  = New-Object System.Drawing.Point(15,104)
+    $TamperProtectionLabel.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $WindowsReleaseLabel             = New-Object system.Windows.Forms.Label
+    $WindowsReleaseLabel.text        = "Compatible Windows Release"
+    $WindowsReleaseLabel.AutoSize    = $true
+    $WindowsReleaseLabel.width       = 25
+    $WindowsReleaseLabel.height      = 10
+    $WindowsReleaseLabel.location    = New-Object System.Drawing.Point(15,149)
+    $WindowsReleaseLabel.Font        = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $RunningVMLabel                  = New-Object system.Windows.Forms.Label
+    $RunningVMLabel.text             = "Running in a Virtual Machine"
+    $RunningVMLabel.AutoSize         = $true
+    $RunningVMLabel.width            = 25
+    $RunningVMLabel.height           = 10
+    $RunningVMLabel.location         = New-Object System.Drawing.Point(15,193)
+    $RunningVMLabel.Font             = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $EnoughHardStorageLabel          = New-Object system.Windows.Forms.Label
+    $EnoughHardStorageLabel.text     = "Enough Hard Drive Space"
+    $EnoughHardStorageLabel.AutoSize  = $true
+    $EnoughHardStorageLabel.width    = 25
+    $EnoughHardStorageLabel.height   = 10
+    $EnoughHardStorageLabel.location  = New-Object System.Drawing.Point(15,239)
+    $EnoughHardStorageLabel.Font     = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+
+    ################################# Check Boolean Controls #################################
+    
+    $RunningAsAdmin                  = New-Object system.Windows.Forms.Label
+    $RunningAsAdmin.text             = "False"
+    $RunningAsAdmin.AutoSize         = $true
+    $RunningAsAdmin.width            = 25
+    $RunningAsAdmin.height           = 10
+    $RunningAsAdmin.location         = New-Object System.Drawing.Point(24,18)
+    $RunningAsAdmin.Font             = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $RunningAsAdmin.ForeColor        = $errorColor
+    
+    $ExecutionPolicy                 = New-Object system.Windows.Forms.Label
+    $ExecutionPolicy.text            = "False"
+    $ExecutionPolicy.AutoSize        = $true
+    $ExecutionPolicy.width           = 25
+    $ExecutionPolicy.height          = 10
+    $ExecutionPolicy.location        = New-Object System.Drawing.Point(24,63)
+    $ExecutionPolicy.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $ExecutionPolicy.ForeColor       = $errorColor
+    
+    $TamperProtection                = New-Object system.Windows.Forms.Label
+    $TamperProtection.text           = "False"
+    $TamperProtection.AutoSize       = $true
+    $TamperProtection.width          = 25
+    $TamperProtection.height         = 10
+    $TamperProtection.location       = New-Object System.Drawing.Point(24,108)
+    $TamperProtection.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $TamperProtection.ForeColor      = $errorColor
+    
+    $WindowsRelease                  = New-Object system.Windows.Forms.Label
+    $WindowsRelease.text             = "False"
+    $WindowsRelease.AutoSize         = $true
+    $WindowsRelease.width            = 25
+    $WindowsRelease.height           = 10
+    $WindowsRelease.location         = New-Object System.Drawing.Point(24,150)
+    $WindowsRelease.Font             = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $WindowsRelease.ForeColor        = $errorColor
+    
+    $RunningVM                       = New-Object system.Windows.Forms.Label
+    $RunningVM.text                  = "False"
+    $RunningVM.AutoSize              = $true
+    $RunningVM.width                 = 25
+    $RunningVM.height                = 10
+    $RunningVM.location              = New-Object System.Drawing.Point(24,195)
+    $RunningVM.Font                  = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $RunningVM.ForeColor             = $errorColor
+    
+    $EnoughHardStorage               = New-Object system.Windows.Forms.Label
+    $EnoughHardStorage.text          = "False"
+    $EnoughHardStorage.AutoSize      = $true
+    $EnoughHardStorage.width         = 25
+    $EnoughHardStorage.height        = 10
+    $EnoughHardStorage.location      = New-Object System.Drawing.Point(24,241)
+    $EnoughHardStorage.Font          = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $EnoughHardStorage.ForeColor     = $errorColor
+    
+    ################################# Check Tooltip Controls #################################
+
+    $RunningVMTooltip                = New-Object system.Windows.Forms.Label
+    $RunningVMTooltip.text           = "Only run this script inside a Virtual Machine"
+    $RunningVMTooltip.AutoSize       = $true
+    $RunningVMTooltip.width          = 25
+    $RunningVMTooltip.height         = 10
+    $RunningVMTooltip.location       = New-Object System.Drawing.Point(15,219)
+    $RunningVMTooltip.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $RunningVMTooltip.ForeColor      = $grayedColor
+    
+    $WindowsReleaseTooltip           = New-Object system.Windows.Forms.Label
+    $WindowsReleaseTooltip.text      = "Ensure your Windows version is supported"
+    $WindowsReleaseTooltip.AutoSize  = $true
+    $WindowsReleaseTooltip.width     = 25
+    $WindowsReleaseTooltip.height    = 10
+    $WindowsReleaseTooltip.location  = New-Object System.Drawing.Point(15,175)
+    $WindowsReleaseTooltip.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $WindowsReleaseTooltip.ForeColor  = $grayedColor
+    
+    $TamperProtectionTooltip            = New-Object system.Windows.Forms.Label
+    $TamperProtectionTooltip.text       = "Disable Tamper Protection in Windows Defender"
+    $TamperProtectionTooltip.AutoSize   = $true
+    $TamperProtectionTooltip.width      = 25
+    $TamperProtectionTooltip.height     = 10
+    $TamperProtectionTooltip.location   = New-Object System.Drawing.Point(15,130)
+    $TamperProtectionTooltip.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $TamperProtectionTooltip.ForeColor  = $grayedColor
+    
+    $ExecutionPolicyTooltip             = New-Object system.Windows.Forms.Label
+    $ExecutionPolicyTooltip.text        = "PowerShell: Set-ExecutionPolicy Unrestricted"
+    $ExecutionPolicyTooltip.AutoSize    = $true
+    $ExecutionPolicyTooltip.width       = 25
+    $ExecutionPolicyTooltip.height      = 10
+    $ExecutionPolicyTooltip.location    = New-Object System.Drawing.Point(15,85)
+    $ExecutionPolicyTooltip.Font        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $ExecutionPolicyTooltip.ForeColor   = $grayedColor
+    
+    $RunningAsAdminTooltip              = New-Object system.Windows.Forms.Label
+    $RunningAsAdminTooltip.text         = "Please run this script as Administrator"
+    $RunningAsAdminTooltip.AutoSize     = $true
+    $RunningAsAdminTooltip.width        = 25
+    $RunningAsAdminTooltip.height       = 10
+    $RunningAsAdminTooltip.location     = New-Object System.Drawing.Point(15,41)
+    $RunningAsAdminTooltip.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $RunningAsAdminTooltip.ForeColor    = $grayedColor
+    
+    $EnoughHardStorageTooltip           = New-Object system.Windows.Forms.Label
+    $EnoughHardStorageTooltip.text      = "Have at least 70GB of available storage"
+    $EnoughHardStorageTooltip.AutoSize  = $true
+    $EnoughHardStorageTooltip.width     = 25
+    $EnoughHardStorageTooltip.height    = 10
+    $EnoughHardStorageTooltip.location  = New-Object System.Drawing.Point(15,266)
+    $EnoughHardStorageTooltip.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $EnoughHardStorageTooltip.ForeColor = $grayedColor
+
+    ################################# Check Completion Controls #################################
+
+    $BreakMyInstallCheckbox          = New-Object system.Windows.Forms.CheckBox
+    $BreakMyInstallCheckbox.text     = "I understand that continuing without satisfying all"
+    $BreakMyInstallCheckbox.AutoSize = $false
+    $BreakMyInstallCheckbox.width    = 324
+    $BreakMyInstallCheckbox.height   = 21
+    $BreakMyInstallCheckbox.location = New-Object System.Drawing.Point(30,319)
+    $BreakMyInstallCheckbox.Font     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $BreakMyInstallCheckbox.Add_CheckStateChanged({
+        if ($BreakMyInstallCheckbox.Checked) {
+            $ChecksCompleteButton.enabled = $true
+        } else {
+            $ChecksCompleteButton.enabled = $false
+        }
+    })
+
+    $BreakMyInstallLabel             = New-Object system.Windows.Forms.Label
+    $BreakMyInstallLabel.text        = "pre-install checks will almost guarantee my install to fail"
+    $BreakMyInstallLabel.AutoSize    = $true
+    $BreakMyInstallLabel.width       = 25
+    $BreakMyInstallLabel.height      = 10
+    $BreakMyInstallLabel.location    = New-Object System.Drawing.Point(30,338)
+    $BreakMyInstallLabel.Font        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+    $ChecksCompleteButton            = New-Object system.Windows.Forms.Button
+    $ChecksCompleteButton.text       = "Continue"
+    $ChecksCompleteButton.width      = 97
+    $ChecksCompleteButton.height     = 37
+    $ChecksCompleteButton.enabled    = $false
+    $ChecksCompleteButton.location   = New-Object System.Drawing.Point(387,315)
+    $ChecksCompleteButton.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+    $ChecksCompleteButton.Add_Click({
+        $global:checksPassed = $true
+        [void]$CommandoChecksManager.Close()
+    })
+
+    $InstallChecksGroup.controls.AddRange(@($ChecksPanel,$RunningAsAdminLabel,$ExecutionPolicyLabel,$TamperProtectionLabel,$WindowsReleaseLabel,$RunningVMLabel,$RunningAsAdminTooltip,$ExecutionPolicyTooltip,$TamperProtectionTooltip,$WindowsReleaseTooltip,$RunningVMTooltip,$EnoughHardStorageLabel, $EnoughHardStorageTooltip,$RunningAsAdmin,$EnoughHardStorage))
+    $CommandoChecksManager.controls.AddRange(@($InstallChecksGroup,$ChecksCompleteButton,$BreakMyInstallCheckbox,$BreakMyInstallLabel))
+    $ChecksPanel.controls.AddRange(@($RunningAsAdmin, $ExecutionPolicy,$TamperProtection,$WindowsRelease,$RunningVM, $EnoughHardStorage))
+
+    #################################################################################################
     ################################# Main Installer Form Controls ##################################
     #################################################################################################
 
     $CommandoInstaller               = New-Object system.Windows.Forms.Form
     $CommandoInstaller.ClientSize    = New-Object System.Drawing.Point(693,574)
     $CommandoInstaller.text          = "CommandoVM Installer"
-    $CommandoInstaller.TopMost       = $false
+    $CommandoInstaller.TopMost       = $true
+    $CommandoInstaller.StartPosition = 'CenterScreen'
     $CommandoInstaller.Icon          = $icon
 
     $CommandoLogo                    = New-Object system.Windows.Forms.PictureBox
@@ -249,7 +474,8 @@ if (-not $noGui.IsPresent) {
     $CommandoProfileManager          = New-Object system.Windows.Forms.Form
     $CommandoProfileManager.ClientSize  = New-Object System.Drawing.Point(660,651)
     $CommandoProfileManager.text     = "CommandoVM Profile Manager"
-    $CommandoProfileManager.TopMost  = $false
+    $CommandoProfileManager.TopMost  = $true
+    $CommandoProfileManager.StartPosition = 'CenterScreen'
     $CommandoProfileManager.Icon     = $icon
 
     ################################# Profile Manager Preset Selector Controls #################################
@@ -354,6 +580,14 @@ if (-not $noGui.IsPresent) {
     $RemoveAllPackagesButton.location  = New-Object System.Drawing.Point(260,254)
     $RemoveAllPackagesButton.Font    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
     $RemoveAllPackagesButton.Add_Click({Remove-AllPackages})
+
+    $AddChocoPackageButton               = New-Object system.Windows.Forms.Button
+    $AddChocoPackageButton.text          = "Add Choco Package"
+    $AddChocoPackageButton.width         = 150
+    $AddChocoPackageButton.height        = 25
+    $AddChocoPackageButton.location      = New-Object System.Drawing.Point(396,336)
+    $AddChocoPackageButton.Font          = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $AddChocoPackageButton.Add_Click({Open-AddChocoPackage})
 
     ################################# Profile Manager Package Count Labels #################################
 
@@ -472,13 +706,259 @@ if (-not $noGui.IsPresent) {
     ################################# Profile Manager Form Constructor #################################
 
     $CommandoProfileManager.controls.AddRange(@($PackageInstallationGroup,$DoneButton,$SaveProfileButton,$ResetProfileButton,$PackageInformationGroup))
-    $PackageInstallationGroup.controls.AddRange(@($SelectedPackagesLabel,$PresetSelectorLabel,$AddPackageButton,$AddAllPackagesButton,$RemovePackageButton,$RemoveAllPackagesButton,$PresetSelector,$AvailablePackagesLabel,$availableCountLabel,$selectedCountLabel,$SelectedPackagesList,$AvailablePackagesList))
+    $PackageInstallationGroup.controls.AddRange(@($SelectedPackagesLabel,$PresetSelectorLabel,$AddPackageButton,$AddAllPackagesButton,$RemovePackageButton,$RemoveAllPackagesButton,$PresetSelector,$AvailablePackagesLabel,$availableCountLabel,$selectedCountLabel,$SelectedPackagesList,$AvailablePackagesList,$AddChocoPackageButton))
     $PackageInformationGroup.controls.AddRange(@($AuthorsLabel,$Description,$DescriptionLabel,$VersionLabel,$Authors,$Version))
+
+    #################################################################################################
+    ################################# Password Entry Form Controls ##################################
+    #################################################################################################
+
+    $CommandoPasswordManager         = New-Object system.Windows.Forms.Form
+    $CommandoPasswordManager.ClientSize  = New-Object System.Drawing.Point(400,270)
+    $CommandoPasswordManager.text    = "CommandoVM Boxstarter Password"
+    $CommandoPasswordManager.TopMost  = $true
+    $CommandoPasswordManager.StartPosition = 'CenterScreen'
+
+    $PasswordOKButton                = New-Object system.Windows.Forms.Button
+    $PasswordOKButton.text           = "OK"
+    $PasswordOKButton.DialogResult   = [System.Windows.Forms.DialogResult]::OK
+    $PasswordOKButton.width          = 95
+    $PasswordOKButton.height         = 28
+    $PasswordOKButton.location       = New-Object System.Drawing.Point(153,230)
+    $PasswordOKButton.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+    $PasswordInfoLabel               = New-Object system.Windows.Forms.Label
+    $PasswordInfoLabel.text          = "CommandoVM uses Boxstarter to automatically reboot the system and continue package installation. Boxstarter requires user credentials to automatically login and continue the install."
+    $PasswordInfoLabel.AutoSize      = $true
+    $PasswordInfoLabel.Visible       = $false
+    $PasswordInfoLabel.MaximumSize   = New-Object System.Drawing.Size(350, 0)
+    $PasswordInfoLabel.location      = New-Object System.Drawing.Point(11,46)
+    $PasswordInfoLabel.Font          = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+    $PasswordInfoHeadingLabel        = New-Object system.Windows.Forms.Label
+    $PasswordInfoHeadingLabel.text   = "Why is my password required?"
+    $PasswordInfoHeadingLabel.AutoSize  = $true
+    $PasswordInfoHeadingLabel.width  = 25
+    $PasswordInfoHeadingLabel.height  = 10
+    $PasswordInfoHeadingLabel.location  = New-Object System.Drawing.Point(11,19)
+    $PasswordInfoHeadingLabel.Font   = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+
+    $PasswordInfoBoxstarterLabel     = New-Object system.Windows.Forms.Label
+    $PasswordInfoBoxstarterLabel.text  = "Learn more at:"
+    $PasswordInfoBoxstarterLabel.AutoSize  = $true
+    $PasswordInfoBoxstarterLabel.width  = 25
+    $PasswordInfoBoxstarterLabel.height  = 10
+    $PasswordInfoBoxstarterLabel.location  = New-Object System.Drawing.Point(11,117)
+    $PasswordInfoBoxstarterLabel.Font  = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+    $PasswordInfoBoxstarterLinkLabel   = New-Object system.Windows.Forms.Label
+    $PasswordInfoBoxstarterLinkLabel.text  = "https://boxstarter.org/installingpackages"
+    $PasswordInfoBoxstarterLinkLabel.AutoSize  = $true
+    $PasswordInfoBoxstarterLinkLabel.width  = 25
+    $PasswordInfoBoxstarterLinkLabel.height  = 10
+    $PasswordInfoBoxstarterLinkLabel.location  = New-Object System.Drawing.Point(104,117)
+    $PasswordInfoBoxstarterLinkLabel.Font  = New-Object System.Drawing.Font('Microsoft Sans Serif',10,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Underline))
+
+    $PasswordTextBox                 = New-Object system.Windows.Forms.TextBox
+    $PasswordTextBox.multiline       = $false
+    $PasswordTextBox.width           = 226
+    $PasswordTextBox.height          = 20
+    $PasswordTextBox.UseSystemPasswordChar = $True
+    $PasswordTextBox.location        = New-Object System.Drawing.Point(89,195)
+    $PasswordTextBox.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+
+    $PasswordEntryLabel              = New-Object system.Windows.Forms.Label
+    $PasswordEntryLabel.text         = "Enter your user password:"
+    $PasswordEntryLabel.AutoSize     = $true
+    $PasswordEntryLabel.width        = 25
+    $PasswordEntryLabel.height       = 10
+    $PasswordEntryLabel.location     = New-Object System.Drawing.Point(124,171)
+    $PasswordEntryLabel.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+    $PasswordInfoGroup               = New-Object system.Windows.Forms.Groupbox
+    $PasswordInfoGroup.height        = 145
+    $PasswordInfoGroup.width         = 380
+    $PasswordInfoGroup.text          = "About"
+    $PasswordInfoGroup.location      = New-Object System.Drawing.Point(10,17)
+
+    $CommandoPasswordManager.controls.AddRange(@($PasswordOKButton,$PasswordTextBox,$PasswordEntryLabel,$PasswordInfoGroup))
+    $PasswordInfoGroup.controls.AddRange(@($PasswordInfoLabel,$PasswordInfoHeadingLabel,$PasswordInfoBoxstarterLabel,$PasswordInfoBoxstarterLinkLabel))
+
+    #################################################################################################
+    ################################# Chocolatey Package Dialog Box #################################
+    #################################################################################################
+
+    $ChocoDialogBox = New-Object System.Windows.Forms.Form
+    $ChocoDialogBox.Text = 'Add Chocolatey Package'
+    $ChocoDialogBox.Size = New-Object System.Drawing.Size(300,200)
+    $ChocoDialogBox.StartPosition = 'CenterScreen'
+
+    $ChocoAddlabel = New-Object System.Windows.Forms.Label
+    $ChocoAddlabel.Location = New-Object System.Drawing.Point(10,20)
+    $ChocoAddlabel.Size = New-Object System.Drawing.Size(280,20)
+    $ChocoAddlabel.Text = 'Enter the Chocolatey package name:'
+
+    $ChocoAddSelection = New-Object System.Windows.Forms.TextBox
+    $ChocoAddSelection.Location = New-Object System.Drawing.Point(10,50)
+    $ChocoAddSelection.Size = New-Object System.Drawing.Size(260,20)
+
+    $ChocoAddOkButton = New-Object System.Windows.Forms.Button
+    $ChocoAddOkButton.Location = New-Object System.Drawing.Point(70,80)
+    $ChocoAddOkButton.Size = New-Object System.Drawing.Size(75,23)
+    $ChocoAddOkButton.Text = 'OK'
+    $ChocoAddOkButton.DialogResult = 'OK'
+
+    $ChocoAddCancelButton = New-Object System.Windows.Forms.Button
+    $ChocoAddCancelButton.Location = New-Object System.Drawing.Point(150,80)
+    $ChocoAddCancelButton.Size = New-Object System.Drawing.Size(75,23)
+    $ChocoAddCancelButton.Text = 'Cancel'
+    $ChocoAddCancelButton.DialogResult = 'Cancel'
+
+    $ChocoDialogBox.Controls.AddRange(@($ChocoAddlabel,$ChocoAddSelection,$ChocoAddOkButton,$ChocoAddCancelButton,$cancelButton))
 }
 
 #################################################################################################
+#################################################################################################
 ###################################### Installer Functions ######################################
 #################################################################################################
+#################################################################################################
+
+################################# Functions that conduct Pre-Install Checks #################################
+
+function Check-Admin {
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        return $false
+    } else {
+        return $true
+    }
+}
+function Check-ExecutionPolicy {
+    if ((Get-ExecutionPolicy).ToString() -ne "Unrestricted") {
+        return $false
+    } else {
+        return $true
+    }
+}
+function Check-TamperProtection {
+    if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
+        if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -eq 5) {
+            return $false
+        } else {
+            return $true
+        }
+    }
+}
+function Check-SupportedOS {
+    $osVersion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
+    $testedVersions = @(17763, 19042)
+    if ($osVersion -notin $testedVersions) {
+        return $false
+    } else {
+        return $true
+    }
+}
+function Check-VM {
+    $virtualModels = @('VirtualBox', 'VMware', 'Virtual Machine', 'Hyper-V')
+    $computerSystemModel = (Get-WmiObject win32_computersystem).model
+    $isVirtualModel = $false
+    
+    foreach ($model in $virtualModels) {
+        if ($computerSystemModel.Contains($model)) {
+            $isVirtualModel = $true
+            break
+        }
+    }
+
+    if (!$isVirtualModel) {
+        return $false
+    } else {
+        return $true
+    }
+}
+function Check-Storage {
+    $disk = Get-PSDrive (Get-Location).Drive.Name
+    Start-Sleep -Seconds 1
+    if (-Not (($disk.used + $disk.free)/1GB -gt 68.8)) {
+        return $false
+    } else {
+        return $true
+    }
+}
+
+################################# Functions that change pre-install check configs #################################
+
+function Check-ChocoBoxstarterVersions {
+    $boxstarterVersionGood = $false
+    $chocolateyVersionGood = $false
+    if(${Env:ChocolateyInstall} -and (Test-Path "${Env:ChocolateyInstall}\bin\choco.exe")) {
+        $chocoVersion = choco --version
+        $chocolateyVersionGood = [System.Version]$chocoVersion -ge [System.Version]"0.10.13"
+        choco info -l -r "boxstarter" | ForEach-Object { $name, $chocoVersion = $_ -split '\|' }
+        $boxstarterVersionGood = [System.Version]$chocoVersion -ge [System.Version]"3.0.0"
+        if ($chocolateyVersionGood -and $boxstarterVersionGood) {
+            return $true
+        } else {
+            return $false
+        }
+    } else {
+        return $false
+    }
+}
+
+function Check-ChocoBoxstarterInstalls {
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1'))
+    Get-Boxstarter -Force
+
+    # Fix verbosity issues with Boxstarter v3
+    # See: https://github.com/chocolatey/boxstarter/issues/501
+    $fileToFix = "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\Chocolatey.ps1"
+    $offendingString = 'if ($val -is [string] -or $val -is [boolean]) {'
+    if ((Get-Content $fileToFix -raw) -contains $offendingString) {
+        $fixString = 'if ($val -is [string] -or $val -is [boolean] -or $val -is [system.management.automation.actionpreference]) {'
+        ((Get-Content $fileToFix -raw) -replace [regex]::escape($offendingString),$fixString) | Set-Content $fileToFix
+    }
+    $fileToFix = "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\invoke-chocolatey.ps1"
+    $offendingString = 'Verbose           = $VerbosePreference'
+    if ((Get-Content $fileToFix -raw) -contains $offendingString) {
+        $fixString = 'Verbose           = ($global:VerbosePreference -eq "Continue")'
+        ((Get-Content $fileToFix -raw) -replace [regex]::escape($offendingString),$fixString) | Set-Content $fileToFix
+    }
+}
+function Check-BoxstarterConfig {
+    $Boxstarter.RebootOk = (-not $noReboots.IsPresent)
+    if ($global:boxstarterPassword -eq "") {
+        $Boxstarter.NoPassword = $true
+    } else {
+        $Boxstarter.NoPassword = $false
+    }
+    $Boxstarter.AutoLogin = $true
+    $Boxstarter.SuppressLogging = $True
+    $global:VerbosePreference = "SilentlyContinue"
+    Set-BoxstarterConfig -NugetSources "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2;https://chocolatey.org/api/v2"
+    Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitleBar
+}
+
+function Check-ChocoConfig {
+    choco sources add -n="vm-packages" -s "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2" --priority 1
+    choco feature enable -n allowGlobalConfirmation
+    choco feature enable -n allowEmptyChecksums
+    $cache = "${Env:LocalAppData}\ChocoCache"
+    New-Item -Path $cache -ItemType directory -Force | Out-Null
+    choco config set cacheLocation $cache
+}
+
+function Check-PowerOptions {
+    powercfg -change -monitor-timeout-ac 0 | Out-Null
+    powercfg -change -monitor-timeout-dc 0 | Out-Null
+    powercfg -change -disk-timeout-ac 0 | Out-Null
+    powercfg -change -disk-timeout-dc 0 | Out-Null
+    powercfg -change -standby-timeout-ac 0 | Out-Null
+    powercfg -change -standby-timeout-dc 0 | Out-Null
+    powercfg -change -hibernate-timeout-ac 0 | Out-Null
+    powercfg -change -hibernate-timeout-dc 0 | Out-Null
+}
 
 ################################# Functions that Get Profiles and Packages #################################
 
@@ -569,6 +1049,34 @@ function Get-AvailablePackages {
     }
 
     return $packages
+}
+
+function Get-ChocoPackage {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$PackageName
+    )
+
+    try {
+        # Call Chocolatey API to get package metadata
+        $response = Invoke-RestMethod -Uri ('https://community.chocolatey.org/api/v2/Packages()?$filter=Id%20eq%20%27' + $PackageName + '%27&$orderby=Version%20desc&$top=1')
+
+        return [PSCustomObject]@{
+            PackageName = $PackageName
+            PackageAuthor = $response.author.name
+            PackageVersion = $response.properties.version
+            PackageSummary = $response.summary.InnerText
+        }
+    }
+    catch {
+        # In case of error, return a package with 'N/A' values
+        return [PSCustomObject]@{
+            PackageName = $PackageName
+            PackageAuthor = "N/A"
+            PackageVersion = "N/A"
+            PackageSummary = "N/A"
+        }
+    }
 }
 
 ################################# Functions that Set GUI Controls #################################
@@ -755,33 +1263,40 @@ function Install-Profile {
         [string]$ProfileName
     )
 
-    try {
-        Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
-        choco install common.vm -y --force
-        refreshenv
-
-        $PackageName = "flarevm.installer.vm"
-
-        $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
-        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
-
-        if (Test-Path $profilePath) {
-            Copy-Item $profilePath $destinationPath -Force
-            Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
-        } else {
-            Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
+    if (Open-PasswordEntry) {
+        try {
+            Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
+            choco install common.vm -y --force
+            refreshenv
+    
+            $PackageName = "flarevm.installer.vm"
+    
+            $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
+            $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
+    
+            if (Test-Path $profilePath) {
+                Copy-Item $profilePath $destinationPath -Force
+                Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
+            } else {
+                Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
+            }
+    
+            Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
+            Install-BoxstarterPackage -PackageName $PackageName
         }
-
-        Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
-        Install-BoxstarterPackage -PackageName $PackageName
-    }
-    catch {
-        Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
-        Write-Host $_.Exception.Message -ForegroundColor Red
+        catch {
+            Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
+            Write-Host $_.Exception.Message -ForegroundColor Red
+        }
     }
 }
 
 ################################# Functions that Open GUI Windows #################################
+
+function Open-CheckManager {
+
+    [void]$CommandoChecksManager.ShowDialog()
+}
 
 function Open-Installer {
 
@@ -814,248 +1329,107 @@ function Open-ProfileManager {
     [void]$CommandoProfileManager.ShowDialog()
 }
 
+function Open-AddChocoPackage {
+
+    Write-Host "Not implemented yet"
+}
+
+function Open-PasswordEntry {
+    $PasswordInfoLabel.Visible = $true
+    if ($CommandoPasswordManager.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK)
+    {
+        $Password = $PasswordTextBox.Text
+        $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
+        $global:credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:username, $SecurePassword
+        return $true
+    } else {
+        return $false
+    }
+}
+
+#################################################################################################
 #################################################################################################
 ###################################### Installer Workflows ######################################
 #################################################################################################
+#################################################################################################
 
-# Fetch profiles and packages
-$global:profileData = Get-ProfileData
-$global:packageData = Get-AvailablePackages
+# Setting global variables
+$global:checksPassed = $false
 $global:selectedProfile = "Default"
-
-################################# Checks Workflow #################################
-
-if (-not $noChecks.IsPresent) {
-    # Ensure script is ran as administrator
-    Write-Host "[+] Checking if script is running as administrator..."
-    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-    if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-        Write-Host "`t[!] Please run this script as administrator" -ForegroundColor Red
-        Read-Host "Press any key to exit..."
-        exit 1
-    } else {
-        Write-Host "`t[+] Running as administrator" -ForegroundColor Green
-        Start-Sleep -Milliseconds 500
-    }
-
-    # Ensure execution policy is unrestricted
-    Write-Host "[+] Checking if execution policy is unrestricted..."
-    if ((Get-ExecutionPolicy).ToString() -ne "Unrestricted") {
-        Write-Host "`t[!] Please run this script after updating your execution policy to unrestricted" -ForegroundColor Red
-        Write-Host "`t[-] Hint: Set-ExecutionPolicy Unrestricted" -ForegroundColor Yellow
-        Read-Host "Press any key to exit..."
-        exit 1
-    } else {
-        Write-Host "`t[+] Execution policy is unrestricted" -ForegroundColor Green
-        Start-Sleep -Milliseconds 500
-    }
-
-    # Check if Tamper Protection is disabled
-    Write-Host "[+] Checking if Windows Defender Tamper Protection is disabled..."
-    if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
-        if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -eq 5) {
-            Write-Host "`t[!] Please disable Tamper Protection, reboot, and rerun installer" -ForegroundColor Red
-            Write-Host "`t[+] Hint: https://support.microsoft.com/en-us/windows/prevent-changes-to-security-settings-with-tamper-protection-31d51aaa-645d-408e-6ce7-8d7f8e593f87" -ForegroundColor Yellow
-            Write-Host "`t[+] Hint: https://www.tenforums.com/tutorials/123792-turn-off-tamper-protection-windows-defender-antivirus.html" -ForegroundColor Yellow
-            Write-Host "`t[+] Hint: https://github.com/jeremybeaume/tools/blob/master/disable-defender.ps1" -ForegroundColor Yellow
-            Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
-            Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
-            $response = Read-Host
-            if ($response -notin @("y","Y")) {
-                exit 1
-            }
-        } else {
-            Write-Host "`t[+] Tamper Protection is disabled" -ForegroundColor Green
-            Start-Sleep -Milliseconds 500
-        }
-    }
-
-    # Check if Defender is disabled
-    Write-Host "[+] Checking if Windows Defender service is disabled..."
-    $defender = Get-Service -Name WinDefend -ea 0
-    if ($null -ne $defender) {
-        if ($defender.Status -eq "Running") {
-            Write-Host "`t[!] Please disable Windows Defender through Group Policy, reboot, and rerun installer" -ForegroundColor Red
-            Write-Host "`t[+] Hint: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo" -ForegroundColor Yellow
-            Write-Host "`t[+] Hint: https://www.windowscentral.com/how-permanently-disable-windows-defender-windows-10" -ForegroundColor Yellow
-            Write-Host "`t[+] Hint: https://github.com/jeremybeaume/tools/blob/master/disable-defender.ps1" -ForegroundColor Yellow
-            Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
-            Write-Host "`t[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
-            $response = Read-Host
-            if ($response -notin @("y","Y")) {
-                exit 1
-            }
-        } else {
-            Write-Host "`t[+] Defender is disabled" -ForegroundColor Green
-            Start-Sleep -Milliseconds 500
-        }
-    }
-
-    # Check if Windows 7
-    Write-Host "[+] Checking to make sure Operating System is compatible..."
-    if ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601") {
-        Write-Host "`t[!] Windows 7 is no longer supported / tested" -ForegroundColor Yellow
-        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
-        $response = Read-Host
-        if ($response -notin @("y","Y")) {
-            exit 1
-        }
-    }
-
-    # Check if host has been tested
-    $osVersion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
-    $testedVersions = @(17763, 19042)
-    if ($osVersion -notin $testedVersions) {
-        Write-Host "`t[!] Windows version $osVersion has not been tested. Tested versions: $($testedVersions -join ', ')" -ForegroundColor Yellow
-        Write-Host "`t[+] You are welcome to continue, but may experience errors downloading or installing packages" -ForegroundColor Yellow
-        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
-        $response = Read-Host
-        if ($response -notin @("y","Y")) {
-            exit 1
-        }
-    } else {
-        Write-Host "`t[+] Installing on Windows version $osVersion" -ForegroundColor Green
-    }
-
-    # Check if host has enough disk space
-    Write-Host "[+] Checking if host has enough disk space..."
-    $disk = Get-PSDrive (Get-Location).Drive.Name
-    Start-Sleep -Seconds 1
-    if (-Not (($disk.used + $disk.free)/1GB -gt 58.8)) {
-        Write-Host "`t[!] A minimum of 60 GB hard drive space is preferred. Please increase hard drive space of the VM, reboot, and retry install" -ForegroundColor Red
-        Write-Host "`t[+] If you have multiple drives, you may change the tool installation location via the envrionment variable %RAW_TOOLS_DIR% in config.xml or GUI" -ForegroundColor Yellow
-        Write-Host "`t[+] However, packages provided from the Chocolatey community repository will install to their default location" -ForegroundColor Yellow
-        Write-Host "`t[+] See: https://stackoverflow.com/questions/19752533/how-do-i-set-chocolatey-to-install-applications-onto-another-drive" -ForegroundColor Yellow
-        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
-        $response = Read-Host
-        if ($response -notin @("y","Y")) {
-            exit 1
-        }
-    } else {
-        Write-Host "`t[+] Disk is larger than 60 GB" -ForegroundColor Green
-    }
-
-    # Check if system is a virtual machine
-    $virtualModels = @('VirtualBox', 'VMware', 'Virtual Machine', 'Hyper-V')
-    $computerSystemModel = (Get-WmiObject win32_computersystem).model
-    $isVirtualModel = $false
-    
-    foreach ($model in $virtualModels) {
-        if ($computerSystemModel.Contains($model)) {
-            $isVirtualModel = $true
-            break
-        }
-    }
-
-    if (!$isVirtualModel) {
-        Write-Host "`t[!] You are not on a virual machine or have hardened your machine to not appear as a virtual machine" -ForegroundColor Red
-        Write-Host "`t[!] Please do NOT install this on your host system as it can't be uninstalled completely" -ForegroundColor Red
-        Write-Host "`t[!] ** Please only install on a virtual machine **" -ForegroundColor Red
-        Write-Host "`t[!] ** Only continue if you know what you are doing! **" -ForegroundColor Red
-        Write-Host "[-] Do you still wish to proceed? (Y/N): " -ForegroundColor Yellow -NoNewline
-        $response = Read-Host
-        if ($response -notin @("y","Y")) {
-            exit 1
-        }
-    }
-
-    # Prompt user to remind them to take a snapshot
-    Write-Host "[-] Have you taken a VM snapshot to ensure you can revert to pre-installation state? (Y/N): " -ForegroundColor Yellow -NoNewline
-    $response = Read-Host
-    if ($response -notin @("y","Y")) {
-        exit 1
-    }
-}
-
-################################# Password Workflow #################################
-
-if (-not $noPassword.IsPresent) {
-    # Get user credentials for autologin during reboots
-    if ([string]::IsNullOrEmpty($password)) {
-        Write-Host "[+] Getting user credentials ..."
-        Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds" -Name "ConsolePrompting" -Value $True
-        Start-Sleep -Milliseconds 500
-        $credentials = Get-Credential ${Env:username}
-    } else {
-        $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
-        $credentials = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList ${Env:username}, $securePassword
-    }
-}
-
-################################# Dependency Workflow #################################
-
-# Check Chocolatey and Boxstarter versions
-$boxstarterVersionGood = $false
-$chocolateyVersionGood = $false
-if(${Env:ChocolateyInstall} -and (Test-Path "${Env:ChocolateyInstall}\bin\choco.exe")) {
-    $chocoVersion = choco --version
-    $chocolateyVersionGood = [System.Version]$chocoVersion -ge [System.Version]"0.10.13"
-    choco info -l -r "boxstarter" | ForEach-Object { $name, $chocoVersion = $_ -split '\|' }
-    $boxstarterVersionGood = [System.Version]$chocoVersion -ge [System.Version]"3.0.0"
-}
-
-# Install Chocolatey and Boxstarter if needed
-if (-not ($chocolateyVersionGood -and $boxstarterVersionGood)) {
-    Write-Host "[+] Installing Boxstarter..." -ForegroundColor Cyan
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1'))
-    Get-Boxstarter -Force
-
-    # Fix verbosity issues with Boxstarter v3
-    # See: https://github.com/chocolatey/boxstarter/issues/501
-    $fileToFix = "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\Chocolatey.ps1"
-    $offendingString = 'if ($val -is [string] -or $val -is [boolean]) {'
-    if ((Get-Content $fileToFix -raw) -contains $offendingString) {
-        $fixString = 'if ($val -is [string] -or $val -is [boolean] -or $val -is [system.management.automation.actionpreference]) {'
-        ((Get-Content $fileToFix -raw) -replace [regex]::escape($offendingString),$fixString) | Set-Content $fileToFix
-    }
-    $fileToFix = "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\invoke-chocolatey.ps1"
-    $offendingString = 'Verbose           = $VerbosePreference'
-    if ((Get-Content $fileToFix -raw) -contains $offendingString) {
-        $fixString = 'Verbose           = ($global:VerbosePreference -eq "Continue")'
-        ((Get-Content $fileToFix -raw) -replace [regex]::escape($offendingString),$fixString) | Set-Content $fileToFix
-    }
-    Start-Sleep -Milliseconds 500
-}
-Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
-
-# Set Boxstarter options
-$Boxstarter.RebootOk = (-not $noReboots.IsPresent)
-$Boxstarter.NoPassword = $noPassword.IsPresent
-$Boxstarter.AutoLogin = $true
-$Boxstarter.SuppressLogging = $True
-$global:VerbosePreference = "SilentlyContinue"
-Set-BoxstarterConfig -NugetSources "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2;https://chocolatey.org/api/v2"
-Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitleBar
-
-# Set Chocolatey options
-Write-Host "[+] Updating Chocolatey settings..."
-choco sources add -n="vm-packages" -s "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2" --priority 1
-choco feature enable -n allowGlobalConfirmation
-choco feature enable -n allowEmptyChecksums
-$cache = "${Env:LocalAppData}\ChocoCache"
-New-Item -Path $cache -ItemType directory -Force | Out-Null
-choco config set cacheLocation $cache
-
-# Set power options to prevent installs from timing out
-powercfg -change -monitor-timeout-ac 0 | Out-Null
-powercfg -change -monitor-timeout-dc 0 | Out-Null
-powercfg -change -disk-timeout-ac 0 | Out-Null
-powercfg -change -disk-timeout-dc 0 | Out-Null
-powercfg -change -standby-timeout-ac 0 | Out-Null
-powercfg -change -standby-timeout-dc 0 | Out-Null
-powercfg -change -hibernate-timeout-ac 0 | Out-Null
-powercfg -change -hibernate-timeout-dc 0 | Out-Null
+$global:credentials = ""
 
 ################################# GUI Workflow #################################
 
 if (-not $noGui.IsPresent) {
 
-    # Draw the profile manager GUI
-    Open-Installer
-    $psProcess = [System.Diagnostics.Process]::GetCurrentProcess()
-    [System.Windows.Forms.SendKeys]::SendWait("%")
-    $psProcess.MainWindowHandle | Set-ForegroundWindow
+    if (-not $skipChecks.IsPresent) {
+
+        # Make sure that the user completed all pre-install steps
+        if (Check-Admin) {
+            $RunningAsAdmin.Text = "True"
+            $RunningAsAdmin.ForeColor = $successColor
+        } else {
+            $global:checksPassed = $false
+        }
+
+        if (Check-ExecutionPolicy) {
+            $ExecutionPolicy.Text = "True"
+            $ExecutionPolicy.ForeColor = $successColor
+        } else {
+            $global:checksPassed = $false
+        }
+
+        if (Check-TamperProtection) {
+            $TamperProtection.Text = "True"
+            $TamperProtection.ForeColor = $successColor
+        }
+
+        if (Check-SupportedOS) {
+            $WindowsRelease.Text = "True"
+            $WindowsRelease.ForeColor = $successColor
+        } else {
+            $global:checksPassed = $false
+        }
+
+        if (Check-VM) {
+            $RunningVM.Text = "True"
+            $RunningVM.ForeColor = $successColor
+        } else {
+            $global:checksPassed = $false
+        }
+
+        if (Check-Storage) {
+            $EnoughHardStorage.Text = "True"
+            $EnoughHardStorage.ForeColor = $successColor
+        } else {
+            $global:checksPassed = $false
+        }
+
+        if ($global:checksPassed) {
+            $ChecksCompleteButton.enabled = $true
+        }
+
+        Open-CheckManager
+    }
+    
+    if ($global:checksPassed -or $skipChecks.IsPresent) {
+
+        # Ensure Chocolatey and Boxstarter are setup and configured
+        if (Check-ChocoBoxstarterVersions) {
+            Check-ChocoBoxstarterInstalls
+        }
+        Check-BoxstarterConfig
+        Check-ChocoConfig
+        Check-PowerOptions
+        Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
+
+        # Fetch profiles and packages once we are done configuring and checking everything
+        $global:profileData = Get-ProfileData
+        $global:packageData = Get-AvailablePackages
+
+        $PasswordInfoLabel.Visible
+        Open-Installer
+    }
 }
 
 ################################# CLI Workflow #################################
