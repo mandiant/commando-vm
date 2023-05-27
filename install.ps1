@@ -82,13 +82,13 @@ if (-not $noGui.IsPresent) {
     $ExecutionPolicyLabel.location   = New-Object System.Drawing.Point(15,59)
     $ExecutionPolicyLabel.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     
-    $TamperProtectionLabel           = New-Object system.Windows.Forms.Label
-    $TamperProtectionLabel.text      = "Tamper Protection Disabled"
-    $TamperProtectionLabel.AutoSize  = $true
-    $TamperProtectionLabel.width     = 25
-    $TamperProtectionLabel.height    = 10
-    $TamperProtectionLabel.location  = New-Object System.Drawing.Point(15,104)
-    $TamperProtectionLabel.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $WindowsDefenderLabel           = New-Object system.Windows.Forms.Label
+    $WindowsDefenderLabel.text      = "Tamper Protection Disabled"
+    $WindowsDefenderLabel.AutoSize  = $true
+    $WindowsDefenderLabel.width     = 25
+    $WindowsDefenderLabel.height    = 10
+    $WindowsDefenderLabel.location  = New-Object System.Drawing.Point(15,104)
+    $WindowsDefenderLabel.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     
     $WindowsReleaseLabel             = New-Object system.Windows.Forms.Label
     $WindowsReleaseLabel.text        = "Compatible Windows Release"
@@ -134,14 +134,14 @@ if (-not $noGui.IsPresent) {
     $ExecutionPolicy.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     $ExecutionPolicy.ForeColor       = $errorColor
     
-    $TamperProtection                = New-Object system.Windows.Forms.Label
-    $TamperProtection.text           = "False"
-    $TamperProtection.AutoSize       = $true
-    $TamperProtection.width          = 25
-    $TamperProtection.height         = 10
-    $TamperProtection.location       = New-Object System.Drawing.Point(24,108)
-    $TamperProtection.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
-    $TamperProtection.ForeColor      = $errorColor
+    $WindowsDefender                = New-Object system.Windows.Forms.Label
+    $WindowsDefender.text           = "False"
+    $WindowsDefender.AutoSize       = $true
+    $WindowsDefender.width          = 25
+    $WindowsDefender.height         = 10
+    $WindowsDefender.location       = New-Object System.Drawing.Point(24,108)
+    $WindowsDefender.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $WindowsDefender.ForeColor      = $errorColor
     
     $WindowsRelease                  = New-Object system.Windows.Forms.Label
     $WindowsRelease.text             = "False"
@@ -190,14 +190,14 @@ if (-not $noGui.IsPresent) {
     $WindowsReleaseTooltip.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
     $WindowsReleaseTooltip.ForeColor  = $grayedColor
     
-    $TamperProtectionTooltip            = New-Object system.Windows.Forms.Label
-    $TamperProtectionTooltip.text       = "Disable Tamper Protection in Windows Defender"
-    $TamperProtectionTooltip.AutoSize   = $true
-    $TamperProtectionTooltip.width      = 25
-    $TamperProtectionTooltip.height     = 10
-    $TamperProtectionTooltip.location   = New-Object System.Drawing.Point(15,130)
-    $TamperProtectionTooltip.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
-    $TamperProtectionTooltip.ForeColor  = $grayedColor
+    $WindowsDefenderTooltip            = New-Object system.Windows.Forms.Label
+    $WindowsDefenderTooltip.text       = "Disable Windows Defender and Tamper Protection"
+    $WindowsDefenderTooltip.AutoSize   = $true
+    $WindowsDefenderTooltip.width      = 25
+    $WindowsDefenderTooltip.height     = 10
+    $WindowsDefenderTooltip.location   = New-Object System.Drawing.Point(15,130)
+    $WindowsDefenderTooltip.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $WindowsDefenderTooltip.ForeColor  = $grayedColor
     
     $ExecutionPolicyTooltip             = New-Object system.Windows.Forms.Label
     $ExecutionPolicyTooltip.text        = "PowerShell: Set-ExecutionPolicy Unrestricted"
@@ -263,9 +263,9 @@ if (-not $noGui.IsPresent) {
         [void]$CommandoChecksManager.Close()
     })
 
-    $InstallChecksGroup.controls.AddRange(@($ChecksPanel,$RunningAsAdminLabel,$ExecutionPolicyLabel,$TamperProtectionLabel,$WindowsReleaseLabel,$RunningVMLabel,$RunningAsAdminTooltip,$ExecutionPolicyTooltip,$TamperProtectionTooltip,$WindowsReleaseTooltip,$RunningVMTooltip,$EnoughHardStorageLabel, $EnoughHardStorageTooltip,$RunningAsAdmin,$EnoughHardStorage))
+    $InstallChecksGroup.controls.AddRange(@($ChecksPanel,$RunningAsAdminLabel,$ExecutionPolicyLabel,$WindowsDefenderLabel,$WindowsReleaseLabel,$RunningVMLabel,$RunningAsAdminTooltip,$ExecutionPolicyTooltip,$WindowsDefenderTooltip,$WindowsReleaseTooltip,$RunningVMTooltip,$EnoughHardStorageLabel, $EnoughHardStorageTooltip,$RunningAsAdmin,$EnoughHardStorage))
     $CommandoChecksManager.controls.AddRange(@($InstallChecksGroup,$ChecksCompleteButton,$BreakMyInstallCheckbox,$BreakMyInstallLabel))
-    $ChecksPanel.controls.AddRange(@($RunningAsAdmin, $ExecutionPolicy,$TamperProtection,$WindowsRelease,$RunningVM, $EnoughHardStorage))
+    $ChecksPanel.controls.AddRange(@($RunningAsAdmin, $ExecutionPolicy,$WindowsDefender,$WindowsRelease,$RunningVM, $EnoughHardStorage))
 
     #################################################################################################
     ################################# Main Installer Form Controls ##################################
@@ -914,13 +914,18 @@ function Check-ExecutionPolicy {
         return $true
     }
 }
-function Check-TamperProtection {
-    if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
-        if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -eq 5) {
-            return $false
-        } else {
-            return $true
+function Check-DefenderAndTamperProtection {
+    $defender = Get-WmiObject -Namespace "root\Microsoft\Windows\Defender" -Class MSFT_MpPreference
+    if ($defender.DisableRealtimeMonitoring) {
+        if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
+            if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -eq 5) {
+                return $false
+            } else {
+                return $true
+            }
         }
+    } else {
+        return $false
     }
 }
 function Check-SupportedOS {
@@ -1465,9 +1470,9 @@ if (-not $noGui.IsPresent) {
             $global:checksPassed = $false
         }
 
-        if (Check-TamperProtection) {
-            $TamperProtection.Text = "True"
-            $TamperProtection.ForeColor = $successColor
+        if (Check-DefenderAndTamperProtection) {
+            $WindowsDefender.Text = "True"
+            $WindowsDefender.ForeColor = $successColor
         }
 
         if (Check-SupportedOS) {
