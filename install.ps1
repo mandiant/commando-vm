@@ -1350,6 +1350,7 @@ function Install-Profile {
 
     if (Open-PasswordEntry) {
         try {
+            [void]$CommandoInstaller.Close()
             Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
             choco install common.vm -y --force
             refreshenv
@@ -1372,7 +1373,6 @@ function Install-Profile {
             if (-not (Test-Path $backgroundImage)) {
                 Copy-Item -Path $sourceImage -Destination $backgroundImage
             }
-
 
             Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
             Install-BoxstarterPackage -PackageName $PackageName
@@ -1440,8 +1440,10 @@ function Open-PasswordEntry {
     if ($CommandoPasswordManager.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK)
     {
         $Password = $PasswordTextBox.Text
-        $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
-        $global:credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:username, $SecurePassword
+        if ($Password -ne "") {
+            $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
+            $global:credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:username, $SecurePassword
+        }
         return $true
     } else {
         return $false
