@@ -467,6 +467,7 @@ if (-not $noGui.IsPresent) {
     $InstallButton.Add_Click({
         if (Open-PasswordEntry) {
             [void]$CommandoInstaller.Close()
+		    [void]$CommandoInstaller.Dispose()
             Install-Profile -ProfileName $global:selectedProfile
         }
     })
