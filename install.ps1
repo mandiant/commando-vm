@@ -464,7 +464,12 @@ if (-not $noGui.IsPresent) {
     $InstallButton.height            = 60
     $InstallButton.location          = New-Object System.Drawing.Point(548,446)
     $InstallButton.Font              = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
-    $InstallButton.Add_Click({Install-Profile -ProfileName $global:selectedProfile})
+    $InstallButton.Add_Click({
+        if (Open-PasswordEntry) {
+            [void]$CommandoInstaller.Close()
+            Install-Profile -ProfileName $global:selectedProfile
+        }
+    })
 
     $CommandoInstaller.controls.AddRange(@($CommandoLogo,$InstallButton,$ProfileSelector,$ConfigureProfileButton,$ProfileLabels,$RecommendedDiskSpaceLabel,$DisclaimerLabelLine1,$DisclaimerLabelLine2,$DisclaimerLabelLine3,$DisclaimerLabelLine4,$RecommendedDiskSpace))
     $ProfileLabels.controls.AddRange(@($ProfileLabelDescriptionLite,$Label1,$ProfileLabelLite,$ProfileLabelFull,$ProfileLabelDescriptionFull,$ProfileLabelDefault,$ProfileLabelDescriptionDefault,$ProfileLabelDeveloper,$ProfileLabelDescriptionDeveloper,$ProfileLabelVictim,$ProfileLabelDescriptionVictim))
@@ -1348,39 +1353,36 @@ function Install-Profile {
         [string]$ProfileName
     )
 
-    if (Open-PasswordEntry) {
-        try {
-            [void]$CommandoInstaller.Close()
-            Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
-            choco install common.vm -y --force
-            refreshenv
-    
-            $PackageName = "flarevm.installer.vm"
-    
-            $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
-            $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
-    
-            if (Test-Path $profilePath) {
-                Copy-Item $profilePath $destinationPath -Force
-                Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
-            } else {
-                Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
-            }
-    
-            $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
-            $sourceImage = Join-Path $PSScriptRoot "Images\commando.png"
+    try {
+        Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
+        choco install common.vm -y --force
+        refreshenv
 
-            if (-not (Test-Path $backgroundImage)) {
-                Copy-Item -Path $sourceImage -Destination $backgroundImage
-            }
+        $PackageName = "flarevm.installer.vm"
 
-            Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
-            Install-BoxstarterPackage -PackageName $PackageName
+        $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
+        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
+
+        if (Test-Path $profilePath) {
+            Copy-Item $profilePath $destinationPath -Force
+            Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
+        } else {
+            Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
         }
-        catch {
-            Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
-            Write-Host $_.Exception.Message -ForegroundColor Red
+
+        $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
+        $sourceImage = Join-Path $PSScriptRoot "Images\commando.png"
+
+        if (-not (Test-Path $backgroundImage)) {
+            Copy-Item -Path $sourceImage -Destination $backgroundImage
         }
+
+        Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
+        Install-BoxstarterPackage -PackageName $PackageName
+    }
+    catch {
+        Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
     }
 }
 
@@ -1444,6 +1446,7 @@ function Open-PasswordEntry {
             $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
             $global:credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:username, $SecurePassword
         }
+        [void]$CommandoInstaller.Close()
         return $true
     } else {
         return $false
