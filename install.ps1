@@ -28,6 +28,8 @@ param (
     [switch]$noReboots
 )
 
+Add-Type -AssemblyName System.Drawing
+
 $errorColor = [System.Drawing.ColorTranslator]::FromHtml("#c80505")
 $successColor = [System.Drawing.ColorTranslator]::FromHtml("#417505")
 $grayedColor = [System.Drawing.ColorTranslator]::FromHtml("#959393")
