@@ -1364,6 +1364,14 @@ function Install-Profile {
                 Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
             }
     
+            $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
+            $sourceImage = Join-Path $PSScriptRoot "Images\commando.png"
+
+            if (-not (Test-Path $backgroundImage)) {
+                Copy-Item -Path $sourceImage -Destination $backgroundImage
+            }
+
+
             Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
             Install-BoxstarterPackage -PackageName $PackageName
         }
