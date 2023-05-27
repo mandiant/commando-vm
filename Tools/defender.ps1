@@ -11,9 +11,9 @@ if (-not $isAdmin) {
 }
 
 # Check if Windows Defender is disabled
-$antispywareEnabled = (Get-MpPreference).DisableRealtimeMonitoring
+$realtimeMonitoring = (Get-MpPreference).DisableRealtimeMonitoring
 
-if ($antispywareEnabled -ne $true) {
+if ($realtimeMonitoring -eq $true) {
     Write-Host "Windows Defender is already disabled."
     exit
 }
