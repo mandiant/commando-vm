@@ -39,7 +39,7 @@ if (-not $noGui.IsPresent) {
   
     [System.Windows.Forms.Application]::EnableVisualStyles()
 
-    $iconPath = Join-Path $PSScriptRoot "logo.png"
+    $iconPath = Join-Path $PSScriptRoot "Images/mandiant.png"
     $icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -ArgumentList $iconPath).GetHicon())
 
     #################################################################################################
@@ -282,7 +282,7 @@ if (-not $noGui.IsPresent) {
     $CommandoLogo.width              = 338
     $CommandoLogo.height             = 246
     $CommandoLogo.location           = New-Object System.Drawing.Point(179,37)
-    $CommandoLogo.imageLocation      = Join-Path $PSScriptRoot "logo.png"
+    $CommandoLogo.imageLocation      = Join-Path $PSScriptRoot "Images/commando.png"
     $CommandoLogo.SizeMode           = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
     ################################# Main Installer Profile Selection Controls #################################
@@ -717,6 +717,7 @@ if (-not $noGui.IsPresent) {
     $CommandoPasswordManager.ClientSize  = New-Object System.Drawing.Point(400,270)
     $CommandoPasswordManager.text    = "CommandoVM Boxstarter Password"
     $CommandoPasswordManager.TopMost  = $true
+    $CommandoPasswordManager.Icon      = $icon
     $CommandoPasswordManager.StartPosition = 'CenterScreen'
 
     $PasswordOKButton                = New-Object system.Windows.Forms.Button
@@ -788,33 +789,106 @@ if (-not $noGui.IsPresent) {
     ################################# Chocolatey Package Dialog Box #################################
     #################################################################################################
 
-    $ChocoDialogBox = New-Object System.Windows.Forms.Form
-    $ChocoDialogBox.Text = 'Add Chocolatey Package'
-    $ChocoDialogBox.Size = New-Object System.Drawing.Size(300,200)
-    $ChocoDialogBox.StartPosition = 'CenterScreen'
+    $CommandoChocoManager                            = New-Object system.Windows.Forms.Form
+    $CommandoChocoManager.ClientSize                 = New-Object System.Drawing.Point(407,287)
+    $CommandoChocoManager.text                       = "CommandoVM Chocolatey Package"
+    $CommandoChocoManager.TopMost                    = $true
+    $CommandoChocoManager.Icon      = $icon
+    $CommandoChocoManager.StartPosition              = 'CenterScreen'
+    
+    $ChocoPackageTextBox                        = New-Object system.Windows.Forms.TextBox
+    $ChocoPackageTextBox.multiline              = $false
+    $ChocoPackageTextBox.width                  = 231
+    $ChocoPackageTextBox.height                 = 20
+    $ChocoPackageTextBox.location               = New-Object System.Drawing.Point(19,185)
+    $ChocoPackageTextBox.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+    
+    $ChocoAboutGroup                       = New-Object system.Windows.Forms.Groupbox
+    $ChocoAboutGroup.height                = 118
+    $ChocoAboutGroup.width                 = 368
+    $ChocoAboutGroup.text                  = "About"
+    $ChocoAboutGroup.location              = New-Object System.Drawing.Point(19,22)
+    
+    $ChocoPackageErrorLabel                          = New-Object system.Windows.Forms.Label
+    $ChocoPackageErrorLabel.text                     = "Chocolatey package not found"
+    $ChocoPackageErrorLabel.AutoSize                 = $true
+    $ChocoPackageErrorLabel.visible                  = $false
+    $ChocoPackageErrorLabel.width                    = 25
+    $ChocoPackageErrorLabel.height                   = 10
+    $ChocoPackageErrorLabel.location                 = New-Object System.Drawing.Point(115,216)
+    $ChocoPackageErrorLabel.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',10,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $ChocoPackageLabel                          = New-Object system.Windows.Forms.Label
+    $ChocoPackageLabel.text                     = "Enter Chocolatey package name:"
+    $ChocoPackageLabel.AutoSize                 = $true
+    $ChocoPackageLabel.width                    = 25
+    $ChocoPackageLabel.height                   = 10
+    $ChocoPackageLabel.location                 = New-Object System.Drawing.Point(19,157)
+    $ChocoPackageLabel.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    
+    $ChocoAboutHeadingLabel                          = New-Object system.Windows.Forms.Label
+    $ChocoAboutHeadingLabel.text                     = "Adding Chocolatey Packages"
+    $ChocoAboutHeadingLabel.AutoSize                 = $true
+    $ChocoAboutHeadingLabel.width                    = 25
+    $ChocoAboutHeadingLabel.height                   = 10
+    $ChocoAboutHeadingLabel.location                 = New-Object System.Drawing.Point(4,17)
+    $ChocoAboutHeadingLabel.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    
+    $ChocoAboutLabel                          = New-Object system.Windows.Forms.Label
+    $ChocoAboutLabel.text                     = "CommandoVM uses Chocolatey to install profile packages. You can add any package available in the Chocolatey Community Package Repository to the Commando install. "
+    $ChocoAboutLabel.AutoSize                 = $true
+    $ChocoAboutLabel.MaximumSize              = New-Object System.Drawing.Size(370, 0)
+    $ChocoAboutLabel.location                 = New-Object System.Drawing.Point(4,42)
+    $ChocoAboutLabel.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    
+    $ChocoLearnMoreLabel                          = New-Object system.Windows.Forms.Label
+    $ChocoLearnMoreLabel.text                     = "Learn More at:"
+    $ChocoLearnMoreLabel.AutoSize                 = $true
+    $ChocoLearnMoreLabel.width                    = 25
+    $ChocoLearnMoreLabel.height                   = 10
+    $ChocoLearnMoreLabel.location                 = New-Object System.Drawing.Point(4,93)
+    $ChocoLearnMoreLabel.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    
+    $ChocoLinkLabel                          = New-Object system.Windows.Forms.Label
+    $ChocoLinkLabel.text                     = "https://community.chocolatey.org/packages"
+    $ChocoLinkLabel.AutoSize                 = $true
+    $ChocoLinkLabel.width                    = 25
+    $ChocoLinkLabel.height                   = 10
+    $ChocoLinkLabel.location                 = New-Object System.Drawing.Point(95,93)
+    $ChocoLinkLabel.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',10,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Underline))    
 
-    $ChocoAddlabel = New-Object System.Windows.Forms.Label
-    $ChocoAddlabel.Location = New-Object System.Drawing.Point(10,20)
-    $ChocoAddlabel.Size = New-Object System.Drawing.Size(280,20)
-    $ChocoAddlabel.Text = 'Enter the Chocolatey package name:'
+    $ChocoAddPackageButton                         = New-Object system.Windows.Forms.Button
+    $ChocoAddPackageButton.text                    = "Add Package"
+    $ChocoAddPackageButton.DialogResult            = [System.Windows.Forms.DialogResult]::OK
+    $ChocoAddPackageButton.width                   = 118
+    $ChocoAddPackageButton.height                  = 30
+    $ChocoAddPackageButton.enabled                 = $false
+    $ChocoAddPackageButton.location                = New-Object System.Drawing.Point(144,238)
+    $ChocoAddPackageButton.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-    $ChocoAddSelection = New-Object System.Windows.Forms.TextBox
-    $ChocoAddSelection.Location = New-Object System.Drawing.Point(10,50)
-    $ChocoAddSelection.Size = New-Object System.Drawing.Size(260,20)
+    $ChocoFindPackageButton          = New-Object system.Windows.Forms.Button
+    $ChocoFindPackageButton.text     = "Find Package"
+    $ChocoFindPackageButton.width    = 118
+    $ChocoFindPackageButton.height   = 30
+    $ChocoFindPackageButton.enabled   = $true
+    $ChocoFindPackageButton.location  = New-Object System.Drawing.Point(269,185)
+    $ChocoFindPackageButton.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+    $ChocoFindPackageButton.Add_Click({
+        if (Get-ChocoPackage -PackageName $ChocoPackageTextBox.Text) {
+            $ChocoPackageErrorLabel.Text = "Found Chocolatey package"
+            $ChocoPackageErrorLabel.ForeColor = $successColor
+            $ChocoPackageErrorLabel.Visible = $true
+            $ChocoAddPackageButton.Enabled = $true
+        } else {
+            $ChocoPackageErrorLabel.text = "Chocolatey package not found"
+            $ChocoPackageErrorLabel.ForeColor = $errorColor
+            $ChocoPackageErrorLabel.Visible = $true
+            $ChocoAddPackageButton.Enabled = $false
+        }
+    })
 
-    $ChocoAddOkButton = New-Object System.Windows.Forms.Button
-    $ChocoAddOkButton.Location = New-Object System.Drawing.Point(70,80)
-    $ChocoAddOkButton.Size = New-Object System.Drawing.Size(75,23)
-    $ChocoAddOkButton.Text = 'OK'
-    $ChocoAddOkButton.DialogResult = 'OK'
-
-    $ChocoAddCancelButton = New-Object System.Windows.Forms.Button
-    $ChocoAddCancelButton.Location = New-Object System.Drawing.Point(150,80)
-    $ChocoAddCancelButton.Size = New-Object System.Drawing.Size(75,23)
-    $ChocoAddCancelButton.Text = 'Cancel'
-    $ChocoAddCancelButton.DialogResult = 'Cancel'
-
-    $ChocoDialogBox.Controls.AddRange(@($ChocoAddlabel,$ChocoAddSelection,$ChocoAddOkButton,$ChocoAddCancelButton,$cancelButton))
+    $CommandoChocoManager.controls.AddRange(@($ChocoPackageTextBox,$ChocoAddPackageButton,$ChocoAboutGroup,$ChocoPackageErrorLabel,$ChocoPackageLabel,$ChocoFindPackageButton))
+    $ChocoAboutGroup.controls.AddRange(@($ChocoAboutHeadingLabel,$ChocoAboutLabel,$ChocoLearnMoreLabel,$ChocoLinkLabel))
 }
 
 #################################################################################################
@@ -1061,6 +1135,10 @@ function Get-ChocoPackage {
         # Call Chocolatey API to get package metadata
         $response = Invoke-RestMethod -Uri ('https://community.chocolatey.org/api/v2/Packages()?$filter=Id%20eq%20%27' + $PackageName + '%27&$orderby=Version%20desc&$top=1')
 
+        if (!$response) {
+            return $false
+        }
+
         return [PSCustomObject]@{
             PackageName = $PackageName
             PackageAuthor = $response.author.name
@@ -1069,15 +1147,10 @@ function Get-ChocoPackage {
         }
     }
     catch {
-        # In case of error, return a package with 'N/A' values
-        return [PSCustomObject]@{
-            PackageName = $PackageName
-            PackageAuthor = "N/A"
-            PackageVersion = "N/A"
-            PackageSummary = "N/A"
-        }
+        return $false
     }
 }
+
 
 ################################# Functions that Set GUI Controls #################################
 
@@ -1117,8 +1190,12 @@ function Set-PackageInformation {
         [string]$PackageName
     )
 
-    # Get the available package list
-    $package = $global:packageData | Where-Object { $_.PackageName -eq $PackageName }
+    if ($PackageName -notmatch "\.vm$") {
+        $package = Get-ChocoPackage -PackageName $PackageName
+    } else {
+        # Get the available package list
+        $package = $global:packageData | Where-Object { $_.PackageName -eq $PackageName }
+    }
 
     # Populate the package information fields
     if ($package) {
@@ -1129,6 +1206,7 @@ function Set-PackageInformation {
         Write-Host "[!] Package not found."
     }
 }
+
 
 function Set-ProfilePreset {
     param (
@@ -1331,11 +1409,19 @@ function Open-ProfileManager {
 
 function Open-AddChocoPackage {
 
-    Write-Host "Not implemented yet"
+    $ChocoPackageTextBox.Text = ""
+    $ChocoPackageErrorLabel.Visible = $false
+    $ChocoAddPackageButton.Enabled = $false
+
+    if ($CommandoChocoManager.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+        $SelectedPackagesList.Items.Add($ChocoPackageTextBox.Text)
+    }
 }
 
 function Open-PasswordEntry {
     $PasswordInfoLabel.Visible = $true
+    $PasswordTextBox.Text = ""
+    
     if ($CommandoPasswordManager.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK)
     {
         $Password = $PasswordTextBox.Text
@@ -1427,7 +1513,6 @@ if (-not $noGui.IsPresent) {
         $global:profileData = Get-ProfileData
         $global:packageData = Get-AvailablePackages
 
-        $PasswordInfoLabel.Visible
         Open-Installer
     }
 }
