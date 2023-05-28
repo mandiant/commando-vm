@@ -21,9 +21,8 @@
 param (
     [switch]$cli,
     [switch]$skipChecks,
-    [string]$password = $null,
-    [string]$customProfile = $null,
-    [switch]$noReboots
+    [string]$password,
+    [string]$customProfile
 )
 
 Add-Type -AssemblyName System.Drawing
@@ -1540,7 +1539,7 @@ if (-not $cli.IsPresent) {
 
 if ($cli.IsPresent) {
 
-    if (-not ($customProfile.IsPresent -and $password.IsPresent)) {
+    if ($customProfile.IsPresent -eq "") {
         Write-Host "Please specify a profile with -customProfile and your password with -password"
         exit
     }
@@ -1591,18 +1590,18 @@ if ($cli.IsPresent) {
             $global:checksPassed = $false
             Write-Host "`t[-] At least 70GB of storage not found" -ForegroundColor Red
         }
+    }
 
-        if ($global:checksPassed -or $skipChecks.IsPresent) {
-            # Ensure Chocolatey and Boxstarter are setup and configured
-            if (Check-ChocoBoxstarterVersions) {
-                Check-ChocoBoxstarterInstalls
-            }
-            Check-BoxstarterConfig
-            Check-ChocoConfig
-            Check-PowerOptions
-            Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
-
-            Install-Profile -ProfileName $customProfile
+    if ($global:checksPassed -or $skipChecks.IsPresent) {
+        # Ensure Chocolatey and Boxstarter are setup and configured
+        if (Check-ChocoBoxstarterVersions) {
+            Check-ChocoBoxstarterInstalls
         }
+        Check-BoxstarterConfig
+        Check-ChocoConfig
+        Check-PowerOptions
+        Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
+
+        Install-Profile -ProfileName $customProfile
     }
 }
