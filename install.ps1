@@ -11,8 +11,6 @@
         [CLI INSTALL] Current user password to allow reboot resiliency via Boxstarter
     .PARAMETER customProfile
         [CLI INSTALL] Path to a configuration XML file. May be a file path or URL.
-    .PARAMETER noReboots
-        [CLI INSTALL] Switch parameter to prevent reboots.
     .EXAMPLE
         .\install.ps1
     .LINK
@@ -1461,13 +1459,13 @@ function Open-PasswordEntry {
 #################################################################################################
 
 # Setting global variables
-$global:checksPassed = $false
+$global:checksPassed = $true
 $global:selectedProfile = "Default"
 $global:credentials = ""
 
 ################################# GUI Workflow #################################
 
-if (-not $noGui.IsPresent) {
+if (-not $cli.IsPresent) {
 
     if (-not $skipChecks.IsPresent) {
 
@@ -1540,7 +1538,71 @@ if (-not $noGui.IsPresent) {
 
 ################################# CLI Workflow #################################
 
-if ($noGui.IsPresent) {
+if ($cli.IsPresent) {
 
-    Write-Host "[!] Not implemented yet"
+    if (-not ($customProfile.IsPresent -and $password.IsPresent)) {
+        Write-Host "Please specify a profile with -customProfile and your password with -password"
+        exit
+    }
+
+    if (-not $skipChecks.IsPresent) {
+
+        # Make sure that the user completed all pre-install steps
+        Write-Host "=================== CommandoVM Pre-Installation Checks ==================="
+
+        if (Check-Admin) {
+            Write-Host "`t[+] Running as administrator" -ForegroundColor Green
+        } else {
+            $global:checksPassed = $false
+            Write-Host "`t[-] Not running as administrator" -ForegroundColor Red
+        }
+
+        if (Check-ExecutionPolicy) {
+            Write-Host "`t[+] Execution policy is unrestricted" -ForegroundColor Green
+        } else {
+            $global:checksPassed = $false
+            Write-Host "`t[-] Execution policy is not unrestricted" -ForegroundColor Red
+        }
+        
+        if (Check-DefenderAndTamperProtection) {
+            Write-Host "`t[+] Windows Defender and Tamper Protection are disabled" -ForegroundColor Green
+        } else {
+            $global:checksPassed = $false
+            Write-Host "`t[-] Windows Defender and Tamper Protection are enabled" -ForegroundColor Red
+        }
+
+        if (Check-SupportedOS) {
+            Write-Host "`t[+] Current Windows release is supported by CommandoVM" -ForegroundColor Green
+        } else {
+            $global:checksPassed = $false
+            Write-Host "`t[-] Current Windows release is not supported by CommandoVM" -ForegroundColor Red
+        }
+
+        if (Check-VM) {
+            Write-Host "`t[+] Virtual Machine detected" -ForegroundColor Green
+        } else {
+            $global:checksPassed = $false
+            Write-Host "`t[-] Virtual Machine not detected" -ForegroundColor Red
+        }
+
+        if (Check-Storage) {
+            Write-Host "`t[+] At least 70GB of storage detected" -ForegroundColor Green
+        } else {
+            $global:checksPassed = $false
+            Write-Host "`t[-] At least 70GB of storage not found" -ForegroundColor Red
+        }
+
+        if ($global:checksPassed -or $skipChecks.IsPresent) {
+            # Ensure Chocolatey and Boxstarter are setup and configured
+            if (Check-ChocoBoxstarterVersions) {
+                Check-ChocoBoxstarterInstalls
+            }
+            Check-BoxstarterConfig
+            Check-ChocoConfig
+            Check-PowerOptions
+            Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
+
+            Install-Profile -ProfileName $customProfile
+        }
+    }
 }
