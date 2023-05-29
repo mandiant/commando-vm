@@ -19,5 +19,6 @@
     <package name="awscli" />
     <package name="az.powershell" />
     <package name="azure-cli" />
+    <package name="teamfiltration.vm" />
   </packages>
 </config>
