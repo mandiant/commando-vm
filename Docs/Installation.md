@@ -82,4 +82,27 @@ Installation may take over an hour, depending on the specs of the target virtual
 
 ## Command-Line Install
 
-WIP
+First, download the CommandoVM repo from GitHub either as a ZIP, or using `git` from PowerShell if you have it installed already:
+```powershell
+git clone https://github.com/mandiant/commando-vm.git
+```
+
+The CommandoVM CLI install is non-interactive. You will need to pass several flags for it to start properly:
+- `-cli` - required to avoid spawning the GUI installer
+- `-customProfile` - path to an XML profile. See [Customization](Customization.md) for the format.
+- `-noPassword` - if your user does not have a password set or the password is blank, pass this flag
+- `-password` - if your password is not blank, pass it to the installer using this flag
+
+Here is an example of how you can install the default profile without a password:
+```powershell
+.\install.ps1 -cli -customProfile .\Profiles\Default.xml -noPassword
+```
+
+Here is an example of how you can install the default profile with a password:
+```powershell
+.\install.ps1 -cli -customProfile .\Profiles\Default.xml -password "Summer2023!"
+```
+
+The the installation will now start. During this time your system will restart multiple times. Installation may take over an hour, depending on the specs of the target virtual machine.
+
+> **WARNING:** CommandoVM is not a fully-unattended install. You need to monitor the install progress for any failures or errors.
