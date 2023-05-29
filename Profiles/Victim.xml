@@ -8,6 +8,6 @@
         <env name="RAW_TOOLS_DIR" value="%SystemDrive%\Tools"/>
     </envs>
     <packages>
-        <package name="7zip-15-05.vm"/>
+        <package name="notepadplusplus.vm" />
     </packages>
 </config>
