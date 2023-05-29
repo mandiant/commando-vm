@@ -42,22 +42,40 @@ By default PowerShell restricts scripts from being loaded on Windows Workstation
 Set-ExecutionPolicy Unrestricted
 ```
 
-You can validate that your changes were successful with the following command:
-```powershell
-Get-ExecutionPolicy
-```
-
 ### Windows Defender and Tamper Protection
 
 In the past CommandoVM would try to programmatically disable Windows Defender for you. Unfortunately Windows Defender is constantly evolving, so we cannot keep up with the changes. You **must** disable Windows Defender and Tamper Protection manually before starting the install. It is not enough to simply disable Real-Time Protection, because **it will become re-enabled after a reboot**.
 
-See our [Defender Documentation](Defender.md) page for the latest methods of disabling it known to us on Windows 10 and 11.
+See our [Defender](Defender.md) documentation page for the latest methods of disabling it known to us on Windows 10 and 11.
 
 > **WARNING:** If you do not properly disable Windows Defender, your installation will most certainly fail
 
 ## Graphical Install
 
-WIP
+First, download the CommandoVM repo from GitHub either as a ZIP, or using `git` from PowerShell if you have it installed already:
+```powershell
+git clone https://github.com/mandiant/commando-vm.git
+```
+
+Next, run an elevated terminal and navigate to the folder where you cloned CommandoVM files. Once inside, run the `install.ps1` script:
+```powershell
+.\install.ps1
+```
+
+The pre-install checks menu will open. Make sure you go through the [Pre-Install Steps](#pre-install-steps) section of this page to ensure you pass all of them. The installer will not allow you to click "Continue" until the checks are satisfied or you override them. 
+
+> **WARNING:** Do not override the checks if you have no idea why they are failing
+![gui step 1 - pre-checks](../Images/Docs/gui_step1.png)
+
+Once you pass all the pre-install checks, the main installer window will open. If you wish to customize your install and change what packages are installed, see the [Customization](Customization.md) documentation page. Otherwise, select a profile from the dropdown menu and click "Install".
+![gui step 2 - installer](../Images/Docs/gui_step2.png)
+
+You will get a password prompt for Boxstarter. If you do not have a password set or your password is blank, click "OK" without entering anything. Otherwise, enter your password into the textbox and click "OK".
+![gui step 3 - password](../Images/Docs/gui_step3.png)
+
+The installer GUI will now close and the installation will start. You may monitor its progress inside the terminal window you used to launch the install script. During this time your system will restart multiple times. You will know that installation is finished when your background image gets changed to the Commando logo.
+
+> **WARNING:** CommandoVM is not a fully-unattended install. You need to monitor the install progress for any failures or errors.
 
 ## Command-Line Install
 
