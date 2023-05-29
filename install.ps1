@@ -28,6 +28,19 @@ param (
     [string]$customProfile
 )
 
+$asciiArt = @"
+▄████▄   ▒█████   ███▄ ▄███▓ ███▄ ▄███▓ ▄▄▄       ███▄    █ ▓█████▄  ▒█████  
+▒██▀ ▀█  ▒██▒  ██▒▓██▒▀█▀ ██▒▓██▒▀█▀ ██▒▒████▄     ██ ▀█   █ ▒██▀ ██▌▒██▒  ██▒
+▒▓█    ▄ ▒██░  ██▒▓██    ▓██░▓██    ▓██░▒██  ▀█▄  ▓██  ▀█ ██▒░██   █▌▒██░  ██▒
+▒▓▓▄ ▄██▒▒██   ██░▒██    ▒██ ▒██    ▒██ ░██▄▄▄▄██ ▓██▒  ▐▌██▒░▓█▄   ▌▒██   ██░
+▒ ▓███▀ ░░ ████▓▒░▒██▒   ░██▒▒██▒   ░██▒ ▓█   ▓██▒▒██░   ▓██░░▒████▓ ░ ████▓▒░
+░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ░  ░░ ▒░   ░  ░ ▒▒   ▓▒█░░ ▒░   ▒ ▒  ▒▒▓  ▒ ░ ▒░▒░▒░ 
+  ░  ▒     ░ ▒ ▒░ ░  ░      ░░  ░      ░  ▒   ▒▒ ░░ ░░   ░ ▒░ ░ ▒  ▒   ░ ▒ ▒░ 
+░        ░ ░ ░ ▒  ░      ░   ░      ░     ░   ▒      ░   ░ ░  ░ ░  ░ ░ ░ ░ ▒  
+░ ░          ░ ░         ░          ░         ░  ░         ░    ░        ░ ░  
+░                                                             ░               
+"@
+
 Add-Type -AssemblyName System.Drawing
 
 $errorColor = [System.Drawing.ColorTranslator]::FromHtml("#c80505")
@@ -1345,9 +1358,16 @@ function Save-ProfileAs {
 
 function Install-Profile {
     param (
-        [Parameter(Mandatory = $true)]
-        [string]$ProfileName
+        [Parameter(Mandatory = $false)]
+        [string]$ProfileName,
+
+        [Parameter(Mandatory = $false)]
+        [string]$ProfilePath
     )
+
+    if (-not $ProfileName -and -not $ProfilePath) {
+        throw "Either ProfileName or ProfilePath must be specified."
+    }
 
     try {
         Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
@@ -1356,11 +1376,14 @@ function Install-Profile {
 
         $PackageName = "flarevm.installer.vm"
 
-        $profilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
+        if (-not $ProfilePath) {
+            $ProfilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
+        }
+        
         $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
 
-        if (Test-Path $profilePath) {
-            Copy-Item $profilePath $destinationPath -Force
+        if (Test-Path $ProfilePath) {
+            Copy-Item $ProfilePath $destinationPath -Force
             Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
         } else {
             Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
@@ -1543,13 +1566,23 @@ if (-not $cli.IsPresent) {
 
 if ($cli.IsPresent) {
 
-    if ($customProfile.IsPresent -eq "") {
-        Write-Host "Please specify a profile with -customProfile and your password with -password"
+    Write-Host "`n$asciiArt" -ForegroundColor Red
+    Write-Host "`t`tComplete Mandiant Offensive VM - Version 3.0" -ForegroundColor Red
+    Write-Host "`nMade with Love by: Jake Barteaux @day1player, Blaine Stancill @MalwareMechanic" -ForegroundColor DarkYellow
+    Write-Host "George Litvinov @geo-lit, Dennis Tran @Menn1s, Alex Tselevich @nos3curity" -ForegroundColor DarkYellow
+    Write-Host "Nhan Huynh, Mandiant Red Team, Mandiant FLARE`n" -ForegroundColor DarkYellow
+
+    if ($customProfile -eq "") {
+        Write-Host "[i] Please specify the path to a profile with -customProfile" -ForegroundColor Blue
+        exit
+    }
+
+    if ((-not $noPassword.IsPresent) -and ($password -eq "")) {
+        Write-Host "[i] Please provide a password using -password or pass -noPassword if there is none" -ForegroundColor Blue
         exit
     }
 
     if (-not $skipChecks.IsPresent) {
-
         # Make sure that the user completed all pre-install steps
         Write-Host "=================== CommandoVM Pre-Installation Checks ==================="
 
@@ -1597,6 +1630,7 @@ if ($cli.IsPresent) {
     }
 
     if ($global:checksPassed -or $skipChecks.IsPresent) {
+        Write-Host "=========== Verifying Chocolatey and Boxstarter Configuration ============"
         # Ensure Chocolatey and Boxstarter are setup and configured
         if (Check-ChocoBoxstarterVersions) {
             Check-ChocoBoxstarterInstalls
@@ -1606,6 +1640,9 @@ if ($cli.IsPresent) {
         Check-PowerOptions
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
 
-        Install-Profile -ProfileName $customProfile
+        Write-Host "===================== Installing CommandoVM Packages ====================="
+        #Install-Profile -ProfileName $customProfile
+    } else {
+        Write-Host "`n[i] Some checks failed. Use the -skipChecks flag if you know what you are doing" -ForegroundColor Blue
     }
 }
