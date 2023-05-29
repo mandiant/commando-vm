@@ -74,7 +74,9 @@ Once you pass all the pre-install checks, the main installer window will open. I
 You will get a password prompt for Boxstarter. If you do not have a password set or your password is blank, click "OK" without entering anything. Otherwise, enter your password into the textbox and click "OK".
 ![gui step 3 - password](../Images/Docs/gui_step3.png)
 
-The installer GUI will now close and the installation will start. You may monitor its progress inside the terminal window you used to launch the install script. During this time your system will restart multiple times. You will know that installation is finished when your background image gets changed to the Commando logo.
+The installer GUI will now close and the installation will start. You may monitor its progress inside the terminal window you used to launch the install script. During this time your system will restart multiple times. You will know that installation is finished when your background image gets changed to the Commando logo. 
+
+Installation may take over an hour, depending on the specs of the target virtual machine.
 
 > **WARNING:** CommandoVM is not a fully-unattended install. You need to monitor the install progress for any failures or errors.
 
