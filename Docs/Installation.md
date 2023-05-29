@@ -65,6 +65,7 @@ Next, run an elevated terminal and navigate to the folder where you cloned Comma
 The pre-install checks menu will open. Make sure you go through the [Pre-Install Steps](#pre-install-steps) section of this page to ensure you pass all of them. The installer will not allow you to click "Continue" until the checks are satisfied or you override them. 
 
 > **WARNING:** Do not override the checks if you have no idea why they are failing
+
 ![gui step 1 - pre-checks](../Images/Docs/gui_step1.png)
 
 Once you pass all the pre-install checks, the main installer window will open. If you wish to customize your install and change what packages are installed, see the [Customization](Customization.md) documentation page. Otherwise, select a profile from the dropdown menu and click "Install".
