@@ -1,8 +1,10 @@
-[CommandoLogo](Images/commando.png)
+![CommandoLogo](Images/commando.png)
 
 ## What is CommandoVM?
 
 **Complete Mandiant Offensive VM ("CommandoVM")** is a comprehensive and customizable, Windows-based security distribution for penetration testing and red teaming. CommandoVM comes packaged with a variety of offensive tools not included in [Kali Linux](https://www.kali.org/), which are focused on attacking Windows, Active Directory and the Azure Cloud.
+
+### What are its key features?
 
 ## Documentation Pages
 
