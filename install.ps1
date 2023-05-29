@@ -9,6 +9,8 @@
         Switch parameter to skip validation checks (not recommended).
     .PARAMETER password
         [CLI INSTALL] Current user password to allow reboot resiliency via Boxstarter
+    .PARAMETER noPassword
+        [CLI INSTALL] Used when the user password is not set or is blank
     .PARAMETER customProfile
         [CLI INSTALL] Path to a configuration XML file. May be a file path or URL.
     .EXAMPLE
@@ -21,6 +23,7 @@
 param (
     [switch]$cli,
     [switch]$skipChecks,
+    [switch]$noPassword,
     [string]$password,
     [string]$customProfile
 )
@@ -1012,11 +1015,6 @@ function Check-ChocoBoxstarterInstalls {
 }
 function Check-BoxstarterConfig {
     $Boxstarter.RebootOk = (-not $noReboots.IsPresent)
-    if ($global:boxstarterPassword -eq "") {
-        $Boxstarter.NoPassword = $true
-    } else {
-        $Boxstarter.NoPassword = $false
-    }
     $Boxstarter.AutoLogin = $true
     $Boxstarter.SuppressLogging = $True
     $global:VerbosePreference = "SilentlyContinue"
@@ -1376,7 +1374,13 @@ function Install-Profile {
         }
 
         Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
-        Install-BoxstarterPackage -PackageName $PackageName
+        if ($noPassword.IsPresent -or ($global:credentials -eq "")) {
+            $Boxstarter.NoPassword = $true
+            Install-BoxstarterPackage -PackageName $PackageName
+        } else {
+            $Boxstarter.NoPassword = $false
+            Install-BoxstarterPackage -PackageName $PackageName -Credential $global:credentials
+        }
     }
     catch {
         Write-Host "[!] Error: Failed to install profile: $PackageName" -ForegroundColor Red
