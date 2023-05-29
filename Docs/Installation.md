@@ -33,6 +33,7 @@ Windows itself takes up significant space on disk and CommandoVM installs a larg
 ### Running as Administrator
 
 CommandoVM uses Chocolatey and Boxstarter to install its packages. Installing packages requires Administrator rights, so you must run your terminal as Administrator as shown on the image below.
+
 ![run terminal as administrator](../Images/Docs/runasadmin.png)
 
 ### PowerShell Execution Policy

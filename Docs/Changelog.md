@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0
+## 3.0 - August 2023
 - TBA
 
 ## 2021.2 - July 14 2021
