@@ -20,5 +20,6 @@
     <package name="az.powershell" />
     <package name="azure-cli" />
     <package name="teamfiltration.vm" />
+    <package name="obsidian" />
   </packages>
 </config>
