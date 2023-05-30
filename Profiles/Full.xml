@@ -21,5 +21,6 @@
     <package name="azure-cli" />
     <package name="teamfiltration.vm" />
     <package name="obsidian" />
+    <package name="googlechrome" />
   </packages>
 </config>
