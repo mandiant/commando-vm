@@ -22,5 +22,6 @@
     <package name="teamfiltration.vm" />
     <package name="obsidian" />
     <package name="googlechrome" />
+    <package name="firefox" />
   </packages>
 </config>
