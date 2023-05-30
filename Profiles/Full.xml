@@ -23,5 +23,6 @@
     <package name="obsidian" />
     <package name="googlechrome" />
     <package name="firefox" />
+    <package name="vscode" />
   </packages>
 </config>
