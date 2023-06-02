@@ -28,5 +28,6 @@
     <package name="vlc" />
     <package name="gimp" />
     <package name="keepass" />
+    <package name="adobereader" />
   </packages>
 </config>
