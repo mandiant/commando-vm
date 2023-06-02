@@ -32,5 +32,6 @@
     <package name="golang" />
     <package name="rust" />
     <package name="nim" />
+    <package name="visualstudio2022community" />
   </packages>
 </config>
