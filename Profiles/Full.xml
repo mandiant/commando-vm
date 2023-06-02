@@ -54,5 +54,6 @@
     <package name="sharpup.vm" />
     <package name="idafree.vm" />
     <package name="az.powershell" />
+    <package name="azure-cli" />
   </packages>
 </config>
