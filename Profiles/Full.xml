@@ -31,5 +31,6 @@
     <package name="adobereader" />
     <package name="golang" />
     <package name="rust" />
+    <package name="nim" />
   </packages>
 </config>
