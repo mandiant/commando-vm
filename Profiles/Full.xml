@@ -26,5 +26,6 @@
     <package name="vscode" />
     <package name="greenshot" />
     <package name="vlc" />
+    <package name="gimp" />
   </packages>
 </config>
