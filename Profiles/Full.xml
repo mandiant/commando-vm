@@ -24,5 +24,6 @@
     <package name="googlechrome" />
     <package name="firefox" />
     <package name="vscode" />
+    <package name="greenshot" />
   </packages>
 </config>
