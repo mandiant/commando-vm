@@ -52,5 +52,6 @@
     <package name="dotnettojscript.vm" />
     <package name="gadgettojscript.vm" />
     <package name="sharpup.vm" />
+    <package name="idafree.vm" />
   </packages>
 </config>
