@@ -39,5 +39,18 @@
     <package name="cyberchef.vm" />
     <package name="pebear.vm" />
     <package name="sysinternals.vm" />
+    <package name="situational-awareness-bof.vm" />
+    <package name="unhook-bof.vm" />
+    <package name="stracciatella.vm" />
+    <package name="nanodump.vm" />
+    <package name="trustedsec-remote-ops-bof.vm" />
+    <package name="outflank-c2-collection.vm" />
+    <package name="certify.vm" />
+    <package name="streamdivert.vm" />
+    <package name="whisker.vm" />
+    <package name="confuserex.vm" />
+    <package name="dotnettojscript.vm" />
+    <package name="gadgettojscript.vm" />
+    <package name="sharpup.vm" />
   </packages>
 </config>
