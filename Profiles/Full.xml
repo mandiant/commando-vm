@@ -27,5 +27,6 @@
     <package name="greenshot" />
     <package name="vlc" />
     <package name="gimp" />
+    <package name="keepass" />
   </packages>
 </config>
