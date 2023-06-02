@@ -30,5 +30,6 @@
     <package name="keepass" />
     <package name="adobereader" />
     <package name="golang" />
+    <package name="rust" />
   </packages>
 </config>
