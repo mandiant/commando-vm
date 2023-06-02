@@ -29,5 +29,6 @@
     <package name="gimp" />
     <package name="keepass" />
     <package name="adobereader" />
+    <package name="golang" />
   </packages>
 </config>
