@@ -32,6 +32,12 @@
     <package name="golang" />
     <package name="rust" />
     <package name="nim" />
-    <package name="visualstudio2022community" />
+    <package name="visualstudio.vm" />
+    <package name="ilspy.vm" />
+    <package name="putty.vm" />
+    <package name="wireshark.vm" />
+    <package name="cyberchef.vm" />
+    <package name="pebear.vm" />
+    <package name="sysinternals.vm" />
   </packages>
 </config>
