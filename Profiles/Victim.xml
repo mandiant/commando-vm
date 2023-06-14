@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <envs>
-        <env name="MIN_DISK_SPACE" value="35"/>
+        <env name="MIN_DISK_SPACE" value="TBD"/>
         <env name="VM_COMMON_DIR" value="%ProgramData%\_VM"/>
         <env name="TOOL_LIST_DIR" value="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Tools"/>
         <env name="TOOL_LIST_SHORTCUT" value="%UserProfile%\Desktop\Tools.lnk"/>
