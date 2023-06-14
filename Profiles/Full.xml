@@ -57,5 +57,6 @@
     <package name="azure-cli" />
     <package name="routesixtysink.vm" />
     <package name="sharphound.vm" />
+    <package name="spoolsample.vm" />
   </packages>
 </config>
