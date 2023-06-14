@@ -43,8 +43,8 @@
     <package name="unhook-bof.vm" />
     <package name="stracciatella.vm" />
     <package name="nanodump.vm" />
-    <package name="trustedsec-remote-ops-bof.vm" />
-    <package name="outflank-c2-collection.vm" />
+    <package name="truestedsec-remote-ops-bof.vm" />
+    <package name="outflank-c2-tool-collection.vm" />
     <package name="certify.vm" />
     <package name="streamdivert.vm" />
     <package name="whisker.vm" />
@@ -59,5 +59,6 @@
     <package name="sharphound.vm" />
     <package name="spoolsample.vm" />
     <package name="sharpview.vm" />
+    <package name="seatbelt.vm" />
   </packages>
 </config>
