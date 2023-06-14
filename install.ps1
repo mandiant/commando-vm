@@ -48,7 +48,7 @@ $successColor = [System.Drawing.ColorTranslator]::FromHtml("#417505")
 $grayedColor = [System.Drawing.ColorTranslator]::FromHtml("#959393")
 
 # Load the GUI controls
-if (-not $noGui.IsPresent) {
+if (-not $cli.IsPresent) {
 
     Add-Type -AssemblyName System.Windows.Forms
   
@@ -1457,6 +1457,7 @@ function Open-AddChocoPackage {
 
     if ($CommandoChocoManager.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
         $SelectedPackagesList.Items.Add($ChocoPackageTextBox.Text)
+        $SelectedCountLabel.Text = "Total: " + $SelectedPackagesList.Items.Count
     }
 }
 
@@ -1568,9 +1569,7 @@ if ($cli.IsPresent) {
 
     Write-Host "`n$asciiArt" -ForegroundColor Red
     Write-Host "`t`tComplete Mandiant Offensive VM - Version 3.0" -ForegroundColor Red
-    Write-Host "`nMade with Love by: Jake Barteaux @day1player, Blaine Stancill @MalwareMechanic" -ForegroundColor DarkYellow
-    Write-Host "George Litvinov @geo-lit, Dennis Tran @Menn1s, Alex Tselevich @nos3curity" -ForegroundColor DarkYellow
-    Write-Host "Nhan Huynh @htnhan, Drew Farber @0xFarbs, Mandiant Red Team, Mandiant FLARE`n" -ForegroundColor DarkYellow
+    Write-Host "`n`t`tcommandovm@mandiant.com" -ForegroundColor DarkYellow
 
     if ($customProfile -eq "") {
         Write-Host "[i] Please specify the path to a profile with -customProfile" -ForegroundColor Blue
