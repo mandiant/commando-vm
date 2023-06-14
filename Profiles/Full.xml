@@ -58,5 +58,6 @@
     <package name="routesixtysink.vm" />
     <package name="sharphound.vm" />
     <package name="spoolsample.vm" />
+    <package name="sharpview.vm" />
   </packages>
 </config>
