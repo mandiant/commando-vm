@@ -979,10 +979,10 @@ function Check-VM {
 function Check-Storage {
     $disk = Get-PSDrive (Get-Location).Drive.Name
     Start-Sleep -Seconds 1
-    if (-Not (($disk.used + $disk.free)/1GB -gt 68.8)) {
-        return $false
-    } else {
+    if (($disk.used + $disk.free)/1GB -gt 68.8) {
         return $true
+    } else {
+        return $false
     }
 }
 
