@@ -1103,49 +1103,55 @@ function Get-AvailablePackages {
     $destination = Join-Path $PSScriptRoot "./available_packages.xml"
     $blockList = @("flarevm.installer.vm", "common.vm")
 
-    # Download the XML from MyGet API
-    try {
-        # Download the XML from MyGet API
-        Invoke-WebRequest -Uri $apiUrl -OutFile $destination -ErrorAction Stop
-    }
-    catch {
-        Write-Error "Failed to download available_packages.xml. Error: $_"
-        return
-    }
-
-    # Load the XML content
-    $xmlContent = [xml](Get-Content $destination)
-
     $packages = @()
 
     # Define XML namespaces
-    $nsManager = New-Object -TypeName "System.Xml.XmlNamespaceManager" -ArgumentList $xmlContent.NameTable
+    $nsManager = New-Object -TypeName "System.Xml.XmlNamespaceManager" -ArgumentList (New-Object System.Xml.XmlDocument).NameTable
     $nsManager.AddNamespace("atom", "http://www.w3.org/2005/Atom")
     $nsManager.AddNamespace("d", "http://schemas.microsoft.com/ado/2007/08/dataservices")
     $nsManager.AddNamespace("m", "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata")
 
-    # Extract package information from the XML
-    $xmlContent.SelectNodes("//atom:entry", $nsManager) | ForEach-Object {
-        $isLatestVersion = $_.SelectSingleNode("m:properties/d:IsLatestVersion", $nsManager).InnerText
+    do {
+        # Download the XML from MyGet API
+        try {
+            Invoke-WebRequest -Uri $apiUrl -OutFile $destination -ErrorAction Stop
+        }
+        catch {
+            Write-Error "Failed to download available_packages.xml. Error: $_"
+            return
+        }
 
-        # There are multiple versions of packages, but we only display the latest
-        if ($isLatestVersion -eq "true") {
-            $packageName = $_.SelectSingleNode("m:properties/d:Id", $nsManager).InnerText
-            $packageAuthor = $_.SelectSingleNode("atom:author/atom:name", $nsManager).InnerText
-            $packageVersion = $_.SelectSingleNode("m:properties/d:Version", $nsManager).InnerText
-            $packageSummary = $_.SelectSingleNode("m:properties/d:Description", $nsManager).InnerText
+        # Load the XML content
+        $xmlContent = [xml](Get-Content $destination)
 
-            # Check if package name is not in the blocklist
-            if ($packageName -notin $blockList) {
-                $packages += [PSCustomObject]@{
-                    PackageName   = $packageName
-                    PackageAuthor = $packageAuthor
-                    PackageVersion = $packageVersion
-                    PackageSummary = $packageSummary
+        # Extract package information from the XML
+        $xmlContent.SelectNodes("//atom:entry", $nsManager) | ForEach-Object {
+            $isLatestVersion = $_.SelectSingleNode("m:properties/d:IsLatestVersion", $nsManager).InnerText
+
+            # There are multiple versions of packages, but we only display the latest
+            if ($isLatestVersion -eq "true") {
+                $packageName = $_.SelectSingleNode("m:properties/d:Id", $nsManager).InnerText
+                $packageAuthor = $_.SelectSingleNode("atom:author/atom:name", $nsManager).InnerText
+                $packageVersion = $_.SelectSingleNode("m:properties/d:Version", $nsManager).InnerText
+                $packageSummary = $_.SelectSingleNode("m:properties/d:Description", $nsManager).InnerText
+
+                # Check if package name is not in the blocklist
+                if ($packageName -notin $blockList) {
+                    $packages += [PSCustomObject]@{
+                        PackageName   = $packageName
+                        PackageAuthor = $packageAuthor
+                        PackageVersion = $packageVersion
+                        PackageSummary = $packageSummary
+                    }
                 }
             }
         }
+
+        # Check if there is a next link in the XML and set the API URL to that link if it exists
+        $nextLink = $xmlContent.SelectSingleNode("//atom:link[@rel='next']/@href", $nsManager)
+        $apiUrl = $nextLink."#text"
     }
+    while ($apiUrl -ne $null)
 
     return $packages
 }
