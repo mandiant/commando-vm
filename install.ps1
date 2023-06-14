@@ -1546,7 +1546,7 @@ if (-not $cli.IsPresent) {
     if ($global:checksPassed -or $skipChecks.IsPresent) {
 
         # Ensure Chocolatey and Boxstarter are setup and configured
-        if (Check-ChocoBoxstarterVersions) {
+        if (Check-ChocoBoxstarterVersions -eq $false) {
             Check-ChocoBoxstarterInstalls
         }
         Check-BoxstarterConfig
@@ -1632,7 +1632,7 @@ if ($cli.IsPresent) {
     if ($global:checksPassed -or $skipChecks.IsPresent) {
         Write-Host "=========== Verifying Chocolatey and Boxstarter Configuration ============"
         # Ensure Chocolatey and Boxstarter are setup and configured
-        if (Check-ChocoBoxstarterVersions) {
+        if (Check-ChocoBoxstarterVersions -eq $false) {
             Check-ChocoBoxstarterInstalls
         }
         Check-BoxstarterConfig
@@ -1641,7 +1641,7 @@ if ($cli.IsPresent) {
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
 
         Write-Host "===================== Installing CommandoVM Packages ====================="
-        #Install-Profile -ProfileName $customProfile
+        Install-Profile -ProfileName $customProfile
     } else {
         Write-Host "`n[i] Some checks failed. Use the -skipChecks flag if you know what you are doing" -ForegroundColor Blue
     }
