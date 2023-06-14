@@ -60,5 +60,6 @@
     <package name="spoolsample.vm" />
     <package name="sharpview.vm" />
     <package name="seatbelt.vm" />
+    <package name="telnet.vm" />
   </packages>
 </config>
