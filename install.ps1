@@ -1101,6 +1101,7 @@ function Get-PackagesFromProfile {
 function Get-AvailablePackages {
     $apiUrl = "https://www.myget.org/F/vm-packages/Packages"
     $destination = Join-Path $PSScriptRoot "./available_packages.xml"
+    $blockList = @("flarevm.installer.vm", "common.vm")
 
     # Download the XML from MyGet API
     try {
@@ -1134,11 +1135,14 @@ function Get-AvailablePackages {
             $packageVersion = $_.SelectSingleNode("m:properties/d:Version", $nsManager).InnerText
             $packageSummary = $_.SelectSingleNode("m:properties/d:Description", $nsManager).InnerText
 
-            $packages += [PSCustomObject]@{
-                PackageName   = $packageName
-                PackageAuthor = $packageAuthor
-                PackageVersion = $packageVersion
-                PackageSummary = $packageSummary
+            # Check if package name is not in the blocklist
+            if ($packageName -notin $blockList) {
+                $packages += [PSCustomObject]@{
+                    PackageName   = $packageName
+                    PackageAuthor = $packageAuthor
+                    PackageVersion = $packageVersion
+                    PackageSummary = $packageSummary
+                }
             }
         }
     }
