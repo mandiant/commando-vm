@@ -1557,11 +1557,15 @@ if (-not $cli.IsPresent) {
     if ($global:checksPassed -or $skipChecks.IsPresent) {
 
         # Ensure Chocolatey and Boxstarter are setup and configured
-        if (Check-ChocoBoxstarterVersions -eq $false) {
+        if (Check-ChocoBoxstarterVersions) {
+            Check-BoxstarterConfig
+            Check-ChocoConfig
+        } else {
             Check-ChocoBoxstarterInstalls
+            Check-BoxstarterConfig
+            Check-ChocoConfig
         }
-        Check-BoxstarterConfig
-        Check-ChocoConfig
+
         Check-PowerOptions
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
 
@@ -1640,12 +1644,14 @@ if ($cli.IsPresent) {
 
     if ($global:checksPassed -or $skipChecks.IsPresent) {
         Write-Host "=========== Verifying Chocolatey and Boxstarter Configuration ============"
-        # Ensure Chocolatey and Boxstarter are setup and configured
-        if (Check-ChocoBoxstarterVersions -eq $false) {
+        if (Check-ChocoBoxstarterVersions) {
+            Check-BoxstarterConfig
+            Check-ChocoConfig
+        } else {
             Check-ChocoBoxstarterInstalls
+            Check-BoxstarterConfig
+            Check-ChocoConfig
         }
-        Check-BoxstarterConfig
-        Check-ChocoConfig
         Check-PowerOptions
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
 
