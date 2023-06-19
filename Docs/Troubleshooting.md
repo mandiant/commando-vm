@@ -1,12 +1,12 @@
-# Installing CommandoVM
+# Troubleshooting the Install
 
-This page lists the steps necessary to install CommandoVM:
+This page lists the full steps necessary to install CommandoVM, with any additional information that might help you troubleshoot your issues:
 - [Requirements](#requirements)
 - [Pre-Install Steps](#pre-install-steps)
 - [Graphical Install](#graphical-install)
 - [Command-Line Install](#command-line-install)
 
-## Requirements
+## CommandoVM Requirements
 
 - Windows 10 22H2
 - Windows 11 TBA
@@ -16,11 +16,11 @@ This page lists the steps necessary to install CommandoVM:
 ## Pre-Install Steps
 
 **Disclaimer**
-> Please **do not skip** this section. The following steps are **required** for a successful CommandoVM install. The installer will not allow you to continue until you satisfy these requirements. You may skip them by passing the `-skipChecks` flag if you know what you are doing, but we do not recommend it and we cannot help you if you run into issues as a result of it.
+> The installer will not allow you to continue until you satisfy these requirements. You may skip them by passing the `-skipChecks` flag if you know what you are doing, but we do not recommend it.
 
 ### Supported Operating System
 
-CommandoVM currently supports Windows 10 22H2 and Windows 11 TBA releases. We plan to eventually drop support for Windows 10 because it no longer gets feature updates that may be important for penetration testers and users. We recommend you to install CommandoVM on a Windows 11 system.
+CommandoVM currently supports Windows 10 22H2 (19045) and Windows 11 (22621) releases. We plan to eventually drop support for Windows 10 because it no longer gets feature updates that may be important for penetration testers and users. We recommend you to install CommandoVM on a Windows 11 system.
 
 ### Running in a Virtual Machine
 
@@ -47,7 +47,9 @@ Set-ExecutionPolicy Unrestricted
 
 In the past CommandoVM would try to programmatically disable Windows Defender for you. Unfortunately Windows Defender is constantly evolving, so we cannot keep up with the changes. You **must** disable Windows Defender and Tamper Protection manually before starting the install. It is not enough to simply disable Real-Time Protection, because **it will become re-enabled after a reboot**.
 
-See our [Defender](Defender.md) documentation page for the latest methods of disabling it known to us on Windows 10 and 11.
+See the following links for the latest methods of disabling it known to us on Windows 10 and 11:
+- [Windows 10](https://superuser.com/questions/1757339/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo)
+- [Windows 11](https://www.makeuseof.com/permanently-disable-microsoft-defender-windows-11/)
 
 > **WARNING:** If you do not properly disable Windows Defender, your installation will most certainly fail
 

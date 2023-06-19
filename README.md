@@ -8,11 +8,21 @@
 
 - TBA
 
+### Quick Start Guide
+
+1) Deploy a Win 10 22H2 or Win 11 22621 VM with a 100GB disk
+2) Follow these steps ([Win 10](https://superuser.com/questions/1757339/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo) | [Win 11](https://www.makeuseof.com/permanently-disable-microsoft-defender-windows-11/)) to disable Windows Defender
+3) Download and extract the zip of the Commando-VM repo
+4) Run PowerShell as Administrator
+5) `Set-ExecutionPolicy Unrestricted -force`
+6) `cd ~/Downloads/commando-vm`
+7) `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
+
 ## Documentation Pages
 
-- [Installation](Docs/Installation.md) - detailed instructions for getting started
-- [Customization](Docs/Customization.md) - how to customize your CommandoVM install
 - [Packages](Docs/Packages.md) - full list of packages for each default profile
+- [Customization](Docs/Customization.md) - how to customize your CommandoVM install
+- [Troubleshooting](Docs/Troubleshooting.md) - detailed steps to avoid install issues
 - [Changelog](Docs/Changelog.md) - history of changes to CommandoVM
 - [Contributing](Docs/Contributing.md) - how to request packages and share feedback
 
