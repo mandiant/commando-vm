@@ -8,7 +8,7 @@
 
 - TBA
 
-### Quick Start Guide
+## Quick Start Guide
 
 1) Deploy a Win 10 22H2 or Win 11 22621 VM with a 100GB disk
 2) Follow these steps ([Win 10](https://superuser.com/questions/1757339/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo) | [Win 11](https://www.makeuseof.com/permanently-disable-microsoft-defender-windows-11/)) to disable Windows Defender
