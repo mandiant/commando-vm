@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <envs>
+    <env name="MIN_DISK_SPACE" value="TBD" />
+    <env name="VM_COMMON_DIR" value="%ProgramData%\_VM" />
+    <env name="TOOL_LIST_DIR" value="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Tools" />
+    <env name="TOOL_LIST_SHORTCUT" value="%UserProfile%\Desktop\Tools.lnk" />
+    <env name="RAW_TOOLS_DIR" value="%SystemDrive%\Tools" />
+  </envs>
+  <packages>
+    <package name="notepadplusplus.vm" />
+    <package name="7zip-15-05.vm" />
+    <package name="azurehound.vm" />
+    <package name="bloodhound.vm" />
+    <package name="cmder.vm" />
+    <package name="cyberchef.vm" />
+    <package name="gobuster.vm" />
+    <package name="sqlrecon.vm" />
+    <package name="awscli" />
+    <package name="az.powershell" />
+    <package name="azure-cli" />
+    <package name="teamfiltration.vm" />
+    <package name="obsidian" />
+    <package name="googlechrome" />
+    <package name="firefox" />
+    <package name="vscode" />
+    <package name="greenshot" />
+    <package name="vlc" />
+    <package name="gimp" />
+    <package name="keepass" />
+    <package name="adobereader" />
+    <package name="golang" />
+    <package name="rust" />
+    <package name="nim" />
+    <package name="visualstudio.vm" />
+    <package name="ilspy.vm" />
+    <package name="putty.vm" />
+    <package name="wireshark.vm" />
+    <package name="cyberchef.vm" />
+    <package name="pebear.vm" />
+    <package name="sysinternals.vm" />
+    <package name="situational-awareness-bof.vm" />
+    <package name="unhook-bof.vm" />
+    <package name="stracciatella.vm" />
+    <package name="nanodump.vm" />
+    <package name="truestedsec-remote-ops-bof.vm" />
+    <package name="outflank-c2-tool-collection.vm" />
+    <package name="certify.vm" />
+    <package name="streamdivert.vm" />
+    <package name="whisker.vm" />
+    <package name="confuserex.vm" />
+    <package name="dotnettojscript.vm" />
+    <package name="gadgettojscript.vm" />
+    <package name="sharpup.vm" />
+    <package name="idafree.vm" />
+    <package name="az.powershell" />
+    <package name="azure-cli" />
+    <package name="routesixtysink.vm" />
+    <package name="sharphound.vm" />
+    <package name="spoolsample.vm" />
+    <package name="sharpview.vm" />
+    <package name="seatbelt.vm" />
+    <package name="telnet.vm" />
+  </packages>
+</config>
