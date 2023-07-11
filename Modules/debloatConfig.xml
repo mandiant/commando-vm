@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config> 
+    <apps>
+        <!--
+        FORMAT: 
+        <app name="APP_NAME"/>
+        -->
+        <app name="Microsoft.XboxApp"/>
+    </apps>
+    <services>
+        <!--
+        FORMAT: 
+        <service name="SERVICE_NAME"/>
+        -->
+        <service name="XboxGipSvc"/>
+    </services>  
+    <registry-items>
+        <!--
+        FORMAT: 
+        <registry-item name="DESCRIPTIVE_NAME" path="REG_PATH" value="REG_VALUE" type="TYPE" data="NEW_DATA"/> 
+        -->
+        <registry-item name="DisableBingSearch" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" value="BingSearchEnabled" type="DWord" data="0"/>
+    </registry-items>
+    <path-items>
+        <!--
+        FORMAT: 
+        <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
+        -->
+        <path-item name="RemoveEdge" type="dir" path="C:\scratchdir\Program Files (x86)\Microsoft\Edge" />
+    </path-items>
+    <custom-items>
+        <!--FORMAT: 
+        <custom-item name="DESCRIPTIVE_NAME"> <cmd value="PS_COMMAND"/> ... </custom-item>
+        -->
+        <custom-item name="RemoveOneDrive">
+            <cmd value="taskkill /f /im OneDrive.exe"/>
+            <cmd value="C:\Windows\SysWOW64\OneDriveSetup.exe /uninstall"/>
+        </custom-item>
+    </custom-items>
+</config>
