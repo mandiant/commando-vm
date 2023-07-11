@@ -5,7 +5,38 @@
         FORMAT: 
         <app name="APP_NAME"/>
         -->
+        <app name="Microsoft.BingWeather"/>
+        <app name="Microsoft.GetHelp"/>
+        <app name="Microsoft.Getstarted"/>
+        <app name="Microsoft.Microsoft3DViewer"/>
+        <app name="Microsoft.MicrosoftOfficeHub"/>
+        <app name="Microsoft.MicrosoftSolitaireCollection"/>
+        <app name="Microsoft.MicrosoftStickyNotes"/>
+        <app name="Microsoft.MixedReality.Portal"/>
+        <app name="Microsoft.MSPaint"/>
+        <app name="Microsoft.Office.OneNote"/>
+        <app name="Microsoft.People"/>
+        <app name="Microsoft.ScreenSketch"/>
+        <app name="Microsoft.SkypeApp"/>
+        <app name="Microsoft.Wallet"/>
+        <app name="Microsoft.Windows.Photos"/>
+        <app name="Microsoft.WindowsAlarms"/>
+        <app name="Microsoft.WindowsCalculator"/>
+        <app name="Microsoft.WindowsCamera"/>
+        <app name="microsoft.windowscommunicationsapps"/>
+        <app name="Microsoft.WindowsFeedbackHub"/>
+        <app name="Microsoft.WindowsMaps"/>
+        <app name="Microsoft.WindowsSoundRecorder"/>
+        <app name="Microsoft.Xbox.TCUI"/>
         <app name="Microsoft.XboxApp"/>
+        <app name="Microsoft.XboxGameOverlay"/>
+        <app name="Microsoft.XboxGamingOverlay"/>
+        <app name="Microsoft.XboxIdentityProvider"/>
+        <app name="Microsoft.XboxSpeechToTextOverlay"/>
+        <app name="Microsoft.YourPhone"/>
+        <app name="Microsoft.ZuneMusic"/>
+        <app name="Microsoft.ZuneVideo"/>
+        
     </apps>
     <services>
         <!--
