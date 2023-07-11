@@ -11,31 +11,32 @@ function Commando-Remove-App {
     try {
         # Check if the app is installed
         $installedPackage = Get-AppxPackage -Name $appName -ErrorAction SilentlyContinue
-
+        
         if ($installedPackage) {
             $packageFullName = $installedPackage.PackageFullName
             $result = Remove-AppxPackage -Package $packageFullName -ErrorAction Stop
 
-            if ($result) {
-                Write-Output "[DEBLOAT] $appName has been successfully removed."
+            if ($null -eq $result) {
+                Write-Output "[DEBLOAT] Installed $appName has been successfully removed."
             } else {
-                Write-Error "[DEBLOAT] FAILED to remove app $appName."
+                Write-Error "[DEBLOAT] Failed to remove installed app $appName."
+            }
+        }
+        else {
+            Write-Error "[DEBLOAT] Installed $appName not found on the system."
+        }
+        # Check if the app is provisioned
+        $provisionedPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $appName } -ErrorAction SilentlyContinue
+        if ($provisionedPackage) {
+            $result = Remove-AppxProvisionedPackage -PackageName $provisionedPackage.PackageName -Online -ErrorAction Stop
+
+            if ($result) {
+                Write-Output "[DEBLOAT] Provisioned $appName has been successfully removed."
+            } else {
+                Write-Error "[DEBLOAT] Failed to remove porvisioned app $appName."
             }
         } else {
-            # Check if the app is provisioned
-            $provisionedPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $appName } -ErrorAction SilentlyContinue
-
-            if ($provisionedPackage) {
-                $result = Remove-AppxProvisionedPackage -PackageName $provisionedPackage.PackageName -ErrorAction Stop
-
-                if ($result) {
-                    Write-Output "[DEBLOAT] $appName has been successfully removed."
-                } else {
-                    Write-Error "[DEBLOAT] FAILED to remove app $appName."
-                }
-            } else {
-                Write-Error "[DEBLOAT] $appName not found on the system."
-            }
+            Write-Error "[DEBLOAT] Provisioned $appName not found on the system."
         }
     } 
     catch {
@@ -136,7 +137,7 @@ function Commando-Remove-Path {
                 Write-Error "[DEBLOAT] $path does not exist."
             }
         }
-        elseif ($type -eq "directory") {
+        elseif ($type -eq "dir") {
             if (Test-Path -Path $path -PathType Container) {
                 Remove-Item -Path $path -Recurse -Force
                 Write-Output "[DEBLOAT] $name has been successfully removed."
