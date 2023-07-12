@@ -62,7 +62,8 @@
         <registry-item name="Disable Input Personalization" path="HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" value="AllowInputPersonalization" type="DWord" data="0" />
         <registry-item name="Disable SmartScreen" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" value="EnableSmartScreen" type="DWord" data="0" />
         <registry-item name="Disable Microsoft Edge Phishing Filter" path="HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter" value="EnabledV9" type="DWord" data="0" />
-
+        <registry-item name="Disable Tailored Experiences with Diagnostic Data" path="HKCU:\Software\Policies\Microsoft\Windows\CloudContent" value="DisableTailoredExperiencesWithDiagnosticData" type="DWord" data="1" />
+        <registry-item name="Disable Tailored Experiences with Diagnostic Data" path="HKCU:\Software\Policies\Microsoft\Windows\CloudContent" value="DisableTailoredExperiencesWithDiagnosticData" type="DWord" data="1" />
 
     </registry-items>
     <path-items>
