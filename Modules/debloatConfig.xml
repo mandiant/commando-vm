@@ -45,6 +45,25 @@
         <service name="SERVICE_NAME"/>
         -->
         <service name="XboxGipSvc"/>
+        <service name="XblAuthManager"/>
+        <service name="XblGameSave"/>
+        <service name="XboxNetApiSvc"/>
+        <service name="WMPNetworkSvc"/>
+        <service name="WerSvc"/>
+        <service name="SysMain"/>
+        <service name="RetailDemo"/>
+        <service name="Fax"/>
+        <service name="WdiSystemHost"/>
+        <service name="WdiServiceHost"/>
+        <service name="DPS"/>
+        <service name="BITS"/>
+        <service name="WpcMonSvc"/>
+        <service name="wmiApSrv"/>
+        <service name="WbioSrvc"/>
+        <service name="WalletService"/>
+        <service name="TabletInputService"/>
+        <service name="MapsBroker"/>
+        <service name="lfsvc"/>
     </services>  
     <registry-items>
         <!--
@@ -71,7 +90,6 @@
         FORMAT: 
         <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
         -->
-        <path-item name="RemoveEdge" type="dir" path="C:\Program Files (x86)\Microsoft\Edge" />
     </path-items>
     <custom-items>
         <!--FORMAT: 
