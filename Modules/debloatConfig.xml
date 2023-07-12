@@ -71,7 +71,6 @@
         FORMAT: 
         <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
         -->
-        <path-item name="RemoveEdge" type="dir" path="C:\Program Files (x86)\Microsoft\Edge" />
     </path-items>
     <custom-items>
         <!--FORMAT: 
