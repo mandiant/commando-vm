@@ -51,6 +51,18 @@
         <registry-item name="DESCRIPTIVE_NAME" path="REG_PATH" value="REG_VALUE" type="TYPE" data="NEW_DATA"/> 
         -->
         <registry-item name="DisableBingSearch" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" value="BingSearchEnabled" type="DWord" data="0"/>
+        <registry-item name="Disable Cortana Privacy Policy" path="HKCU:\Software\Microsoft\Personalization\Settings" value="AcceptedPrivacyPolicy" type="DWord" data="0" />
+        <registry-item name="Restrict Implicit Text Collection" path="HKCU:\Software\Microsoft\InputPersonalization" value="RestrictImplicitTextCollection" type="DWord" data="1" />
+        <registry-item name="Restrict Implicit Ink Collection" path="HKCU:\Software\Microsoft\InputPersonalization" value="RestrictImplicitInkCollection" type="DWord" data="1" />
+        <registry-item name="Disable Cortana Contact Harvesting" path="HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" value="HarvestContacts" type="DWord" data="0" />
+        <registry-item name="Hide Cortana Button" path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ShowCortanaButton" type="DWord" data="0" />
+        <registry-item name="Disable Cortana through Policy Manager" path="HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Experience\AllowCortana" value="Value" type="DWord" data="0" />
+        <registry-item name="Disable Cortana through Windows Search Policy" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" value="AllowCortana" type="DWord" data="0" />
+        <registry-item name="Disable Input Personalization" path="HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" value="AllowInputPersonalization" type="DWord" data="0" />
+        <registry-item name="Disable SmartScreen" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" value="EnableSmartScreen" type="DWord" data="0" />
+        <registry-item name="Disable Microsoft Edge Phishing Filter" path="HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter" value="EnabledV9" type="DWord" data="0" />
+
+
     </registry-items>
     <path-items>
         <!--
