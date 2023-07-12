@@ -81,5 +81,11 @@
             <cmd value="taskkill /f /im OneDrive.exe"/>
             <cmd value="C:\Windows\SysWOW64\OneDriveSetup.exe /uninstall"/>
         </custom-item>
+        <custom-item name="Disable display and sleep mode timeouts">
+            <cmd value="powercfg /X monitor-timeout-ac 0"/>
+            <cmd value="powercfg /X monitor-timeout-dc 0"/>
+            <cmd value="powercfg /X standby-timeout-ac 0"/>
+            <cmd value="powercfg /X standby-timeout-dc 0"/>
+        </custom-item>
     </custom-items>
 </config>
