@@ -104,6 +104,16 @@ function Commando-Remove-RegistryValue {
             $validatedData = $data
         }
 
+        # check if path exists. If not, create the path for the registry value
+        if (!(Test-Path -Path $path)) {
+            # Create the registry key
+            New-Item -Path $path -Force | Out-Null
+            Write-Output "Registry key created: $path"
+        }
+        else {
+            Write-Output "Registry key already exists: $path"
+        }
+
         Set-ItemProperty -Path $path -Name $value -Value $validatedData -Type $type -Force | Out-Null
         Write-Output "[DEBLOAT] $name has been successfully updated."
     }
