@@ -5,6 +5,7 @@
         FORMAT: 
         <app name="APP_NAME"/>
         -->
+        <app name="Microsoft.549981C3F5F10"/>
         <app name="Microsoft.BingWeather"/>
         <app name="Microsoft.GetHelp"/>
         <app name="Microsoft.Getstarted"/>
