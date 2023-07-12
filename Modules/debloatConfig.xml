@@ -65,6 +65,8 @@
         <registry-item name="Disable Tailored Experiences with Diagnostic Data" path="HKCU:\Software\Policies\Microsoft\Windows\CloudContent" value="DisableTailoredExperiencesWithDiagnosticData" type="DWord" data="1" />
         <registry-item name="Disable Tailored Experiences with Diagnostic Data" path="HKCU:\Software\Policies\Microsoft\Windows\CloudContent" value="DisableTailoredExperiencesWithDiagnosticData" type="DWord" data="1" />
         <registry-item name="Disable Windows Firewall (Standard Profile)" path="HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" value="EnableFirewall" type="DWord" data="0" />
+        <registry-item name="Disable UAC Consent Prompt for Administrators" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" value="ConsentPromptBehaviorAdmin" type="DWord" data="0" />
+        <registry-item name="Disable UAC Prompt on Secure Desktop" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" value="PromptOnSecureDesktop" type="DWord" data="0" />
 
     </registry-items>
     <path-items>
