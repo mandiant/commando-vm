@@ -101,7 +101,10 @@
         <registry-item name="Disable AllowLinguisticDataCollection" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\TextInput" value="AllowLinguisticDataCollection" type="DWord" data="0" />
         <registry-item name="Disable Automatic Server Share" path="HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" value="AutoShareServer" type="DWord" data="0" />
         <registry-item name="Disable Automatic Workstation Share" path="HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" value="AutoShareWks" type="DWord" data="0" />
-
+        <registry-item name="Hide Taskbar Search" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" value="SearchboxTaskbarMode" type="DWord" data="0" />
+        <registry-item name="Hide Task View" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ShowTaskViewButton" type="DWord" data="0" />
+        <registry-item name="Remove MeetNow User" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
+        <registry-item name="Remove MeetNow Machine" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
     </registry-items>
     <path-items>
         <!--
@@ -118,15 +121,12 @@
             <cmd value="taskkill /f /im OneDrive.exe"/>
             <cmd value="C:\Windows\SysWOW64\OneDriveSetup.exe /uninstall"/>
         </custom-item>
-        <custom-item name="Disable display and sleep mode timeouts">
-            <cmd value="powercfg /X monitor-timeout-ac 0"/>
-            <cmd value="powercfg /X monitor-timeout-dc 0"/>
-            <cmd value="powercfg /X standby-timeout-ac 0"/>
-            <cmd value="powercfg /X standby-timeout-dc 0"/>
-        </custom-item>
-            <custom-item name="Unpin Taskbar Icons">
+        <custom-item name="Unpin Taskbar Icons">
             <cmd value='Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "Favorites" -Type Binary -Value ([byte[]](255))'/>
             <cmd value='Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue'/>
+        </custom-item>
+        <custom-item name="Remove Desktop Links">
+            <cmd value="del $(Join-Path $env:USERPROFILE 'Desktop\*.lnk')" />
         </custom-item>
     </custom-items>
 </config>
