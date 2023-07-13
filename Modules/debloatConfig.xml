@@ -37,7 +37,7 @@
         <app name="Microsoft.YourPhone"/>
         <app name="Microsoft.ZuneMusic"/>
         <app name="Microsoft.ZuneVideo"/>
-        
+        <app name="SpotifyAB.SpotifyMusic"/>
     </apps>
     <services>
         <!--
