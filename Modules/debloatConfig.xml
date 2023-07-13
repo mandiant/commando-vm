@@ -86,6 +86,7 @@
         <registry-item name="Disable Windows Firewall (Standard Profile)" path="HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" value="EnableFirewall" type="DWord" data="0" />
         <registry-item name="Disable UAC Consent Prompt for Administrators" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" value="ConsentPromptBehaviorAdmin" type="DWord" data="0" />
         <registry-item name="Disable UAC Prompt on Secure Desktop" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" value="PromptOnSecureDesktop" type="DWord" data="0" />
+        <registry-item name="Disable OneDrive Files On-Demand" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" value="DisableFileSyncNGSC" type="DWord" data="1" />
         <registry-item name="Disable Advertising ID" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" value="DisabledByGroupPolicy" type="DWord" data="1" />
         <registry-item name="Disable Telemetry" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" value="AllowTelemetry" type="DWord" data="0" />
         <registry-item name="Disable Telemetry Wow6432Node" path="HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" value="AllowTelemetry" type="DWord" data="0" />
@@ -98,13 +99,16 @@
         <registry-item name="Disable AppV CEIP" path="HKLM:\SOFTWARE\Policies\Microsoft\AppV\CEIP" value="CEIPEnable" type="DWord" data="0" />
         <registry-item name="Disable PreventHandwritingDataSharing" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\TabletPC" value="PreventHandwritingDataSharing" type="DWord" data="1" />
         <registry-item name="Disable AllowLinguisticDataCollection" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\TextInput" value="AllowLinguisticDataCollection" type="DWord" data="0" />
+        <registry-item name="Disable Automatic Server Share" path="HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" value="AutoShareServer" type="DWord" data="0" />
+        <registry-item name="Disable Automatic Workstation Share" path="HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" value="AutoShareWks" type="DWord" data="0" />
+
     </registry-items>
     <path-items>
         <!--
         FORMAT: 
         <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
         -->
-        <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
+        <path-item name="RemoveEdge" type="dir" path="C:\Program Files (x86)\Microsoft\Edge" />
     </path-items>
     <custom-items>
         <!--FORMAT: 
