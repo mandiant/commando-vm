@@ -119,5 +119,6 @@
     <package name="dnspyex.vm" />
     <package name="fakenet-ng.vm" />
     <package name="nasm.vm" />
+    <package name="x64dbg.vm" />
   </packages>
 </config>
