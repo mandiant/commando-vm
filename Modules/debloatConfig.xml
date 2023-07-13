@@ -124,7 +124,7 @@
             <cmd value="powercfg /X standby-timeout-ac 0"/>
             <cmd value="powercfg /X standby-timeout-dc 0"/>
         </custom-item>
-            <custom-item name="Unpin Taskbard Icons">
+            <custom-item name="Unpin Taskbar Icons">
             <cmd value='Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "Favorites" -Type Binary -Value ([byte[]](255))'/>
             <cmd value='Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue'/>
         </custom-item>
