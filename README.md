@@ -36,6 +36,7 @@
 - Alex Tselevich    @nos3curity
 - George Litvinov   @geo-lit
 - Dennis Tran       @Menn1s
+- Derrick Tran      @dumosuku
 - Mandiant Red Team
 - Mandiant FLARE
 
