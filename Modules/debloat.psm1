@@ -19,11 +19,11 @@ function Commando-Remove-App {
             if ($null -eq $result) {
                 Write-Output "[DEBLOAT] Installed $appName has been successfully removed."
             } else {
-                Write-Error "[DEBLOAT] Failed to remove installed app $appName."
+                Write-Output "[DEBLOAT] Failed to remove installed app $appName."
             }
         }
         else {
-            Write-Error "[DEBLOAT] Installed $appName not found on the system."
+            Write-Output "[DEBLOAT] Installed $appName not found on the system."
         }
         # Check if the app is provisioned
         $provisionedPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $appName } -ErrorAction SilentlyContinue
@@ -33,10 +33,10 @@ function Commando-Remove-App {
             if ($result) {
                 Write-Output "[DEBLOAT] Provisioned $appName has been successfully removed."
             } else {
-                Write-Error "[DEBLOAT] Failed to remove porvisioned app $appName."
+                Write-Output "[DEBLOAT] Failed to remove porvisioned app $appName."
             }
         } else {
-            Write-Error "[DEBLOAT] Provisioned $appName not found on the system."
+            Write-Output "[DEBLOAT] Provisioned $appName not found on the system."
         }
     } 
     catch {
@@ -60,7 +60,7 @@ function Commando-Remove-Service {
             $service | Set-Service -StartupType Manual -ErrorAction Stop
             Write-Output "[DEBLOAT] Service $serviceName has been disabled."
         } else {
-            Write-Error "[DEBLOAT] Service $serviceName not found."
+            Write-Output "[DEBLOAT] Service $serviceName not found."
         }
     }
     catch {
@@ -144,7 +144,7 @@ function Commando-Remove-Path {
                 Remove-Item -Path $path -Force
                 Write-Output "[DEBLOAT] $name has been successfully removed."
             } else {
-                Write-Error "[DEBLOAT] $path does not exist."
+                Write-Output "[DEBLOAT] $path does not exist."
             }
         }
         elseif ($type -eq "dir") {
@@ -152,7 +152,7 @@ function Commando-Remove-Path {
                 Remove-Item -Path $path -Recurse -Force
                 Write-Output "[DEBLOAT] $name has been successfully removed."
             } else {
-                Write-Error "[DEBLOAT] $path does not exist."
+                Write-Output "[DEBLOAT] $path does not exist."
             }
         }
     }
