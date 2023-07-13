@@ -178,7 +178,8 @@ function Commando-Remove-Custom{
         Write-Output "[DEBLOAT] Executing commands for '$name':"
         foreach ($cmd in $cmds) {
             Write-Output "`tExecuting command: $cmd"
-            Invoke-Expression -Command $cmd
+            start-process powershell -ArgumentList "-WindowStyle","Hidden","-Command",$cmd -Wait
+            Write-Host "Process completed. Moving to next."
         }
         Write-Output "[DEBLOAT] All commands for '$name' have been executed successfully."
     }
