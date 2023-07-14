@@ -129,5 +129,12 @@
     <package name="vnc-viewer.vm" />
     <package name="wmimplant.vm" />
     <package name="x64dbg.vm" />
+    <package name="getlapspasswords.vm" />
+    <package name="inveigh.vm" />
+    <package name="merlin.vm" />
+    <package name="openvpn.vm" />
+    <package name="resourcehacker.vm" />
+    <package name="sqlitebrowser.vm" />
+    <package name="winscp.vm" />
   </packages>
 </config>
