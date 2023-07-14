@@ -140,7 +140,7 @@
         </custom-item>
         <custom-item name="Remove Desktop Links">
             <cmd value="del $(Join-Path $env:USERPROFILE 'Desktop\*.lnk')" />
-            <cmd value="del $(Join-Path $env:USERPROFILE 'Public\Desktop\*.lnk')" />
+            <cmd value="del $(Join-Path $env:PUBLIC 'Desktop\*.lnk')" />
         </custom-item>
     </custom-items>
 </config>
