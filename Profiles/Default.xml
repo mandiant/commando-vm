@@ -92,7 +92,6 @@
     <package name="sharpwmi.vm" />
     <package name="sliver.vm" />
     <package name="snaffler.vm" />
-    <package name="statistically-likely-usernames.vm" />
     <package name="syswhispers2.vm" />
     <package name="tor-browser.vm" />
     <package name="upx.vm" />
