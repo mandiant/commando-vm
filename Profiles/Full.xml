@@ -119,6 +119,15 @@
     <package name="dnspyex.vm" />
     <package name="fakenet-ng.vm" />
     <package name="nasm.vm" />
+    <package name="metasploit.vm" />
+    <package name="mimikatz.vm" />
+    <package name="safetykatz.vm" />
+    <package name="sharpcliphistory.vm" />
+    <package name="sharpdump.vm" />
+    <package name="sharpexec.vm" />
+    <package name="syswhispers3.vm" />
+    <package name="vnc-viewer.vm" />
+    <package name="wmimplant.vm" />
     <package name="x64dbg.vm" />
   </packages>
 </config>
