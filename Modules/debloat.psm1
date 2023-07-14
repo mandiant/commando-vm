@@ -219,7 +219,7 @@ function Commando-Remove-Custom{
 function Commando-Debloat {
     param(
         [Parameter(Position = 0)]
-        [string]$debloatConfig = (Join-Path -Path $PSScriptRoot -ChildPath "debloatConfig.xml")
+        [string]$debloatConfig = (Join-Path -Path $PSScriptRoot -ChildPath "Modules\debloatConfig.xml")
     )
 
     try {
