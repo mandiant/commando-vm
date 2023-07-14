@@ -25,13 +25,11 @@
     <package name="invokedosfuscation.vm" />
     <package name="invokeobfuscation.vm" />
     <package name="merlin.vm" />
-    <package name="metasploit.vm" />
     <package name="openvpn.vm" />
     <package name="pebear.vm" />
     <package name="pesieve.vm" />
     <package name="pestudio.vm" />
     <package name="processdump.vm" />
-    <package name="putty.vm" />
     <package name="resourcehacker.vm" />
     <package name="rundotnetdll.vm" />
     <package name="scdbg.vm" />
@@ -77,7 +75,6 @@
     <package name="nmap.vm" />
     <package name="git" />
     <package name="sublimetext3.app" />
-    <package name="lockhunter" />
     <package name="unxutils" />
     <package name="ghidra.vm" />
   </packages>

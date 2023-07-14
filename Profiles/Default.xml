@@ -28,7 +28,6 @@
     <package name="vlc" />
     <package name="keepass" />
     <package name="ilspy.vm" />
-    <package name="putty.vm" />
     <package name="wireshark.vm" />
     <package name="cyberchef.vm" />
     <package name="pebear.vm" />
@@ -104,7 +103,6 @@
     <package name="dnspyex.vm" />
     <package name="fakenet-ng.vm" />
     <package name="nasm.vm" />
-    <package name="metasploit.vm" />
     <package name="mimikatz.vm" />
     <package name="safetykatz.vm" />
     <package name="sharpcliphistory.vm" />
@@ -122,7 +120,6 @@
     <package name="sqlitebrowser.vm" />
     <package name="winscp.vm" />
     <package name="jre8" />
-    <package name="lockhunter" />
     <package name="unxutils" />
   </packages>
 </config>

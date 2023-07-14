@@ -45,7 +45,6 @@
     <package name="setdllcharacteristics.vm" />
     <package name="googlechrome" />
     <package name="firefox" />
-    <package name="lockhunter" />
     <package name="unxutils" />
     <package name="sysinternals.vm" />
     <package name="fiddlerclassic.vm" />

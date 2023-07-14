@@ -34,7 +34,6 @@
     <package name="nim" />
     <package name="visualstudio.vm" />
     <package name="ilspy.vm" />
-    <package name="putty.vm" />
     <package name="wireshark.vm" />
     <package name="cyberchef.vm" />
     <package name="pebear.vm" />
@@ -117,7 +116,6 @@
     <package name="dnspyex.vm" />
     <package name="fakenet-ng.vm" />
     <package name="nasm.vm" />
-    <package name="metasploit.vm" />
     <package name="mimikatz.vm" />
     <package name="safetykatz.vm" />
     <package name="sharpcliphistory.vm" />
@@ -139,7 +137,6 @@
     <package name="qbittorrent" />
     <package name="dbeaver" />
     <package name="hfsexplorer" />
-    <package name="lockhunter" />
     <package name="unxutils" />
   </packages>
 </config>

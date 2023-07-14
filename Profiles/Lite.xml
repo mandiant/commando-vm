@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
   <envs>
-    <env name="MIN_DISK_SPACE" value="TBD" />
+    <env name="MIN_DISK_SPACE" value="50" />
     <env name="VM_COMMON_DIR" value="%ProgramData%\_VM" />
     <env name="TOOL_LIST_DIR" value="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Tools" />
     <env name="TOOL_LIST_SHORTCUT" value="%UserProfile%\Desktop\Tools.lnk" />
@@ -19,7 +19,6 @@
     <package name="fuzzdb.vm" />
     <package name="juicypotato.vm" />
     <package name="hashmyfiles.vm" />
-    <package name="metasploit.vm" />
     <package name="mimikatz.vm" />
     <package name="nanodump.vm" />
     <package name="nmap.vm" />
@@ -28,7 +27,6 @@
     <package name="petitpotam.vm" />
     <package name="powersploit.vm" />
     <package name="powerupsql.vm" />
-    <package name="putty.vm" />
     <package name="rubeus.vm" />
     <package name="seatbelt.vm" />
     <package name="seclists.vm" />
@@ -51,7 +49,6 @@
     <package name="vscode" />
     <package name="git" />
     <package name="bloodhound-custom-queries.vm" />
-    <package name="lockhunter" />
     <package name="unxutils" />
   </packages>
 </config>
