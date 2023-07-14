@@ -38,6 +38,7 @@
         <app name="Microsoft.ZuneMusic"/>
         <app name="Microsoft.ZuneVideo"/>
         <app name="SpotifyAB.SpotifyMusic"/>
+        <app name="Disney.37853FC22B2CE"/>
     </apps>
     <services>
         <!--
