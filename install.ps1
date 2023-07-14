@@ -27,7 +27,6 @@
 param (
     [switch]$cli,
     [switch]$victim,
-    [switch]$victim,
     [switch]$skipChecks,
     [switch]$noPassword,
     [string]$password,
