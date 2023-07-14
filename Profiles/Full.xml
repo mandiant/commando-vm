@@ -138,5 +138,6 @@
     <package name="dbeaver" />
     <package name="hfsexplorer" />
     <package name="unxutils" />
+    <package name="hashcat.vm" />
   </packages>
 </config>
