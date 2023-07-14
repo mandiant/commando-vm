@@ -71,7 +71,14 @@
     <package name="exiftool.vm" />
     <package name="hxd.vm" />
     <package name="cmder.vm" />
-    <package name="libraries.python2.vm" />
-    <package name="libraries.python3.vm" />
+    <package name="python3" />
+    <package name="fiddlerclassic.vm" />
+    <package name="burp-free.vm" />
+    <package name="nmap.vm" />
+    <package name="git" />
+    <package name="sublimetext3.app" />
+    <package name="lockhunter" />
+    <package name="unxutils" />
+    <package name="ghidra.vm" />
   </packages>
 </config>
