@@ -55,5 +55,23 @@
     <package name="x64dbg.vm" />
     <package name="yara.vm" />
     <package name="c3.vm" />
+    <package name="obsidian" />
+    <package name="googlechrome" />
+    <package name="firefox" />
+    <package name="vscode" />
+    <package name="greenshot" />
+    <package name="vlc" />
+    <package name="gimp" />
+    <package name="keepass" />
+    <package name="adobereader" />
+    <package name="golang" />
+    <package name="rust" />
+    <package name="nim" />
+    <package name="idafree.vm" />
+    <package name="exiftool.vm" />
+    <package name="hxd.vm" />
+    <package name="cmder.vm" />
+    <package name="libraries.python2.vm" />
+    <package name="libraries.python3.vm" />
   </packages>
 </config>
