@@ -28,7 +28,7 @@ function Commando-Remove-App {
         # Check if the app is provisioned
         $provisionedPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $appName } -ErrorAction SilentlyContinue
         if ($provisionedPackage) {
-            $result = Remove-AppxProvisionedPackage -PackageName $provisionedPackage.PackageName -Online -ErrorAction Stop
+            $result = Remove-AppxProvisionedPackage -PackageName $provisionedPackage.PackageName -Online  
 
             if ($result) {
                 Write-Output "[DEBLOAT] Provisioned $appName has been successfully removed."
@@ -65,6 +65,32 @@ function Commando-Remove-Service {
     }
     catch {
         Write-Error "[DEBLOAT] An error occurred while setting the service startup type. Error: $_"
+    }
+}
+
+function Commando-Delete-Task {
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$name,
+
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$value
+    )
+
+    try {
+        $output = Disable-ScheduledTask -TaskName $value -ErrorAction SilentlyContinue
+        if ($output){
+            Write-Output "[DEBLOAT] Scheduled task '$name' has been disabled."
+        }
+        else{
+            Write-Output "[DEBLOAT] Scheduled task '$name' not found."
+        }
+    
+    }
+    catch {
+        Write-Error "An error occurred while disabling the scheduled task. Error: $_"
     }
 }
 
@@ -179,7 +205,7 @@ function Commando-Remove-Custom{
         foreach ($cmd in $cmds) {
             Write-Output "`tExecuting command: $cmd"
             start-process powershell -ArgumentList "-WindowStyle","Hidden","-Command",$cmd -Wait
-            Write-Host "Process completed. Moving to next."
+            Write-Host "`tProcess completed. Moving to next."
         }
         Write-Output "[DEBLOAT] All commands for '$name' have been executed successfully."
     }
@@ -193,7 +219,7 @@ function Commando-Remove-Custom{
 function Commando-Debloat {
     param(
         [Parameter(Position = 0)]
-        [string]$debloatConfig = "./debloatConfig.xml"
+        [string]$debloatConfig = (Join-Path -Path $PSScriptRoot -ChildPath "debloatConfig.xml")
     )
 
     try {
@@ -201,40 +227,60 @@ function Commando-Debloat {
         $config = [xml](Get-Content $debloatConfig)
 
         # Process the apps
-        $config.config.apps.app | ForEach-Object {
-            $appName = $_.name
-            Commando-Remove-App -appName $appName
+        if ($config.config.apps.app) {
+            $config.config.apps.app | ForEach-Object {
+                $appName = $_.name
+                Commando-Remove-App -appName $appName
+            }
+        }
+
+
+        # Process the services
+        if ($config.config.services.service) {
+            $config.config.services.service | ForEach-Object {
+                $serviceName = $_.name
+                Commando-Remove-Service -serviceName $serviceName
+            }
         }
 
         # Process the services
-        $config.config.services.service | ForEach-Object {
-            $serviceName = $_.name
-            Commando-Remove-Service -serviceName $serviceName
+        if ($config.config.tasks.task) {
+            $config.config.tasks.task | ForEach-Object {
+                $descName = $_.name
+                $taskName = $_.value
+                Commando-Delete-Task -name $descName -value $taskName
+            }
         }
 
         # Process the registry items
-        $config.config."registry-items"."registry-item" | ForEach-Object {
-            $name = $_.name
-            $path = $_.path
-            $value = $_.value
-            $type = $_.type
-            $data = $_.data
-            Commando-Remove-RegistryValue -name $name -path $path -value $value -type $type -data $data
+        if ($config.config."registry-items"."registry-item") {
+            $config.config."registry-items"."registry-item" | ForEach-Object {
+                $name = $_.name
+                $path = $_.path
+                $value = $_.value
+                $type = $_.type
+                $data = $_.data
+                Commando-Remove-RegistryValue -name $name -path $path -value $value -type $type -data $data
+            }
         }
 
         # Process the path items
-        $config.config."path-items"."path-item" | ForEach-Object {
-            $name = $_.name
-            $type = $_.type
-            $path = $_.path
-            Commando-Remove-Path -name $name -type $type -path $path
+        if ($config.config."path-items"."path-item") {
+            $config.config."path-items"."path-item" | ForEach-Object {
+                $name = $_.name
+                $type = $_.type
+                $path = $_.path
+                Commando-Remove-Path -name $name -type $type -path $path
+            }
         }
 
         # Process the custom items
-        $config.config."custom-items"."custom-item" | ForEach-Object {
-            $name = $_.name
-            $cmds = @($_.cmd | ForEach-Object { $_.value })
-            Commando-Remove-Custom -name $name -cmds $cmds
+        if ($config.config."custom-items"."custom-item") {
+            $config.config."custom-items"."custom-item" | ForEach-Object {
+                $name = $_.name
+                $cmds = @($_.cmd | ForEach-Object { $_.value })
+                Commando-Remove-Custom -name $name -cmds $cmds
+            }
         }
 
         # Unpinning all Start Tiles

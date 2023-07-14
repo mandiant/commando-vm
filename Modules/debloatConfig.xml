@@ -64,7 +64,19 @@
         <service name="TabletInputService"/>
         <service name="MapsBroker"/>
         <service name="lfsvc"/>
-    </services>  
+    </services>
+    <tasks>
+        <!--
+        FORMAT: 
+        <task name="DESCRIPTIVE_NAME" value="TASK_NAME"/> 
+        -->
+        <task name="Microsoft Compatibility Appraiser" value="Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"/>
+        <task name="ProgramDataUpdater" value="Microsoft\Windows\Application Experience\ProgramDataUpdater"/>
+        <task name="Proxy" value="Microsoft\Windows\Autochk\Proxy"/>
+        <task name="Consolidator" value="Microsoft\Windows\Customer Experience Improvement Program\Consolidator"/>
+        <task name="UsbCeip" value="Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"/>
+        <task name="Microsoft-Windows-DiskDiagnosticDataCollector" value="Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"/>
+    </tasks>
     <registry-items>
         <!--
         FORMAT: 
@@ -105,13 +117,14 @@
         <registry-item name="Hide Task View" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ShowTaskViewButton" type="DWord" data="0" />
         <registry-item name="Remove MeetNow User" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
         <registry-item name="Remove MeetNow Machine" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
+        <registry-item name="Bing Tab in Taksbar" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds" value="ShellFeedsTaskbarViewMode" type="DWord" data="2" />
+
     </registry-items>
     <path-items>
         <!--
         FORMAT: 
         <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
         -->
-        <path-item name="RemoveEdge" type="dir" path="C:\Program Files (x86)\Microsoft\Edge" />
     </path-items>
     <custom-items>
         <!--FORMAT: 
