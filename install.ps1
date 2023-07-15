@@ -319,11 +319,18 @@ if (-not $cli.IsPresent) {
     $ProfileSelector.Add_SelectedIndexChanged({
         $global:selectedProfile = $ProfileSelector.SelectedItem
     
-        # Find the DiskSize from $global:profileData where ProfileName equals $global:selectedProfile
-        $diskSize = ($global:profileData | Where-Object { $_.ProfileName -eq $global:selectedProfile }).DiskSize
-    
-        # Set $RecommendedDiskSpace.Text to the found DiskSize
-        $RecommendedDiskSpace.Text = "$($diskSize)GB"
+        if ($ProfileSelector.SelectedItem -eq "Custom") {
+            $RecommendedDiskSpaceLabel.Visible = $false
+            $RecommendedDiskSpace.Visible = $false
+        } else {
+            # Find the DiskSize from $global:profileData where ProfileName equals $global:selectedProfile
+            $diskSize = ($global:profileData | Where-Object { $_.ProfileName -eq $global:selectedProfile }).DiskSize
+        
+            # Set $RecommendedDiskSpace.Text to the found DiskSize
+            $RecommendedDiskSpace.Text = "$($diskSize)GB"
+            $RecommendedDiskSpaceLabel.Visible = $true
+            $RecommendedDiskSpace.Visible = $true
+        }
     })
     
 
@@ -336,7 +343,7 @@ if (-not $cli.IsPresent) {
     $ConfigureProfileButton.Add_Click({Open-ProfileManager})
 
     $RecommendedDiskSpace            = New-Object system.Windows.Forms.Label
-    $RecommendedDiskSpace.text       = "40GB+"
+    $RecommendedDiskSpace.text       = "50GB+"
     $RecommendedDiskSpace.AutoSize   = $true
     $RecommendedDiskSpace.width      = 25
     $RecommendedDiskSpace.height     = 10
