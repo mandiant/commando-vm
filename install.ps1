@@ -1199,12 +1199,14 @@ function Set-SelectedPackages {
     # Get the packages for the specified profile
     $packagesFromProfile = Get-PackagesFromProfile -ProfileName $global:selectedProfile
 
-    # Update the SelectedPackagesList with the packages from the profile
-    $SelectedPackagesList.Items.Clear()
-    $SelectedPackagesList.Items.AddRange($packagesFromProfile.name)
+    if (-not $null -eq $packagesFromProfile) {
+        # Update the SelectedPackagesList with the packages from the profile
+        $SelectedPackagesList.Items.Clear()
+        $SelectedPackagesList.Items.AddRange($packagesFromProfile.name)
 
-    # Update the count labels
-    $SelectedCountLabel.text = "Total: $($SelectedPackagesList.Items.count)"
+        # Update the count labels
+        $SelectedCountLabel.text = "Total: $($SelectedPackagesList.Items.count)"
+    }
 }
 
 function Set-AvailablePackages {
@@ -1260,8 +1262,15 @@ function Set-ProfilePreset {
     Set-SelectedPackages
     Set-AvailablePackages
 
-    # Set the package info to the first package in the selected list
-    Set-PackageInformation -PackageName $SelectedPackagesList.Items[0]
+    # Check if SelectedPackagesList is empty
+    if ($SelectedPackagesList.Items.Count -gt 0) {
+        # If not empty, set the package info to the first package in the selected list
+        Set-PackageInformation -PackageName $SelectedPackagesList.Items[0]
+    }
+    else {
+        # If empty, set the package info to the first package in the available list
+        Set-PackageInformation -PackageName $AvailablePackagesList.Items[0]
+    }
 }
 
 ################################# Functions that Select Packages #################################
@@ -1475,11 +1484,19 @@ function Open-ProfileManager {
     Set-SelectedPackages
     Set-AvailablePackages
 
-    # Set the package info to the first package in the selected list
-    Set-PackageInformation -PackageName $SelectedPackagesList.Items[0]
+    # Check if SelectedPackagesList is empty
+    if ($SelectedPackagesList.Items.Count -gt 0) {
+        # If not empty, set the package info to the first package in the selected list
+        Set-PackageInformation -PackageName $SelectedPackagesList.Items[0]
+    }
+    else {
+        # If empty, set the package info to the first package in the available list
+        Set-PackageInformation -PackageName $AvailablePackagesList.Items[0]
+    }
 
     [void]$CommandoProfileManager.ShowDialog()
 }
+
 
 function Open-AddChocoPackage {
 
