@@ -1462,8 +1462,14 @@ function Install-Profile {
 ################################# Functions that Open GUI Windows #################################
 
 function Open-CheckManager {
+    # Show the CommandoChecksManager dialog
+    $result = $CommandoChecksManager.ShowDialog()
 
-    [void]$CommandoChecksManager.ShowDialog()
+    # Check if the form was closed
+    if ($result -eq 'Cancel' -or $result -eq 'None') {
+        # If the form was closed, exit the script
+        exit
+    }
 }
 
 function Open-Installer {
