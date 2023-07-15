@@ -1351,6 +1351,7 @@ function Save-Profile {
     }
 
     $xmlContent.Save($ProfilePath)
+    $global:profileData = Get-ProfileData
 }
 
 function Save-ProfileAs {
