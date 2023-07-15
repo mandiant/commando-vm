@@ -121,6 +121,5 @@
     <package name="winscp.vm" />
     <package name="jre8" />
     <package name="unxutils" />
-    <package name="hashcat.vm" />
   </packages>
 </config>

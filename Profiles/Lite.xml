@@ -50,6 +50,5 @@
     <package name="git" />
     <package name="bloodhound-custom-queries.vm" />
     <package name="unxutils" />
-    <package name="hashcat.vm" />
   </packages>
 </config>
