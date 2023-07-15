@@ -278,6 +278,7 @@ if (-not $cli.IsPresent) {
     $ChecksCompleteButton.width      = 97
     $ChecksCompleteButton.height     = 37
     $ChecksCompleteButton.enabled    = $false
+    $ChecksCompleteButton.DialogResult   = [System.Windows.Forms.DialogResult]::OK
     $ChecksCompleteButton.location   = New-Object System.Drawing.Point(387,315)
     $ChecksCompleteButton.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
     $ChecksCompleteButton.Add_Click({
@@ -1462,15 +1463,13 @@ function Install-Profile {
 ################################# Functions that Open GUI Windows #################################
 
 function Open-CheckManager {
-    # Show the CommandoChecksManager dialog
-    $result = $CommandoChecksManager.ShowDialog()
 
-    # Check if the form was closed
-    if ($result -eq 'Cancel' -or $result -eq 'None') {
-        # If the form was closed, exit the script
+    if ($CommandoChecksManager.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK) {
         exit
     }
 }
+
+
 
 function Open-Installer {
 
