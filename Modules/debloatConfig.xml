@@ -126,7 +126,6 @@
         <registry-item name="Enable .NET Strong Crypto" path="HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" value="SchUseStrongCrypto" type="DWord" data="1" />
         <registry-item name="Enable .NET Strong Crypto Wow6432Node" path="HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" value="SchUseStrongCrypto" type="DWord" data="1" />
         <registry-item name="Enable NTFS Long Paths" path="HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" value="LongPathsEnabled" type="DWord" data="1" />
-        <registry-item name="Enable NTFS Long Paths" path="HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" value="LongPathsEnabled" type="DWord" data="1" />
     </registry-items>
 
     <path-items>
