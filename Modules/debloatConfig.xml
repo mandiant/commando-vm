@@ -5,10 +5,12 @@
         FORMAT: 
         <app name="APP_NAME"/>
         -->
+        <app name="Disney.37853FC22B2CE"/>
         <app name="Microsoft.549981C3F5F10"/>
         <app name="Microsoft.BingWeather"/>
         <app name="Microsoft.GetHelp"/>
         <app name="Microsoft.Getstarted"/>
+        <app name="Microsoft.GamingServices"/>
         <app name="Microsoft.Microsoft3DViewer"/>
         <app name="Microsoft.MicrosoftOfficeHub"/>
         <app name="Microsoft.MicrosoftSolitaireCollection"/>
@@ -30,6 +32,7 @@
         <app name="Microsoft.WindowsSoundRecorder"/>
         <app name="Microsoft.Xbox.TCUI"/>
         <app name="Microsoft.XboxApp"/>
+        <app name="Microsoft.XboxGameCallableUI"/>
         <app name="Microsoft.XboxGameOverlay"/>
         <app name="Microsoft.XboxGamingOverlay"/>
         <app name="Microsoft.XboxIdentityProvider"/>
@@ -38,33 +41,32 @@
         <app name="Microsoft.ZuneMusic"/>
         <app name="Microsoft.ZuneVideo"/>
         <app name="SpotifyAB.SpotifyMusic"/>
-        <app name="Disney.37853FC22B2CE"/>
     </apps>
     <services>
         <!--
         FORMAT: 
         <service name="SERVICE_NAME"/>
         -->
-        <service name="XboxGipSvc"/>
+        <service name="BITS"/>
+        <service name="DPS"/>
+        <service name="Fax"/>
+        <service name="lfsvc"/>
+        <service name="MapsBroker"/>
+        <service name="RetailDemo"/>
+        <service name="SysMain"/>
+        <service name="TabletInputService"/>
+        <service name="WalletService"/>
+        <service name="WbioSrvc"/>
+        <service name="WdiServiceHost"/>
+        <service name="WdiSystemHost"/>
+        <service name="WerSvc"/>
+        <service name="wmiApSrv"/>
+        <service name="WMPNetworkSvc"/>
+        <service name="WpcMonSvc"/>
         <service name="XblAuthManager"/>
         <service name="XblGameSave"/>
+        <service name="XboxGipSvc"/>
         <service name="XboxNetApiSvc"/>
-        <service name="WMPNetworkSvc"/>
-        <service name="WerSvc"/>
-        <service name="SysMain"/>
-        <service name="RetailDemo"/>
-        <service name="Fax"/>
-        <service name="WdiSystemHost"/>
-        <service name="WdiServiceHost"/>
-        <service name="DPS"/>
-        <service name="BITS"/>
-        <service name="WpcMonSvc"/>
-        <service name="wmiApSrv"/>
-        <service name="WbioSrvc"/>
-        <service name="WalletService"/>
-        <service name="TabletInputService"/>
-        <service name="MapsBroker"/>
-        <service name="lfsvc"/>
     </services>
     <tasks>
         <!--
@@ -126,6 +128,7 @@
         <registry-item name="Enable .NET Strong Crypto" path="HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" value="SchUseStrongCrypto" type="DWord" data="1" />
         <registry-item name="Enable .NET Strong Crypto Wow6432Node" path="HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" value="SchUseStrongCrypto" type="DWord" data="1" />
         <registry-item name="Enable NTFS Long Paths" path="HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" value="LongPathsEnabled" type="DWord" data="1" />
+        <registry-item name="Disable Xbox game monitoring" path="HKLM:\SYSTEM\CurrentControlSet\Services\xbgm" value="Start" type="DWord" data="4" />
     </registry-items>
 
     <path-items>
