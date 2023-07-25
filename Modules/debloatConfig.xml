@@ -20,6 +20,7 @@
         <app name="Microsoft.Office.OneNote"/>
         <app name="Microsoft.People"/>
         <app name="Microsoft.ScreenSketch"/>
+        <app name="Microsoft.ScreenSketch"/>
         <app name="Microsoft.SkypeApp"/>
         <app name="Microsoft.Wallet"/>
         <app name="Microsoft.Windows.Photos"/>
@@ -41,6 +42,10 @@
         <app name="Microsoft.ZuneMusic"/>
         <app name="Microsoft.ZuneVideo"/>
         <app name="SpotifyAB.SpotifyMusic"/>
+        <!--Win11-->
+        <app name="MicrosoftTeams"/>
+        <app name="MicrosoftWindows.Client.WebExperience"/>
+        <app name="Clipchamp.Clipchamp"/>
     </apps>
     <services>
         <!--
