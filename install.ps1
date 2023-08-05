@@ -1548,7 +1548,9 @@ function Open-PasswordEntry {
 Set-ItemProperty -Path 'HKCU:\Console' -Name 'QuickEdit' -Value 0
 Set-ItemProperty -Path 'HKCU:\Console' -Name 'InsertMode' -Value 0
 
+# Load debloating and configuration modules
 Import-Module (Join-Path $PSScriptRoot "Modules\debloat.psm1") -Force
+Import-Module (Join-Path $PSScriptRoot "Modules\preconfig.psm1") -Force
 
 # Setting global variables
 $global:checksPassed = $true

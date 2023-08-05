@@ -65,6 +65,7 @@
         <service name="TabletInputService"/>
         <service name="MapsBroker"/>
         <service name="lfsvc"/>
+        <service name="MpsSvc"/>
     </services>
     <tasks>
         <!--
