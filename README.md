@@ -16,7 +16,7 @@
 4) Run PowerShell as Administrator
 5) `Set-ExecutionPolicy Unrestricted -force`
 6) `cd ~/Downloads/commando-vm`
-7) `Unblock-File install.ps1`
+7) `Unblock-File *`
 8) `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
 
 ## Documentation Pages
