@@ -1469,8 +1469,6 @@ function Open-CheckManager {
     }
 }
 
-
-
 function Open-Installer {
 
     # Populate the profile selector combo box
@@ -1545,6 +1543,10 @@ function Open-PasswordEntry {
 ###################################### Installer Workflows ######################################
 #################################################################################################
 #################################################################################################
+
+# QuickEdit and Insert modes can sometimes freeze the powershell.exe window
+Set-ItemProperty -Path 'HKCU:\Console' -Name 'QuickEdit' -Value 0
+Set-ItemProperty -Path 'HKCU:\Console' -Name 'InsertMode' -Value 0
 
 Import-Module (Join-Path $PSScriptRoot "Modules\debloat.psm1") -Force
 
