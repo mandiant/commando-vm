@@ -1154,7 +1154,7 @@ function Get-AvailablePackages {
         }
         catch {
             Write-Error "Failed to download available_packages.xml. Error: $_"
-            return
+            exit
         }
 
         # Load the XML content
