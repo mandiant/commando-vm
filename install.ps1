@@ -1417,6 +1417,7 @@ function Install-Profile {
         }
         Check-PowerOptions
         Commando-Debloat
+        Commando-Configure
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
 
         Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
