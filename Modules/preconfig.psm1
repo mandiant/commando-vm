@@ -57,12 +57,18 @@ function Commando-Hostname {
     Rename-Computer -NewName "commando"
 }
 
+function Commando-Firewall {
+    Write-Host "[+] Disabling Windows Firewall" -ForegroundColor Green
+    Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+}
+
 # PRECONFIG MAIN
 function Commando-Configure {
     Commando-Logging
     Commando-Prompt
     Commando-Darkmode
     Commando-Hostname
+    Commando-Firewall
 }
 
 # Export Function
