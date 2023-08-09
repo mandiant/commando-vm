@@ -1,4 +1,4 @@
-![CommandoLogo](Images/commando.png)
+![CommandoLogo](Images/commando-readme.png)
 
 ## What is CommandoVM?
 
