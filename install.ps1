@@ -7,8 +7,6 @@
         Switch parameter to skip customization GUI.
     .PARAMETER victim
         Switch parameter to to install the victim profile.
-    .PARAMETER victim
-        Switch parameter to to install the victim profile.
     .PARAMETER skipChecks
         Switch parameter to skip validation checks (not recommended).
     .PARAMETER password
