@@ -219,11 +219,11 @@ function Commando-Remove-Custom{
 
 function Commando-Prompt {
     $psprompt = @"
-function prompt {
-    Write-Host ("COMMANDO " + $(Get-Date)) -ForegroundColor Red
-    Write-Host ("PS " + $(Get-Location) + " >") -NoNewLine -ForegroundColor White
-    return " "
-}
+        function prompt {
+            Write-Host ("COMMANDO " + `$(Get-Date)) -ForegroundColor Red
+            Write-Host ("PS " + `$(Get-Location) + " >") -NoNewLine -ForegroundColor White
+            return " "
+        }
 "@
 
     # Ensure profile file exists and append new content to it, not overwriting old content
