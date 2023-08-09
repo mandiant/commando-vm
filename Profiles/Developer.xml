@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <envs>
+    <env name="MIN_DISK_SPACE" value="80" />
+    <env name="VM_COMMON_DIR" value="%ProgramData%\_VM" />
+    <env name="TOOL_LIST_DIR" value="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Tools" />
+    <env name="TOOL_LIST_SHORTCUT" value="%UserProfile%\Desktop\Tools.lnk" />
+    <env name="RAW_TOOLS_DIR" value="%SystemDrive%\Tools" />
+  </envs>
+  <packages>
+    <package name="notepadplusplus.vm" />
+    <package name="apimonitor.vm" />
+    <package name="badassmacros.vm" />
+    <package name="bytecodeviewer.vm" />
+    <package name="capa.vm" />
+    <package name="codetrack.vm" />
+    <package name="confuserex.vm" />
+    <package name="covenant.vm" />
+    <package name="cyberchef.vm" />
+    <package name="dll-to-exe.vm" />
+    <package name="dotnettojscript.vm" />
+    <package name="evilclippy.vm" />
+    <package name="gadgettojscript.vm" />
+    <package name="hashmyfiles.vm" />
+    <package name="invokedosfuscation.vm" />
+    <package name="invokeobfuscation.vm" />
+    <package name="merlin.vm" />
+    <package name="openvpn.vm" />
+    <package name="pebear.vm" />
+    <package name="pesieve.vm" />
+    <package name="pestudio.vm" />
+    <package name="processdump.vm" />
+    <package name="resourcehacker.vm" />
+    <package name="rundotnetdll.vm" />
+    <package name="scdbg.vm" />
+    <package name="setdllcharacteristics.vm" />
+    <package name="shellcode_launcher.vm" />
+    <package name="sliver.vm" />
+    <package name="stracciatella.vm" />
+    <package name="sysinternals.vm" />
+    <package name="syswhispers2.vm" />
+    <package name="syswhispers3.vm" />
+    <package name="telnet.vm" />
+    <package name="tor-browser.vm" />
+    <package name="unhook-bof.vm" />
+    <package name="upx.vm" />
+    <package name="visualstudio.vm" />
+    <package name="vcbuildtools.vm" />
+    <package name="windbg.vm" />
+    <package name="winscp.vm" />
+    <package name="wireshark.vm" />
+    <package name="wmimplant.vm" />
+    <package name="x64dbg.vm" />
+    <package name="yara.vm" />
+    <package name="c3.vm" />
+    <package name="obsidian" />
+    <package name="googlechrome" />
+    <package name="firefox" />
+    <package name="vscode" />
+    <package name="greenshot" />
+    <package name="vlc" />
+    <package name="gimp" />
+    <package name="keepass" />
+    <package name="adobereader" />
+    <package name="golang" />
+    <package name="rust" />
+    <package name="nim" />
+    <package name="idafree.vm" />
+    <package name="exiftool.vm" />
+    <package name="hxd.vm" />
+    <package name="cmder.vm" />
+    <package name="python3" />
+    <package name="fiddlerclassic.vm" />
+    <package name="burp-free.vm" />
+    <package name="nmap.vm" />
+    <package name="git" />
+    <package name="sublimetext3.app" />
+    <package name="unxutils" />
+    <package name="ghidra.vm" />
+  </packages>
+</config>

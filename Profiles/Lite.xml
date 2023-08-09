@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <envs>
+    <env name="MIN_DISK_SPACE" value="60" />
+    <env name="VM_COMMON_DIR" value="%ProgramData%\_VM" />
+    <env name="TOOL_LIST_DIR" value="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Tools" />
+    <env name="TOOL_LIST_SHORTCUT" value="%UserProfile%\Desktop\Tools.lnk" />
+    <env name="RAW_TOOLS_DIR" value="%SystemDrive%\Tools" />
+  </envs>
+  <packages>
+    <package name="notepadplusplus.vm" />
+    <package name="bloodhound.vm" />
+    <package name="burp-free.vm" />
+    <package name="certify.vm" />
+    <package name="credninja.vm" />
+    <package name="confuserex.vm" />
+    <package name="cyberchef.vm" />
+    <package name="gobuster.vm" />
+    <package name="fuzzdb.vm" />
+    <package name="juicypotato.vm" />
+    <package name="hashmyfiles.vm" />
+    <package name="mimikatz.vm" />
+    <package name="nanodump.vm" />
+    <package name="nmap.vm" />
+    <package name="openvpn.vm" />
+    <package name="outflank-c2-tool-collection.vm" />
+    <package name="petitpotam.vm" />
+    <package name="powersploit.vm" />
+    <package name="powerupsql.vm" />
+    <package name="rubeus.vm" />
+    <package name="seatbelt.vm" />
+    <package name="seclists.vm" />
+    <package name="sharphound.vm" />
+    <package name="sharpdpapi.vm" />
+    <package name="sharpup.vm" />
+    <package name="sharpview.vm" />
+    <package name="shellcode_launcher.vm" />
+    <package name="situational-awareness-bof.vm" />
+    <package name="snaffler.vm" />
+    <package name="sysinternals.vm" />
+    <package name="telnet.vm" />
+    <package name="truestedsec-remote-ops-bof.vm" />
+    <package name="unhook-bof.vm" />
+    <package name="whisker.vm" />
+    <package name="7zip-15-05.vm" />
+    <package name="obsidian" />
+    <package name="googlechrome" />
+    <package name="firefox" />
+    <package name="vscode" />
+    <package name="git" />
+    <package name="bloodhound-custom-queries.vm" />
+    <package name="unxutils" />
+  </packages>
+</config>

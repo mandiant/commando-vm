@@ -1,367 +1,86 @@
-                                                                   
-          _________                                           .___      
-          \_   ___ \  ____   _____   _____ _____    ____    __| _/____  
-          /    \  \/ /  _ \ /     \ /     \\__  \  /    \  / __ |/  _ \ 
-          \     \___(  <_> )  Y Y  \  Y Y  \/ __ \|   |  \/ /_/ (  <_> )
-           \______  /\____/|__|_|  /__|_|  (____  /___|  /\____ |\____/ 
-                  \/             \/      \/     \/     \/      \/       
-                        C O M P L E T E  M A N D I A N T                    
-                             O F F E N S I V E   V M                        
-                                  Version 2021.2                                 
-                              commandovm@fireeye.com
-               _____________________________________________________          
+![CommandoLogo](Images/commando-readme.png)
 
-                                    Created by                                
-                             Jake Barteaux @day1player                              
-                                 Mandiant Red Team  
-                          Blaine Stancill @MalwareMechanic                           
-                                    Nhan Huynh   
-                     FireEye Labs Advanced Reverse Engineering                            
-______________________________________________________________________________ 
+## What is CommandoVM?
 
-<p align="center">
-  <img width="300" src="https://github.com/fireeye/commando-vm/blob/master/Commando.png?raw=true" alt="Commando VM"/>
-</p>  
+**Complete Mandiant Offensive VM ("CommandoVM")** is a comprehensive and customizable, Windows-based security distribution for penetration testing and red teaming. CommandoVM comes packaged with a variety of offensive tools not included in [Kali Linux](https://www.kali.org/) which highlight the effectiveness of Windows as an attack platform.
 
-Welcome to CommandoVM - a fully customizable, Windows-based security distribution for penetration testing and red teaming.
-
-For detailed install instructions or more information please see our [blog](https://www.fireeye.com/blog/threat-research/2019/08/commando-vm-customization-containers-kali.html)
-
-Installation (Install Script)
-=============================
-
-Requirements
-------------
-* Windows 10 1803, 1809, 1903, 1909, 2004, 20H2, or 21H1
+## Requirements
+* Windows 10
 > Insider Preview editions of Windows are not supported
 * 60 GB Hard Drive
 * 2 GB RAM
 
-Recommended
------------
+## Recommended
 * Windows 10 21H1
 * 80+ GB Hard Drive
 * 4+ GB RAM
 * 2 network adapters
 
-Instructions
-============
-Pre-Install Procedures
-----------------------
-You MUST disable Windows Defender for a smooth install. The best way to accomplish this is through Group Policy
+# Install Instructions
+## Pre-Install Procedures
+**You MUST disable Windows Defender for a smooth install**. The best way to accomplish this is through Group Policy.
 
 In Windows versions 1909 and higher, Tamper Protection was added.
-**Tamper Protection must be disabled, otherwise Group Policy settings are ignored.**
+**Tamper Protection must be disabled first, otherwise Group Policy settings are ignored.**
 
 1. Open Windows Security (type `Windows Security` in the search box)
-2. Virus & threat protection > Virus & threat protection settings > Manage settings
-3. Switch `Tamper Protection` to `Off` 
+1. Virus & threat protection > Virus & threat protection settings > Manage settings
+1. Switch `Tamper Protection` to `Off` 
 > It is not necessary to change any other setting (`Real Time Protection`, etc.)
 
-> **Important.** Tamper Protection must be disabled before changing Group Policy settings.
+> **Important!** Tamper Protection must be disabled before changing Group Policy settings.
 
-To permanently disable Real Time Protection
+To permanently disable Real Time Protection:
 
+1. Make sure you disabled Tamper Protection
 1. Open Local Group Policy Editor (type `gpedit` in the search box)
-2. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus > Real-time Protection
-3. Enable `Turn off real-time protection`
-4. **Reboot**
+1. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus > Real-time Protection
+1. Enable `Turn off real-time protection`
+1. **Reboot**
 > Make sure to **reboot** before making the next change
 
 To permanently disable Microsoft Defender:
 
+1. Make sure you rebooted your machine
 1. Open Local Group Policy Editor (type `gpedit` in the search box)
-2. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus
-3. Enable `Turn off Microsoft Defender Antivirus`
-4. **Reboot**
+1. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus
+1. Enable `Turn off Microsoft Defender Antivirus`
+1. **Reboot**
 
   [1]: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo
 
-Standard install
-----------------
-1. Create and configure a new Windows Virtual Machine
-  > Ensure VM is updated completely. You may have to check for updates, reboot, and check again until no more remain 
-2.  Take a snapshot of your machine!
-3.  Download and copy `install.ps1` on your newly configured machine. 
-4.  Open PowerShell as an Administrator
-5.  Unblock the install file by running `Unblock-File .\install.ps1`
-6.  Enable script execution by running `Set-ExecutionPolicy Unrestricted -f`
-7.  Finally, execute the installer script as follows:
-   * `.\install.ps1`
-   * You can also pass your password as an argument: `.\install.ps1 -password <password>`
-  
-The script will set up the Boxstarter environment and proceed to download and install the Commando VM environment. You will be prompted for the administrator password in order to automate host restarts during installation. If you do not have a password set, hitting enter when prompted will also work.
+## Installation 
 
-Custom install
---------------
-> Please see our [custom profiles](https://github.com/fireeye/commando-vm/tree/master/Profiles) for more custom install options or create your own following the instructions below.
-1.	Download the zip from https://github.com/fireeye/commando-vm into your Downloads folder.
-2.	Decompress the zip and edit the `${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\profile.json` file by removing tools or adding tools in the “packages” section. You can add any package listed in our [package list](https://github.com/fireeye/commando-vm/blob/master/packages.csv) or any package from the [chocolatey repository](https://chocolatey.org/packages).
-3.	Open an administrative PowerShell window and enable script execution.
-`Set-ExecutionPolicy Unrestricted -f`
-4.	Change to the unzipped project directory.
-`cd ${Env:UserProfile}\Downloads\commando-vm-master\commando-vm-master\`
-5.  Unblock the install file by running `Unblock-File .\install.ps1`
-6.	Take a snapshot of your machine!
-7. Execute the install with the `-profile_file` argument.
-`.\install.ps1 -profile_file .\profile.json`
+1. Deploy a Windows Virtual Machine
+   > [Where can I find a Windows Virtual Machine?](https://www.microsoft.com/en-us/software-download/windows10ISO)
+1. Complete the pre-install procedures by disabling Defender
+1. Download and extract the zip of the Commando-VM repo
+1. Run PowerShell as Administrator
+1. `Set-ExecutionPolicy Unrestricted -force`
+1. `cd ~/Downloads/commando-vm`
+1. `Get-ChildItem .\ -Recurse | Unblock-File`
+1. `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
 
-For more detailed instructions about custom installations, see our [blog](https://www.fireeye.com/blog/threat-research/2019/08/commando-vm-customization-containers-kali.html)
+## Credits
 
-Installing a new package
-========================
+- Jake Barteaux         @day1player
+- Blaine Stancill       @MalwareMechanic
+- Nhan Huynh            @htnhan
+- Drew Farber           @0xFarbs
+- Alex Tselevich        @nos3curity
+- George Litvinov       @geo-lit
+- Dennis Tran           @Menn1s
+- Joseph Clay           @skollr34p3r
+- Ana Martinez Gomez    @anamma_06
+- Moritz Raabe
+- Derrick Tran          @dumosuku
+- Mandiant Red Team
+- Mandiant FLARE
 
-Commando VM uses the [Chocolatey](https://chocolatey.org/) Windows package manager. It is easy to install a new package. For example, enter the following command as Administrator to deploy Github Desktop on your system:
+## Legal Notice
 
-    cinst github
-
-You can find packages to install from our [package list](https://github.com/fireeye/commando-vm/blob/master/packages.csv), which hosts more than just pentesting tools, or from the [chocolatey repository](https://chocolatey.org/packages).
-
-
-Staying up to date
-==================
-
-Type the following command to update all of the packages to the most recent version:
-
-    cup all
-
-
-Available Tools
-===============
-
-### Active Directory Tools
-- Remote Server Administration Tools (RSAT)
-- SQL Server Command Line Utilities
-- Sysinternals
-
-### Command & Control
-- Covenant
-- WMImplant
-- WMIOps
-
-### Developer Tools
-- Dep
-- Git
-- Go
-- Java
-- Python 2
-- Python 3 (default)
-- Ruby
-- Ruby Devkit
-- Visual Studio 2017 Build Tools (Windows 10)
-- Visual Studio Code
-
-### Docker
-- Amass
-- SpiderFoot
-
-### Evasion
-- CheckPlease
-- Demiguise
-- DefenderCheck
-- DotNetToJScript
-- Invoke-CradleCrafter
-- Invoke-DOSfuscation
-- Invoke-Obfuscation
-- Invoke-Phant0m
-- Not PowerShell (nps)
-- PS>Attack
-- PSAmsi
-- Pafishmacro
-- PowerLessShell
-- PowerShdll
-- StarFighters
-- SysWhispers
-
-### Exploitation
-- ADAPE-Script
-- API Monitor
-- CrackMapExec
-- CrackMapExecWin
-- DAMP
-- Dumpert
-- EvilClippy
-- Exchange-AD-Privesc
-- FuzzySec's PowerShell-Suite
-- FuzzySec's Sharp-Suite
-- GadgetToJScript
-- Generate-Macro
-- GhostPack
-  - Rubeus
-  - SafetyKatz
-  - Seatbelt
-  - SharpDPAPI
-  - SharpDump
-  - SharpRoast
-  - SharpUp
-  - SharpWMI
-- GoFetch
-- Impacket
-- Invoke-ACLPwn
-- Invoke-DCOM
-- Invoke-PSImage
-- Invoke-PowerThIEf
-- Juicy Potato
-- Kali Binaries for Windows
-- LuckyStrike
-- MetaTwin
-- Metasploit
-- Mr. Unikod3r's RedTeamPowershellScripts
-- NetshHelperBeacon
-- Nishang
-- Orca
-- PSBits
-- PSReflect
-- PowerLurk
-- PowerPriv
-- PowerSploit
-- PowerUpSQL
-- PrivExchange
-- RottenPotatoNG
-- Ruler
-- SharpClipHistory
-- SharpExchangePriv
-- SharpExec
-- SpoolSample
-- SharpSploit
-- ThreadContinue
-- TikiTorch
-- UACME
-- impacket-examples-windows
-- vssown
-- Vulcan
-
-### Information Gathering
-- ADACLScanner
-- ADExplorer
-- ADOffline
-- ADRecon
-- BeRoot
-- BloodHound
-- BloodHound-Custom-Queries (Hausec)
-- dnsrecon
-- FOCA
-- Get-ReconInfo
-- GoBuster
-- GoWitness
-- Net-GPPPassword
-- NetRipper
-- Nmap
-- PowerView
-  - Dev branch included
-- Privesc (enjoiz)
-- Recon-AD
-- SharpHound
-- SharpView
-- SpoolerScanner
-- Watson
-
-### Kali Linux
-- kali-linux-default
-- kali-linux-xfce
-- VcXsrv
-
-### Networking Tools
-- Citrix Receiver
-- OpenVPN
-- Powercat
-- Proxycap
-- PuTTY
-- Telnet
-- VMWare Horizon Client
-- VMWare vSphere Client
-- VNC-Viewer
-- WinSCP
-- Windump
-- Wireshark
-
-### Password Attacks
-- ASREPRoast
-- CredNinja
-- DomainPasswordSpray
-- DSInternals
-- Get-LAPSPasswords
-- Hashcat
-- Internal-Monologue
-- Inveigh
-- Invoke-TheHash
-- KeeFarce
-- KeeThief
-- LAPSToolkit
-- MailSniper
-- Mimikatz
-- Mimikittenz
-- RiskySPN
-- SessionGopher
-
-### Reverse Engineering
-- DNSpy
-- Flare-Floss
-- ILSpy
-- PEview
-- Windbg
-- x64dbg
-
-### Utilities
-- 7zip
-- Adobe Reader
-- AutoIT
-- Cmder
-- CyberChef
-- Explorer Suite
-- Gimp
-- Greenshot
-- Hashcheck
-- HeidiSQL
-- Hexchat
-- HTTP File Server (hfs)
-- HxD
-- Keepass
-- MobaXterm
-- Mozilla Thunderbird
-- Neo4j Community Edition
-- NirLauncher
-- Notepad++
-- Pidgin
-- Process Hacker 2
-- qBittorrent
-- SQLite DB Browser
-- Screentogif
-- Shellcode Launcher
-- SimpleDNSCrypt
-- SQLite DB Browser
-- Sublime Text 3
-- Tor Browser
-- TortoiseSVN
-- VLC Media Player
-- yEd Graph Tool
-
-### Vulnerability Analysis
-- AD Control Paths
-- Egress-Assess
-- Grouper2
-- NtdsAudit
-- PwnedPasswordsNTLM
-- zBang
-
-### Web Applications
-- Burp Suite
-- Fiddler
-- Firefox
-- OWASP Zap
-- Subdomain-Bruteforce
-- Wfuzz
-
-### Wordlists
-- FuzzDB
-- PayloadsAllTheThings
-- SecLists
-- Probable-Wordlists
-- RobotsDisallowed
-
-Legal Notice
-============
-<pre>This download configuration script is provided to assist penetration testers
+```
+This download configuration script is provided to assist penetration testers
 in creating handy and versatile toolboxes for offensive engagements. It provides 
 a convenient interface for them to obtain a useful set of pentesting Tools directly 
 from their original sources. Installation and use of this script is subject to the 
@@ -372,6 +91,4 @@ terms of each downloaded/installed package listed below. By proceeding with the
 installation, you are accepting the license terms of each package, and
 acknowledging that your use of each package will be subject to its respective
 license terms.
-
-Licenses for each package can be found in the packages.csv file for this repository.
-</pre>
+```

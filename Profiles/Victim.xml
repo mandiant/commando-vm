@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <envs>
+    <env name="MIN_DISK_SPACE" value="50" />
+    <env name="VM_COMMON_DIR" value="%ProgramData%\_VM" />
+    <env name="TOOL_LIST_DIR" value="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Tools" />
+    <env name="TOOL_LIST_SHORTCUT" value="%UserProfile%\Desktop\Tools.lnk" />
+    <env name="RAW_TOOLS_DIR" value="%SystemDrive%\Tools" />
+  </envs>
+  <packages>
+    <package name="apimonitor.vm" />
+    <package name="capa.vm" />
+    <package name="cmder.vm" />
+    <package name="codetrack.vm" />
+    <package name="cyberchef.vm" />
+    <package name="dependencywalker.vm" />
+    <package name="die.vm" />
+    <package name="dnspyex.vm" />
+    <package name="exeinfope.vm" />
+    <package name="exiftool.vm" />
+    <package name="file.vm" />
+    <package name="floss.vm" />
+    <package name="hashmyfiles.vm" />
+    <package name="hollowshunter.vm" />
+    <package name="hxd.vm" />
+    <package name="idafree.vm" />
+    <package name="malware-jail.vm" />
+    <package name="map.vm" />
+    <package name="ollydbg.vm" />
+    <package name="pebear.vm" />
+    <package name="peid.vm" />
+    <package name="pesieve.vm" />
+    <package name="pestudio.vm" />
+    <package name="resourcehacker.vm" />
+    <package name="rundotnetdll.vm" />
+    <package name="scdbg.vm" />
+    <package name="shellcode_launcher.vm" />
+    <package name="vbdec.vm" />
+    <package name="windbg.vm" />
+    <package name="winscp.vm" />
+    <package name="wireshark.vm" />
+    <package name="x64dbg.vm" />
+    <package name="yara.vm" />
+    <package name="processdump.vm" />
+    <package name="setdllcharacteristics.vm" />
+    <package name="googlechrome" />
+    <package name="firefox" />
+    <package name="unxutils" />
+    <package name="sysinternals.vm" />
+    <package name="fiddlerclassic.vm" />
+  </packages>
+</config>
