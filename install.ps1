@@ -1414,7 +1414,9 @@ function Install-Profile {
             Check-ChocoConfig
         }
         Check-PowerOptions
-        Commando-Debloat
+        Commando-Configure -configFile $debloatConfig
+        Commando-Configure -configFile $userConfig
+
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
 
         Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
@@ -1466,8 +1468,6 @@ function Open-CheckManager {
         exit
     }
 }
-
-
 
 function Open-Installer {
 
@@ -1544,7 +1544,14 @@ function Open-PasswordEntry {
 #################################################################################################
 #################################################################################################
 
-Import-Module (Join-Path $PSScriptRoot "Modules\debloat.psm1") -Force
+# QuickEdit and Insert modes can sometimes freeze the powershell.exe window
+Set-ItemProperty -Path 'HKCU:\Console' -Name 'QuickEdit' -Value 0
+Set-ItemProperty -Path 'HKCU:\Console' -Name 'InsertMode' -Value 0
+
+# Load debloating and configuration modules
+Import-Module (Join-Path $PSScriptRoot "Modules\configureVM.psm1") -Force
+$debloatConfig = Join-Path $PSScriptRoot "Modules\debloatConfig.xml"
+$userConfig = Join-Path $PSScriptRoot "Modules\userConfig.xml"
 
 # Setting global variables
 $global:checksPassed = $true

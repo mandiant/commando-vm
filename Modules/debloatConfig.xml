@@ -118,8 +118,8 @@
         <registry-item name="Hide Task View" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ShowTaskViewButton" type="DWord" data="0" />
         <registry-item name="Remove MeetNow User" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
         <registry-item name="Remove MeetNow Machine" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
-        <registry-item name="Bing Tab in Taksbar" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds" value="ShellFeedsTaskbarViewMode" type="DWord" data="2" />
-        <registry-item name="Bing Desktop Search Bar" path="HKLM:\SOFTWARE\Policies\Microsoft\Edge" value="WebWidgetAllowed" type="DWord" data="0" />
+        <registry-item name="Remove Bing Tab in Taksbar" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds" value="ShellFeedsTaskbarViewMode" type="DWord" data="2" />
+        <registry-item name="Remove Bing Desktop Search Bar" path="HKLM:\SOFTWARE\Policies\Microsoft\Edge" value="WebWidgetAllowed" type="DWord" data="0" />
         <registry-item name="Disable LLMNR" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" value="EnableMulticast" type="DWord" data="0" />
         <registry-item name="Disable Windows Update Automatic Download" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" value="AUOptions" type="DWord" data="2" />
         <registry-item name="Disable Windows Update Automatic Restart" path="HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\MusNotification.exe" value="Debugger" type="String" data="cmd.exe" />
@@ -138,7 +138,7 @@
         <!--FORMAT: 
         <custom-item name="DESCRIPTIVE_NAME"> <cmd value="PS_COMMAND"/> ... </custom-item>
         -->
-        <custom-item name="RemoveOneDrive">
+        <custom-item name="Remove OneDrive">
             <cmd value="taskkill /f /im OneDrive.exe"/>
             <cmd value="C:\Windows\SysWOW64\OneDriveSetup.exe /uninstall"/>
         </custom-item>
