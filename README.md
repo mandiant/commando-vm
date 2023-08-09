@@ -11,7 +11,7 @@
 * 2 GB RAM
 
 ## Recommended
-* Windows 10 21H1
+* Windows 10 22H2
 * 80+ GB Hard Drive
 * 4+ GB RAM
 * 2 network adapters
