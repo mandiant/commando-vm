@@ -7,8 +7,6 @@
         Switch parameter to skip customization GUI.
     .PARAMETER victim
         Switch parameter to to install the victim profile.
-    .PARAMETER victim
-        Switch parameter to to install the victim profile.
     .PARAMETER skipChecks
         Switch parameter to skip validation checks (not recommended).
     .PARAMETER password
@@ -1075,8 +1073,28 @@ function Check-PowerOptions {
 ################################# Functions that Get Profiles and Packages #################################
 
 function Get-ProfileData {
-    $profilesFolder = Join-Path $PSScriptRoot "./Profiles/"
+
     $profiles = @()
+    $profilesFolder = Join-Path $PSScriptRoot "./Profiles/"
+
+    # Check if we are running on an ARM processor
+    $systemType = (Get-WmiObject -Class Win32_ComputerSystem).SystemType
+
+    # Use the ARM profile folder if we're using ARM
+    if ($systemType -match 'ARM') {
+        $global:selectedProfile = "Default - ARM"
+        $profilesFolder = Join-Path $PSScriptRoot "./Profiles/ARM/"
+    }
+
+    # Check if we are running the victim profile
+    if ($victim.IsPresent) {
+        $profilesFolder = Join-Path $PSScriptRoot "./Profiles/Victim/"
+        if ($systemType -match 'ARM') {
+            $global:selectedProfile = "Victim - ARM"
+        } else {
+            $global:selectedProfile = "Victim"
+        }
+    }
 
     # Loop over the profiles folder
     Get-ChildItem -Path $profilesFolder -Filter "*.xml" | ForEach-Object {
@@ -1094,6 +1112,7 @@ function Get-ProfileData {
 
     return $profiles
 }
+
 
 function Get-PackagesFromProfile {
     param (
@@ -1135,7 +1154,7 @@ function Get-AvailablePackages {
         }
         catch {
             Write-Error "Failed to download available_packages.xml. Error: $_"
-            return
+            exit
         }
 
         # Load the XML content
@@ -1582,17 +1601,6 @@ if (-not $cli.IsPresent) {
         } else {
             $WindowsDefender.Text = "Skip"
             $WindowsDefender.ForeColor = $skippedColor
-            $global:selectedProfile = "Victim"
-        }
-        if (-not $victim.IsPresent) {
-            if (Check-DefenderAndTamperProtection) {
-                $WindowsDefender.Text = "True"
-                $WindowsDefender.ForeColor = $successColor
-            }
-        } else {
-            $WindowsDefender.Text = "Skip"
-            $WindowsDefender.ForeColor = $skippedColor
-            $global:selectedProfile = "Victim"
         }
 
         if (Check-SupportedOS) {
@@ -1625,9 +1633,9 @@ if (-not $cli.IsPresent) {
     
     if ($global:checksPassed -or $skipChecks.IsPresent) {
 
-        # Fetch profiles and packages
-        Write-Host "[i] Retrieving available packages. Please wait." -ForegroundColor Blue
         $global:profileData = Get-ProfileData
+
+        Write-Host "[i] Retrieving available packages. Please wait." -ForegroundColor Blue
         $global:packageData = Get-AvailablePackages
 
         Open-Installer
@@ -1688,16 +1696,6 @@ if ($cli.IsPresent) {
         } else {
             Write-Host "`t[i] Skipping Windows Defender checks" -ForegroundColor Blue
         }
-        if (-not $victim.IsPresent) {
-            if (Check-DefenderAndTamperProtection) {
-                Write-Host "`t[+] Windows Defender and Tamper Protection are disabled" -ForegroundColor Green
-            } else {
-                $global:checksPassed = $false
-                Write-Host "`t[-] Windows Defender and Tamper Protection are enabled" -ForegroundColor Red
-            }
-        } else {
-            Write-Host "`t[i] Skipping Windows Defender checks" -ForegroundColor Blue
-        }
 
         if (Check-SupportedOS) {
             Write-Host "`t[+] Current Windows release is supported by CommandoVM" -ForegroundColor Green
@@ -1722,6 +1720,7 @@ if ($cli.IsPresent) {
     }
 
     if ($global:checksPassed -or $skipChecks.IsPresent) {
+
         Write-Host "===================== Installing CommandoVM ====================="
         Install-Profile -ProfileName $customProfile
     } else {
