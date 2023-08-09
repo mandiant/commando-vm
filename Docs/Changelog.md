@@ -1,7 +1,7 @@
 # Changelog
 
-## 3.0 - August 2023
-- TBA
+## 3.0 - August 9 2023
+- Completely rebuilt everything
 
 ## 2021.2 - July 14 2021
 - Require users to disable Defender before installing

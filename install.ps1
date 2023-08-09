@@ -1437,7 +1437,7 @@ function Install-Profile {
         }
 
         $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
-        $sourceImage = Join-Path $PSScriptRoot "Images\commando.png"
+        $sourceImage = Join-Path $PSScriptRoot "Images\background.png"
 
         if (-not (Test-Path $backgroundImage)) {
             Copy-Item -Path $sourceImage -Destination $backgroundImage
