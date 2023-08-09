@@ -20,15 +20,15 @@ This page lists the full steps necessary to install CommandoVM, with any additio
 
 ### Supported Operating System
 
-CommandoVM currently supports Windows 10 22H2 (19045) and Windows 11 (22621) releases. We plan to eventually drop support for Windows 10 because it no longer gets feature updates that may be important for penetration testers and users. We recommend you to install CommandoVM on a Windows 11 system.
+CommandoVM currently supports Windows 10 22H2 (19045).
 
 ### Running in a Virtual Machine
 
-You should never install CommandoVM on your host machine. CommandoVM makes irreversible changes to the system that you cannot uninstall. We recommend installing it on a virtual machine in [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware Workstation](https://www.vmware.com/products/workstation-pro.html).
+You should never install CommandoVM on your host machine. CommandoVM makes irreversible changes to the system that you cannot uninstall. We recommend installing it on a virtual machine in VirtualBox or VMWare.
 
 ### Storage Requirement
 
-Windows itself takes up significant space on disk and CommandoVM installs a large number of additional packages and tools. Ensure that you have at least **70GB** of storage in your VM. If you opt-in to install the **Full** CommandoVM profile, you will most certainly need a lot more than that.
+Windows itself takes up significant space on disk and CommandoVM installs a large number of additional packages and tools. Ensure that you have at least **70GB** of storage in your VM. If you opt-in to install the **Full** CommandoVM profile, you will want approximately 110 GB.
 
 ### Running as Administrator
 
@@ -42,6 +42,9 @@ By default PowerShell restricts scripts from being loaded on Windows Workstation
 ```powershell
 Set-ExecutionPolicy Unrestricted
 ```
+
+### PowerShell `Unblock-File`
+Whenever you download files from the internet, Windows places a "Mark of the Web" identifier on them. Scripts within this repository need to be unblocked so that they can run automatically and not cause issues with the install after clicking the "Go" button.
 
 ### Windows Defender and Tamper Protection
 
