@@ -217,6 +217,52 @@ function Commando-Remove-Custom{
     }
 }
 
+function Commando-Prompt {
+    $psprompt = @"
+function prompt {
+    Write-Host ("COMMANDO " + $(Get-Date)) -ForegroundColor Red
+    Write-Host ("PS " + $(Get-Location) + " >") -NoNewLine -ForegroundColor White
+    return " "
+}
+"@
+
+    # Ensure profile file exists and append new content to it, not overwriting old content
+    if (!(Test-Path $profile)) {
+        New-Item -ItemType File -Path $profile -Force | Out-Null
+    }
+    Add-Content -Path $profile -Value $psprompt
+
+    # Add timestamp to cmd prompt
+    Invoke-Expression ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("Y21kIC9jICdzZXR4IFBST01QVCBDT01NQU5ETyRTJGQkcyR0JF8kcCQrJGcn"))) | Out-Null
+
+    Write-Host "[+] Timestamps added to cmd prompt and PowerShell" -ForegroundColor Green
+}
+
+function Commando-Logging {
+    if ($PSVersionTable -And $PSVersionTable.PSVersion.Major -ge 5) {
+        Write-Host "[+] Enabling PowerShell Script Block Logging" -ForegroundColor Green
+
+        $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell'
+        if (-Not (Test-Path $psLoggingPath)) {
+            New-Item -Path $psLoggingPath -Force | Out-Null
+        }
+
+        $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription'
+        if (-Not (Test-Path $psLoggingPath)) {
+            New-Item -Path $psLoggingPath -Force | Out-Null
+        }
+        New-ItemProperty -Path $psLoggingPath -Name "EnableInvocationHeader" -Value 1 -PropertyType DWORD -Force | Out-Null
+        New-ItemProperty -Path $psLoggingPath -Name "EnableTranscripting" -Value 1 -PropertyType DWORD -Force | Out-Null
+        New-ItemProperty -Path $psLoggingPath -Name "OutputDirectory" -Value (Join-Path ${Env:UserProfile} "Desktop\PS_Transcripts") -PropertyType String -Force | Out-Null
+
+        $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging'
+        if (-Not (Test-Path $psLoggingPath)) {
+            New-Item -Path $psLoggingPath -Force | Out-Null
+        }
+        New-ItemProperty -Path $psLoggingPath -Name "EnableScriptBlockLogging" -Value 1 -PropertyType DWORD -Force | Out-Null
+        Write-Host "`t[i] PowerShell transcripts will be saved to the desktop." -ForegroundColor Green
+    }
+}
 
 # WORKER MAIN
 function Commando-Configure {
@@ -295,51 +341,8 @@ function Commando-Configure {
             Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
             Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
 
-
-            # Logging
-            if ($PSVersionTable -And $PSVersionTable.PSVersion.Major -ge 5) {
-                Write-Host "[+] Enabling PowerShell Script Block Logging" -ForegroundColor Green
-        
-                $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell'
-                if (-Not (Test-Path $psLoggingPath)) {
-                    New-Item -Path $psLoggingPath -Force | Out-Null
-                }
-        
-                $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription'
-                if (-Not (Test-Path $psLoggingPath)) {
-                    New-Item -Path $psLoggingPath -Force | Out-Null
-                }
-                New-ItemProperty -Path $psLoggingPath -Name "EnableInvocationHeader" -Value 1 -PropertyType DWORD -Force | Out-Null
-                New-ItemProperty -Path $psLoggingPath -Name "EnableTranscripting" -Value 1 -PropertyType DWORD -Force | Out-Null
-                New-ItemProperty -Path $psLoggingPath -Name "OutputDirectory" -Value (Join-Path ${Env:UserProfile} "Desktop\PS_Transcripts") -PropertyType String -Force | Out-Null
-        
-                $psLoggingPath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging'
-                if (-Not (Test-Path $psLoggingPath)) {
-                    New-Item -Path $psLoggingPath -Force | Out-Null
-                }
-                New-ItemProperty -Path $psLoggingPath -Name "EnableScriptBlockLogging" -Value 1 -PropertyType DWORD -Force | Out-Null
-                Write-Host "`t[i] PowerShell transcripts will be saved to the desktop." -ForegroundColor Green
-            }
-
-            $psprompt = @"
-function prompt {
-    Write-Host ("COMMANDO " + $(Get-Date)) -ForegroundColor Red
-    Write-Host ("PS " + $(Get-Location) + " >") -NoNewLine -ForegroundColor White
-    return " "
-}
-"@
-
-            # Ensure profile file exists and append new content to it, not overwriting old content
-            if (!(Test-Path $profile)) {
-                New-Item -ItemType File -Path $profile -Force | Out-Null
-            }
-            Add-Content -Path $profile -Value $psprompt
-
-            # Add timestamp to cmd prompt
-            Invoke-Expression ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("Y21kIC9jICdzZXR4IFBST01QVCBDT01NQU5ETyRTJGQkcyR0JF8kcCQrJGcn"))) | Out-Null
-
-            Write-Host "[+] Timestamps added to cmd prompt and PowerShell" -ForegroundColor Green
-
+            Commando-Prompt
+            Commando-Logging
 
             # Set the flag to indicate the operation has been executed
             $global:helpersExecuted = $true
