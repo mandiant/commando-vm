@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config> 
+    <apps>
+        <!--
+        FORMAT: 
+        <app name="APP_NAME"/>
+        -->
+    </apps>
+    <services>
+        <!--
+        FORMAT: 
+        <service name="SERVICE_NAME"/>
+        -->
+    </services>
+    <tasks>
+        <!--
+        FORMAT: 
+        <task name="DESCRIPTIVE_NAME" value="TASK_NAME"/> 
+        -->
+    </tasks>
+    <registry-items>
+        <!--
+        FORMAT: 
+        <registry-item name="DESCRIPTIVE_NAME" path="REG_PATH" value="REG_VALUE" type="TYPE" data="NEW_DATA"/> 
+        -->
+    </registry-items>
+
+    <path-items>
+        <!--
+        FORMAT: 
+        <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
+        -->
+    </path-items>
+    <custom-items>
+        <!--FORMAT: 
+        <custom-item name="DESCRIPTIVE_NAME"> <cmd value="PS_COMMAND"/> ... </custom-item>
+        -->
+        <custom-item name="Renaming Computer to 'commando'">
+            <cmd value="Rename-Computer -NewName 'commando'" />
+        </custom-item>
+    </custom-items>
+</config>
