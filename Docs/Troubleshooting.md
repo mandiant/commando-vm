@@ -34,7 +34,7 @@ Windows itself takes up significant space on disk and CommandoVM installs a larg
 
 CommandoVM uses Chocolatey and Boxstarter to install its packages. Installing packages requires Administrator rights, so you must run your terminal as Administrator as shown on the image below.
 
-![run terminal as administrator](../Images/Docs/runasadmin.png)
+![run terminal as administrator](img/runasadmin.png)
 
 ### PowerShell Execution Policy
 
@@ -72,15 +72,15 @@ The pre-install checks menu will open. Make sure you go through the [Pre-Install
 
 > **WARNING:** Do not override the checks if you have no idea why they are failing
 
-![gui step 1 - pre-checks](../Images/Docs/gui_step1.png)
+![gui step 1 - pre-checks](img/gui_step1.png)
 
 Once you pass all the pre-install checks, the main installer window will open. If you wish to customize your install and change what packages are installed, see the [Customization](Customization.md) documentation page. Otherwise, select a profile from the dropdown menu and click "Install".
 
-![gui step 2 - installer](../Images/Docs/gui_step2.png)
+![gui step 2 - installer](img/gui_step2.png)
 
 You will get a password prompt for Boxstarter. If you do not have a password set or your password is blank, click "OK" without entering anything. Otherwise, enter your password into the textbox and click "OK".
 
-![gui step 3 - password](../Images/Docs/gui_step3.png)
+![gui step 3 - password](img/gui_step3.png)
 
 The installer GUI will now close and the installation will start. You may monitor its progress inside the terminal window you used to launch the install script. During this time your system will restart multiple times. You will know that installation is finished when your background image gets changed to the Commando logo. 
 
