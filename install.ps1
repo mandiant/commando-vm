@@ -1432,7 +1432,7 @@ function Install-Profile {
 
         if (Test-Path $ProfilePath) {
             Copy-Item $ProfilePath $destinationPath -Force
-            VM-Write-Log "INFO" "Copied profile $ProfilePatch to $destinationPath"
+            VM-Write-Log "INFO" "Copied profile $ProfilePath to $destinationPath"
             Write-Host "[+] Profile copied to %VM_COMMON_DIR%: $ProfileName" -ForegroundColor Green
         } else {
             Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
@@ -1469,11 +1469,10 @@ function Install-Profile {
         $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
         if ($victim.IsPresent){
             $sourceImage = Join-Path $PSScriptRoot "Images\background-victim.png"
-            Copy-Item $sourceImage $backgroundImage -Force
         } else {
             $sourceImage = Join-Path $PSScriptRoot "Images\background.png"
-            Copy-Item $sourceImage $backgroundImage -Force
         }
+        Copy-Item $sourceImage $backgroundImage -Force
 
         # Set ico file
         $icoImage = "${Env:VM_COMMON_DIR}\vm.ico"
