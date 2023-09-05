@@ -50,6 +50,8 @@
         <custom-item name="Disable Defender Automatic Sample Submission">
             <cmd value="Set-MpPreference -SubmitSamplesConsent 2" />
         </custom-item>
-        <custom-item>
+        <custom-item name="Create low-priv user account">
+            <cmd name="Generate random password, create user, save password to logfile" value="$userPassword = -join ((97..122) | Get-Random -Count 20 | ForEach-Object {[char]$_}); $securePassword = ConvertTo-SecureString -String $userPassword -AsPlainText -Force; New-LocalUser -Name 'prometheus' -Description 'Created by Commando Installer' -Password $securePassword; VM-Write-Log 'INFO' $('Created new user prometheus with password ' + $userPassword)" />
+        </custom-item>
     </custom-items>
 </config>
