@@ -47,5 +47,9 @@
         <custom-item name="Create Exclusions folder">
             <cmd value="Set-MpPreference -ExclusionPath $Env:RAW_TOOLS_DIR" />
         </custom-item>
+        <custom-item name="Disable Defender Automatic Sample Submission">
+            <cmd value="Set-MpPreference -SubmitSamplesConsent 2" />
+        </custom-item>
+        <custom-item>
     </custom-items>
 </config>
