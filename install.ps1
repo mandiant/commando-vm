@@ -1387,7 +1387,7 @@ function Install-Profile {
         [Parameter(Mandatory = $false)]
         [string]$ProfilePath
     )
-
+    Write-Host "[+] Settings updated, beginning install. Please wait for a popup letting you know the installation is complete!" -ForegroundColor Green
     if (-not $ProfileName -and -not $ProfilePath) {
         throw "Either ProfileName or ProfilePath must be specified."
     }
