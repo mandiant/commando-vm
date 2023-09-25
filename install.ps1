@@ -1408,7 +1408,7 @@ function Install-Profile {
         }
 
         # Set environment variable for Commando VM
-        [Environment]::SetEnvironmentVariable('MandiantVM', 'Commando VM', [EnvironmentVariableTarget]::Machine)
+        [Environment]::SetEnvironmentVariable('VMname', 'Commando VM', [EnvironmentVariableTarget]::Machine)
 
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
         
