@@ -14,7 +14,6 @@
 - Enabled Light Mode for Victim machine for easy visibility
 - Added blue logo for Victim machine for easy visibility
 
-
 ## 3.0 - August 9 2023
 - Completely rebuilt everything
 
