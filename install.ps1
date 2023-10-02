@@ -1104,7 +1104,7 @@ function Get-PackagesFromProfile {
 function Get-AvailablePackages {
     $apiUrl = "https://www.myget.org/F/vm-packages/Packages"
     $destination = Join-Path $PSScriptRoot "./available_packages.xml"
-    $blockList = @("flarevm.installer.vm", "common.vm", "debloat.vm")
+    $blockList = @("flarevm.installer.vm", "common.vm", "debloat.vm", "installer.vm")
 
     $packages = @()
 
