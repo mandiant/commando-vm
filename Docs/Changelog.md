@@ -1,4 +1,18 @@
 # Changelog
+## 2023.3 - September 4 2023
+- Update to coincide with installer rearchitecture detailed in [this PR](https://github.com/mandiant/VM-Packages/pull/656)
+  - Changes include modularity of debloat and config functions which will aid in our support for Win11 and Win11ARM
+- Removed all debloater functions and moved into [common.vm](https://github.com/mandiant/VM-Packages/tree/main/packages/common.vm)
+- Added logic to detect OS and profile settings and move appropriate config file to expected location
+- renamed "config.xml" in install script to "packages.xml" to avoid confusion with new install features
+- Added "config.xml" as the OS customizations
+- Moved `Images\Docs\*` to `Docs\img\*`
+- Removed blue text output as Win10 default powershell has blue background and is very hard to read
+- Changed console prompt from red font to green
+- Disabled automatic malware sample sending in Victim profile
+- Created new low-priv user for Victim profile
+- Enabled Light Mode for Victim machine for easy visibility
+- Added blue logo for Victim machine for easy visibility
 
 ## 3.0 - August 9 2023
 - Completely rebuilt everything

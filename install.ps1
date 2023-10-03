@@ -1046,28 +1046,16 @@ function Check-BoxstarterConfig {
     $Boxstarter.AutoLogin = $true
     $Boxstarter.SuppressLogging = $True
     $global:VerbosePreference = "SilentlyContinue"
-    Set-BoxstarterConfig -NugetSources "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://chocolatey.org/api/v2"
-    Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitleBar
+    Set-BoxstarterConfig -NugetSources "$env:USERPROFILE\Desktop;.;https://www.myget.org/F/vm-packages/api/v2;https://chocolatey.org/api/v2"
 }
 
 function Check-ChocoConfig {
-    choco sources add -n="vm-packages" -s "$desktopPath;.;https://www.myget.org/F/vm-packages/api/v2;https://myget.org/F/vm-packages/api/v2" --priority 1
+    choco sources add -n="vm-packages" -s "$env:USERPROFILE\Desktop;.;https://www.myget.org/F/vm-packages/api/v2;https://chocolatey.org/api/v2" --priority 1
     choco feature enable -n allowGlobalConfirmation
     choco feature enable -n allowEmptyChecksums
     $cache = "${Env:LocalAppData}\ChocoCache"
     New-Item -Path $cache -ItemType directory -Force | Out-Null
     choco config set cacheLocation $cache
-}
-
-function Check-PowerOptions {
-    powercfg -change -monitor-timeout-ac 0 | Out-Null
-    powercfg -change -monitor-timeout-dc 0 | Out-Null
-    powercfg -change -disk-timeout-ac 0 | Out-Null
-    powercfg -change -disk-timeout-dc 0 | Out-Null
-    powercfg -change -standby-timeout-ac 0 | Out-Null
-    powercfg -change -standby-timeout-dc 0 | Out-Null
-    powercfg -change -hibernate-timeout-ac 0 | Out-Null
-    powercfg -change -hibernate-timeout-dc 0 | Out-Null
 }
 
 ################################# Functions that Get Profiles and Packages #################################
@@ -1116,7 +1104,7 @@ function Get-PackagesFromProfile {
 function Get-AvailablePackages {
     $apiUrl = "https://www.myget.org/F/vm-packages/Packages"
     $destination = Join-Path $PSScriptRoot "./available_packages.xml"
-    $blockList = @("flarevm.installer.vm", "common.vm")
+    $blockList = @("flarevm.installer.vm", "common.vm", "debloat.vm", "installer.vm")
 
     $packages = @()
 
@@ -1399,53 +1387,101 @@ function Install-Profile {
         [Parameter(Mandatory = $false)]
         [string]$ProfilePath
     )
-
+    Write-Host "[+] Settings updated, beginning install. Please wait for a popup letting you know the installation is complete!" -ForegroundColor Green
     if (-not $ProfileName -and -not $ProfilePath) {
         throw "Either ProfileName or ProfilePath must be specified."
     }
 
     try {
         if (Check-ChocoBoxstarterVersions) {
+            Write-Host "[+] Setting Boxstarter config"
             Check-BoxstarterConfig
+            Write-Host "[+] Setting Chocolatey config"
             Check-ChocoConfig
         } else {
+            Write-Host "[+] Installing Boxstarter"
             Check-ChocoBoxstarterInstalls
+            Write-Host "[+] Setting Boxstarter config"
             Check-BoxstarterConfig
+            Write-Host "[+] Setting Chocolatey config"
             Check-ChocoConfig
         }
-        Check-PowerOptions
-        Commando-Configure -configFile $debloatConfig
-        Commando-Configure -configFile $userConfig
+
+        # Set environment variable for Commando VM
+        [Environment]::SetEnvironmentVariable('VMname', 'Commando VM', [EnvironmentVariableTarget]::Machine)
 
         Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
-
-        Write-Host "Installing the common.vm shared module" -ForegroundColor Yellow
+        
+        # Install base packages
+        Write-Host "[+] Installing the common.vm shared module" -ForegroundColor Yellow
         choco install common.vm -y --force
         refreshenv
+        Import-Module "$Env:ProgramData\_VM\vm.common\vm.common.psm1" -DisableNameChecking -Force
+        VM-Write-Log "INFO" "Common libraries installed."
 
-        $PackageName = "flarevm.installer.vm"
+        Write-Host "[+] Installing the debloat.vm debloater and performance package"
+        choco install debloat.vm -y --force
+        VM-Write-Log "INFO" "Debloating and performance enhancements completed"
 
+        # Set profile to be installed
         if (-not $ProfilePath) {
             $ProfilePath = Join-Path $PSScriptRoot ("\Profiles\" + $ProfileName + ".xml")
         }
         
-        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
+        $destinationPath = Join-Path ${Env:VM_COMMON_DIR} "packages.xml"
 
         if (Test-Path $ProfilePath) {
             Copy-Item $ProfilePath $destinationPath -Force
-            Write-Host "[+] Profile copied to desktop: $ProfileName" -ForegroundColor Green
+            VM-Write-Log "INFO" "Copied profile $ProfilePath to $destinationPath"
+            Write-Host "[+] Profile copied to %VM_COMMON_DIR%: $ProfileName" -ForegroundColor Green
         } else {
             Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
         }
-
-        $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
-        $sourceImage = Join-Path $PSScriptRoot "Images\background.png"
-
-        if (-not (Test-Path $backgroundImage)) {
-            Copy-Item -Path $sourceImage -Destination $backgroundImage
+        
+        # Set Windows OS VM configuration file
+        $configPath = Join-Path ${Env:VM_COMMON_DIR} "config.xml"
+        $configSource = Join-Path $PSScriptRoot "Profiles\Configs"
+        $osVersion = VM-Get-WindowsVersion
+        if ($osVersion -eq "Win10" -and -not $victim.IsPresent){
+            VM-Write-Log "INFO" "Windows 10 detected, setting win10config.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win10config.xml") $configPath -Force
+        } elseif ($osVersion -eq "Win10" -and $victim.IsPresent){
+            VM-Write-Log "INFO" "Windows 10 Victim detected, setting win10victimconfig.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win10victimconfig.xml") $configPath -Force
+        } elseif ($osVersion -eq "Win11" -and -not $victim.IsPresent) {
+            VM-Write-Log "INFO" "Windows 11 detected, setting win11config.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win11config.xml") $configPath -Force
+        } elseif ($osVersion -eq "Win11" -and $victim.IsPresent) {
+            VM-Write-Log "INFO" "Windows 11 Victim detected, setting win11victimconfig.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win11victimconfig.xml") $configPath -Force
+        } elseif ($osVersion -eq "Win11ARM" -and -not $victim.IsPresent) {
+            VM-Write-Log "INFO" "Windows 11 ARM detected, setting win11armconfig.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win11armconfig.xml") $configPath -Force
+        } elseif ($osVersion -eq "Win11" -and -not $victim.IsPresent) {
+            VM-Write-Log "INFO" "Windows 11 ARM Victim detected, setting win11armvictimconfig.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win11armvictimconfig.xml") $configPath -Force
+        } else {
+            VM-Write-Log "WARN" "Unknown OS, choosing win10config.xml for configuration file."
+            Copy-Item $(Join-Path $configSource "win10config.xml") $configPath -Force
         }
 
+        # Set background file
+        $backgroundImage = "${Env:VM_COMMON_DIR}\background.png"
+        if ($victim.IsPresent){
+            $sourceImage = Join-Path $PSScriptRoot "Images\background-victim.png"
+        } else {
+            $sourceImage = Join-Path $PSScriptRoot "Images\background.png"
+        }
+        Copy-Item $sourceImage $backgroundImage -Force
+
+        # Set ico file
+        $icoImage = "${Env:VM_COMMON_DIR}\vm.ico"
+        $sourceIco = Join-Path $PSScriptRoot "Images\commando.ico"
+        Copy-Item -Path $sourceIco -Destination $icoImage
+        
+        # Begin the package install
         Write-Host "Installing profile: $ProfileName" -ForegroundColor Yellow
+        $PackageName = "installer.vm"
         if ($noPassword.IsPresent -or ($global:credentials -eq "")) {
             $Boxstarter.NoPassword = $true
             Install-BoxstarterPackage -PackageName $PackageName
@@ -1548,11 +1584,6 @@ function Open-PasswordEntry {
 Set-ItemProperty -Path 'HKCU:\Console' -Name 'QuickEdit' -Value 0
 Set-ItemProperty -Path 'HKCU:\Console' -Name 'InsertMode' -Value 0
 
-# Load debloating and configuration modules
-Import-Module (Join-Path $PSScriptRoot "Modules\configureVM.psm1") -Force
-$debloatConfig = Join-Path $PSScriptRoot "Modules\debloatConfig.xml"
-$userConfig = Join-Path $PSScriptRoot "Modules\userConfig.xml"
-
 # Setting global variables
 $global:checksPassed = $true
 $global:selectedProfile = "Default"
@@ -1631,9 +1662,11 @@ if (-not $cli.IsPresent) {
     if ($global:checksPassed -or $skipChecks.IsPresent) {
 
         # Fetch profiles and packages
-        Write-Host "[i] Retrieving available packages. Please wait." -ForegroundColor Blue
+        Write-Host "[+] Retrieving available packages from MyGet. Please wait."
         $global:profileData = Get-ProfileData
         $global:packageData = Get-AvailablePackages
+
+        Write-Host "[+] Beginning graphical install"
 
         Open-Installer
     }
@@ -1648,7 +1681,7 @@ if ($cli.IsPresent) {
     Write-Host "`t`t`tcommandovm@mandiant.com" -ForegroundColor DarkYellow
 
     if ($customProfile -eq "") {
-        Write-Host "[i] No profile specified, selecting default" -ForegroundColor Blue
+        Write-Host "[+] No profile specified, selecting default"
         $customProfile = Join-Path $PSScriptRoot "Profiles/Default.xml"
     }
 
@@ -1657,7 +1690,7 @@ if ($cli.IsPresent) {
         if ([string]::IsNullOrEmpty($password)) {
             Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds" -Name "ConsolePrompting" -Value $True
             Start-Sleep -Milliseconds 500
-            Write-Host "[i] No password provided. Enter it now or use -noPassword if blank." -ForegroundColor Blue
+            Write-Host "[+] No password provided. Enter it now or use -noPassword if blank."
             $global:credentials = Get-Credential ${Env:username}
         } else {
             $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
@@ -1691,7 +1724,7 @@ if ($cli.IsPresent) {
                 Write-Host "`t[-] Windows Defender and Tamper Protection are enabled" -ForegroundColor Red
             }
         } else {
-            Write-Host "`t[i] Skipping Windows Defender checks" -ForegroundColor Blue
+            Write-Host "`t[+] Skipping Windows Defender checks"
         }
         if (-not $victim.IsPresent) {
             if (Check-DefenderAndTamperProtection) {
@@ -1701,7 +1734,7 @@ if ($cli.IsPresent) {
                 Write-Host "`t[-] Windows Defender and Tamper Protection are enabled" -ForegroundColor Red
             }
         } else {
-            Write-Host "`t[i] Skipping Windows Defender checks" -ForegroundColor Blue
+            Write-Host "`t[+] Skipping Windows Defender checks"
         }
 
         if (Check-SupportedOS) {
@@ -1730,6 +1763,6 @@ if ($cli.IsPresent) {
         Write-Host "===================== Installing CommandoVM ====================="
         Install-Profile -ProfileName $customProfile
     } else {
-        Write-Host "`n[i] Some checks failed. Use the -skipChecks flag if you know what you are doing" -ForegroundColor Blue
+        Write-Host "`n[+] Some checks failed. Use the -skipChecks flag if you know what you are doing"
     }
 }

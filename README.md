@@ -17,6 +17,9 @@
 * 2 network adapters
 
 # Install Instructions
+Deploy a Windows Virtual Machine
+   > [Where can I find a Windows 10 Virtual Machine?](https://www.microsoft.com/en-us/software-download/windows10ISO)
+
 ## Pre-Install Procedures
 **You MUST disable Windows Defender for a smooth install**. The best way to accomplish this is through Group Policy.
 
@@ -50,9 +53,6 @@ To permanently disable Microsoft Defender:
   [1]: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo
 
 ## Installation 
-
-1. Deploy a Windows Virtual Machine
-   > [Where can I find a Windows Virtual Machine?](https://www.microsoft.com/en-us/software-download/windows10ISO)
 1. Complete the pre-install procedures by disabling Defender
 1. Download and extract the zip of the Commando-VM repo
 1. Run PowerShell as Administrator

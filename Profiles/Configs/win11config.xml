@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config> 
+    <apps>
+        <!--
+        INFO:
+        Removes installed AppX packages. Try:
+        $packages = Get-AppxPackage
+        $packages.Name
+        FORMAT: 
+        <app name="APP_NAME"/>
+        -->
+    </apps>
+    <services>
+        <!--
+        INFO:
+        Sets Services to "Manual" startup type. Try:
+        $services = Get-WmiObject -Query "SELECT * FROM Win32_Service WHERE StartMode='Auto'" | Get-Service
+        $services.Name
+        FORMAT: 
+        <service name="SERVICE_NAME"/>
+        -->
+    </services>
+    <tasks>
+        <!--
+        INFO:
+        Disables Scheduled Tasks. Try:
+        $tasks = Get-ScheduledTask
+        $tasks.TaskName
+        FORMAT: 
+        <task name="DESCRIPTIVE_NAME" value="TASK_NAME"/> 
+        -->
+    </tasks>
+    <registry-items>
+        <!--
+        INFO:
+        Makes custom edits to the registry
+        FORMAT: 
+        <registry-item name="DESCRIPTIVE_NAME" path="REG_PATH" value="REG_VALUE" type="TYPE" data="NEW_DATA"/> 
+        -->
+    </registry-items>
+    <path-items>
+        <!--
+        INFO:
+        Removes files and folders from the system
+        FORMAT: 
+        <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
+        -->
+    </path-items>
+    <custom-items>
+        <!--
+        INFO:
+        Performs custom commands
+        FORMAT: 
+        <custom-item name="DESCRIPTIVE_NAME"> <cmd value="PS_COMMAND"/> ... </custom-item>
+        -->
+        <custom-item name="Renaming Computer to 'commando'">
+            <cmd value="Rename-Computer -NewName 'commando'" />
+        </custom-item>
+    </custom-items>
+</config>

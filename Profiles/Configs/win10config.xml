@@ -2,53 +2,71 @@
 <config> 
     <apps>
         <!--
+        INFO:
+        Removes installed AppX packages. Try:
+        $packages = Get-AppxPackage
+        $packages.Name
         FORMAT: 
         <app name="APP_NAME"/>
         -->
     </apps>
     <services>
         <!--
+        INFO:
+        Sets Services to "Manual" startup type. Try:
+        $services = Get-WmiObject -Query "SELECT * FROM Win32_Service WHERE StartMode='Auto'" | Get-Service
+        $services.Name
         FORMAT: 
         <service name="SERVICE_NAME"/>
         -->
     </services>
     <tasks>
         <!--
+        INFO:
+        Disables Scheduled Tasks. Try:
+        $tasks = Get-ScheduledTask
+        $tasks.TaskName
         FORMAT: 
         <task name="DESCRIPTIVE_NAME" value="TASK_NAME"/> 
         -->
     </tasks>
     <registry-items>
         <!--
+        INFO:
+        Makes custom edits to the registry
         FORMAT: 
         <registry-item name="DESCRIPTIVE_NAME" path="REG_PATH" value="REG_VALUE" type="TYPE" data="NEW_DATA"/> 
         -->
         <registry-item name="Set Dark Mode on System" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" value="SystemUsesLightTheme" type="DWord" data="0"/>
         <registry-item name="Set Dark Mode on Apps" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" value="AppsUseLightTheme" type="DWord" data="0"/>
-        <registry-item name="Enable Fast Startup" path="HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" value="HiberbootEnabled" type="DWord" data="1"/>
-        <registry-item name="[1 of 9] Optimize visual effects for performance" path="HKCU:\Control Panel\Desktop" value="DragFullWindows" type="DWord" data="0"/>
-        <registry-item name="[2 of 9] Optimize visual effects for performance" path="HKCU:\Control Panel\Desktop" value="MenuShowDelay" type="DWord" data="0"/>
-        <registry-item name="[3 of 9] Optimize visual effects for performance" path="HKCU:\Control Panel\Desktop\WindowMetrics" value="MinAnimate" type="String" data="0"/>
-        <registry-item name="[4 of 9] Optimize visual effects for performance" path="HKCU:\Control Panel\Keyboard" value="KeyboardDelay" type="DWord" data="0"/>
-        <registry-item name="[5 of 9] Optimize visual effects for performance" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ListviewAlphaSelect" type="DWord" data="0"/>
-        <registry-item name="[6 of 9] Optimize visual effects for performance" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ListviewShadow" type="DWord" data="0"/>
-        <registry-item name="[7 of 9] Optimize visual effects for performance" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="TaskbarAnimations" type="DWord" data="0"/>
-        <registry-item name="[8 of 9] Optimize visual effects for performance" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" value="VisualFXSetting" type="DWord" data="3"/>
-        <registry-item name="[9 of 9] Optimize visual effects for performance" path="HKCU:\Software\Microsoft\Windows\DWM" value="EnableAeroPeek" type="DWord" data="0"/>
         <registry-item name="Show full directory path in Explorer title bar" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" value="FullPath" type="DWord" data="1"/>
         <registry-item name="Show known file extensions" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="HideFileExt" type="DWord" data="0"/>
         <registry-item name="Show hidden files" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="Hidden" type="DWord" data="1"/>
         <registry-item name="Show super hidden files" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ShowSuperHidden" type="DWord" data="1"/>
-    </registry-items>
+        <registry-item name="Enable .NET Strong Crypto" path="HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" value="SchUseStrongCrypto" type="DWord" data="1" />
+        <registry-item name="Enable .NET Strong Crypto Wow6432Node" path="HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" value="SchUseStrongCrypto" type="DWord" data="1" />
+        <registry-item name="Enable NTFS Long Paths" path="HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" value="LongPathsEnabled" type="DWord" data="1" />
+        <registry-item name="Disable SmartScreen" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" value="EnableSmartScreen" type="DWord" data="0" />
+        <registry-item name="Disable Microsoft Edge Phishing Filter" path="HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter" value="EnabledV9" type="DWord" data="0" />
+        <registry-item name="Disable Windows Firewall (Standard Profile)" path="HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" value="EnableFirewall" type="DWord" data="0" />
+        <registry-item name="Disable UAC Consent Prompt for Administrators" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" value="ConsentPromptBehaviorAdmin" type="DWord" data="0" />
+        <registry-item name="Disable UAC Prompt on Secure Desktop" path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" value="PromptOnSecureDesktop" type="DWord" data="0" />
+        <registry-item name="Disable LLMNR" path="HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" value="EnableMulticast" type="DWord" data="0" />
 
+    </registry-items>
     <path-items>
         <!--
+        INFO:
+        Removes files and folders from the system
         FORMAT: 
         <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
         -->
     </path-items>
     <custom-items>
-        <!--FORMAT: 
+        <!--
+        INFO:
+        Performs custom commands
+        FORMAT: 
         <custom-item name="DESCRIPTIVE_NAME"> <cmd value="PS_COMMAND"/> ... </custom-item>
         -->
         <custom-item name="Renaming Computer to 'commando'">
@@ -56,12 +74,6 @@
         </custom-item>
         <custom-item name="Disabling Windows Firewall">
             <cmd value="Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False" />
-        </custom-item>
-        <custom-item name="Disabling display and sleep mode timeouts">
-            <cmd value="powercfg /X monitor-timeout-ac 0" />
-            <cmd value="powercfg /X monitor-timeout-dc 0" />
-            <cmd value="powercfg /X standby-timeout-ac 0" />
-            <cmd value="powercfg /X standby-timeout-dc 0" />
         </custom-item>
     </custom-items>
 </config>
