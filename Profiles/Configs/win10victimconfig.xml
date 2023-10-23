@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config> 
+    <apps>
+        <!--
+        INFO:
+        Removes installed AppX packages. Try:
+        $packages = Get-AppxPackage
+        $packages.Name
+        FORMAT: 
+        <app name="APP_NAME"/>
+        -->
+    </apps>
+    <services>
+        <!--
+        INFO:
+        Sets Services to "Manual" startup type. Try:
+        $services = Get-WmiObject -Query "SELECT * FROM Win32_Service WHERE StartMode='Auto'" | Get-Service
+        $services.Name
+        FORMAT: 
+        <service name="SERVICE_NAME"/>
+        -->
+    </services>
+    <tasks>
+        <!--
+        INFO:
+        Disables Scheduled Tasks. Try:
+        $tasks = Get-ScheduledTask
+        $tasks.TaskName
+        FORMAT: 
+        <task name="DESCRIPTIVE_NAME" value="TASK_NAME"/> 
+        -->
+    </tasks>
+    <registry-items>
+        <!--
+        INFO:
+        Makes custom edits to the registry
+        FORMAT: 
+        <registry-item name="DESCRIPTIVE_NAME" path="REG_PATH" value="REG_VALUE" type="TYPE" data="NEW_DATA"/> 
+        -->
+        <registry-item name="Set Light Mode on System" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" value="SystemUsesLightTheme" type="DWord" data="1"/>
+        <registry-item name="Set Light Mode on Apps" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" value="AppsUseLightTheme" type="DWord" data="1"/>
+        <registry-item name="Show full directory path in Explorer title bar" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" value="FullPath" type="DWord" data="1"/>
+        <registry-item name="Show known file extensions" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="HideFileExt" type="DWord" data="0"/>
+        <registry-item name="Show hidden files" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="Hidden" type="DWord" data="1"/>
+        <registry-item name="Show super hidden files" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="ShowSuperHidden" type="DWord" data="1"/>
+    </registry-items>
+    <path-items>
+        <!--
+        INFO:
+        Removes files and folders from the system
+        FORMAT: 
+        <path-item name="DESCRIPTIVE_NAME" type="dir/file" path="DIR_PATH/FILE_PATH"/>
+        -->
+    </path-items>
+    <custom-items>
+        <!--
+        INFO:
+        Performs custom commands
+        FORMAT: 
+        <custom-item name="DESCRIPTIVE_NAME"> <cmd value="PS_COMMAND"/> ... </custom-item>
+        -->
+        <custom-item name="Renaming Computer to 'commando'">
+            <cmd value="Rename-Computer -NewName 'commando'" />
+        </custom-item>
+        <custom-item name="Create Exclusions folder">
+            <cmd value="Set-MpPreference -ExclusionPath $Env:RAW_TOOLS_DIR" />
+        </custom-item>
+        <custom-item name="Disable Defender Automatic Sample Submission">
+            <cmd value="Set-MpPreference -SubmitSamplesConsent 2" />
+        </custom-item>
+        <custom-item name="Create low-priv user account">
+            <cmd name="Generate random password, create user, save password to logfile" value="$userPassword = -join ((97..122) | Get-Random -Count 20 | ForEach-Object {[char]$_}); $securePassword = ConvertTo-SecureString -String $userPassword -AsPlainText -Force; New-LocalUser -Name 'prometheus' -Description 'Created by Commando Installer' -Password $securePassword; VM-Write-Log 'INFO' $('Created new user prometheus with password ' + $userPassword)" />
+        </custom-item>
+    </custom-items>
+</config>

@@ -1,42 +1,79 @@
-![CommandoLogo](Images/commando.png)
+![CommandoLogo](Images/commando-readme.png)
 
 ## What is CommandoVM?
 
-**Complete Mandiant Offensive VM ("CommandoVM")** is a comprehensive and customizable, Windows-based security distribution for penetration testing and red teaming. CommandoVM comes packaged with a variety of offensive tools not included in [Kali Linux](https://www.kali.org/), which are focused on attacking Windows, Active Directory and the Azure Cloud.
+**Complete Mandiant Offensive VM ("CommandoVM")** is a comprehensive and customizable, Windows-based security distribution for penetration testing and red teaming. CommandoVM comes packaged with a variety of offensive tools not included in [Kali Linux](https://www.kali.org/) which highlight the effectiveness of Windows as an attack platform.
 
-### What are 3.0's key features?
+## Requirements
+* Windows 10
+> Insider Preview editions of Windows are not supported
+* 60 GB Hard Drive
+* 2 GB RAM
 
-- TBA
+## Recommended
+* Windows 10 22H2
+* 80+ GB Hard Drive
+* 4+ GB RAM
+* 2 network adapters
 
-## Quick Start Guide
+# Install Instructions
+Deploy a Windows Virtual Machine
+   > [Where can I find a Windows 10 Virtual Machine?](https://www.microsoft.com/en-us/software-download/windows10ISO)
 
-1) Deploy a Win 10 22H2 or Win 11 22621 VM with a 100GB disk
-2) Follow these steps ([Win 10](https://superuser.com/questions/1757339/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo) | [Win 11](https://www.makeuseof.com/permanently-disable-microsoft-defender-windows-11/)) to disable Windows Defender
-3) Download and extract the zip of the Commando-VM repo
-4) Run PowerShell as Administrator
-5) `Set-ExecutionPolicy Unrestricted -force`
-6) `cd ~/Downloads/commando-vm`
-7) `Unblock-File install.ps1`
-8) `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
+## Pre-Install Procedures
+**You MUST disable Windows Defender for a smooth install**. The best way to accomplish this is through Group Policy.
 
-## Documentation Pages
+In Windows versions 1909 and higher, Tamper Protection was added.
+**Tamper Protection must be disabled first, otherwise Group Policy settings are ignored.**
 
-- [Packages](Docs/Packages.md) - full list of packages for each default profile
-- [Customization](Docs/Customization.md) - how to customize your CommandoVM install
-- [Troubleshooting](Docs/Troubleshooting.md) - detailed steps to avoid install issues
-- [Changelog](Docs/Changelog.md) - history of changes to CommandoVM
-- [Contributing](Docs/Contributing.md) - how to request packages and share feedback
+1. Open Windows Security (type `Windows Security` in the search box)
+1. Virus & threat protection > Virus & threat protection settings > Manage settings
+1. Switch `Tamper Protection` to `Off` 
+> It is not necessary to change any other setting (`Real Time Protection`, etc.)
+
+> **Important!** Tamper Protection must be disabled before changing Group Policy settings.
+
+To permanently disable Real Time Protection:
+
+1. Make sure you disabled Tamper Protection
+1. Open Local Group Policy Editor (type `gpedit` in the search box)
+1. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus > Real-time Protection
+1. Enable `Turn off real-time protection`
+1. **Reboot**
+> Make sure to **reboot** before making the next change
+
+To permanently disable Microsoft Defender:
+
+1. Make sure you rebooted your machine
+1. Open Local Group Policy Editor (type `gpedit` in the search box)
+1. Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus
+1. Enable `Turn off Microsoft Defender Antivirus`
+1. **Reboot**
+
+  [1]: https://stackoverflow.com/questions/62174426/how-to-permanently-disable-windows-defender-real-time-protection-with-gpo
+
+## Installation 
+1. Complete the pre-install procedures by disabling Defender
+1. Download and extract the zip of the Commando-VM repo
+1. Run PowerShell as Administrator
+1. `Set-ExecutionPolicy Unrestricted -force`
+1. `cd ~/Downloads/commando-vm`
+1. `Get-ChildItem .\ -Recurse | Unblock-File`
+1. `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
 
 ## Credits
 
-- Jake Barteaux     @day1player
-- Blaine Stancill   @MalwareMechanic
-- Nhan Huynh        @htnhan
-- Drew Farber       @0xFarbs
-- Alex Tselevich    @nos3curity
-- George Litvinov   @geo-lit
-- Dennis Tran       @Menn1s
-- Derrick Tran      @dumosuku
+- Jake Barteaux         @day1player
+- Blaine Stancill       @MalwareMechanic
+- Nhan Huynh            @htnhan
+- Drew Farber           @0xFarbs
+- Alex Tselevich        @nos3curity
+- George Litvinov       @geo-lit
+- Dennis Tran           @Menn1s
+- Joseph Clay           @skollr34p3r
+- Ana Martinez Gomez    @anamma_06
+- Moritz Raabe
+- Derrick Tran          @dumosuku
 - Mandiant Red Team
 - Mandiant FLARE
 

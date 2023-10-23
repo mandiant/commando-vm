@@ -20,21 +20,21 @@ This page lists the full steps necessary to install CommandoVM, with any additio
 
 ### Supported Operating System
 
-CommandoVM currently supports Windows 10 22H2 (19045) and Windows 11 (22621) releases. We plan to eventually drop support for Windows 10 because it no longer gets feature updates that may be important for penetration testers and users. We recommend you to install CommandoVM on a Windows 11 system.
+CommandoVM currently supports Windows 10 22H2 (19045).
 
 ### Running in a Virtual Machine
 
-You should never install CommandoVM on your host machine. CommandoVM makes irreversible changes to the system that you cannot uninstall. We recommend installing it on a virtual machine in [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware Workstation](https://www.vmware.com/products/workstation-pro.html).
+You should never install CommandoVM on your host machine. CommandoVM makes irreversible changes to the system that you cannot uninstall. We recommend installing it on a virtual machine in VirtualBox or VMWare.
 
 ### Storage Requirement
 
-Windows itself takes up significant space on disk and CommandoVM installs a large number of additional packages and tools. Ensure that you have at least **70GB** of storage in your VM. If you opt-in to install the **Full** CommandoVM profile, you will most certainly need a lot more than that.
+Windows itself takes up significant space on disk and CommandoVM installs a large number of additional packages and tools. Ensure that you have at least **70GB** of storage in your VM. If you opt-in to install the **Full** CommandoVM profile, you will want approximately 110 GB.
 
 ### Running as Administrator
 
 CommandoVM uses Chocolatey and Boxstarter to install its packages. Installing packages requires Administrator rights, so you must run your terminal as Administrator as shown on the image below.
 
-![run terminal as administrator](../Images/Docs/runasadmin.png)
+![run terminal as administrator](img/runasadmin.png)
 
 ### PowerShell Execution Policy
 
@@ -42,6 +42,9 @@ By default PowerShell restricts scripts from being loaded on Windows Workstation
 ```powershell
 Set-ExecutionPolicy Unrestricted
 ```
+
+### PowerShell `Unblock-File`
+Whenever you download files from the internet, Windows places a "Mark of the Web" identifier on them. Scripts within this repository need to be unblocked so that they can run automatically and not cause issues with the install after clicking the "Go" button.
 
 ### Windows Defender and Tamper Protection
 
@@ -69,15 +72,15 @@ The pre-install checks menu will open. Make sure you go through the [Pre-Install
 
 > **WARNING:** Do not override the checks if you have no idea why they are failing
 
-![gui step 1 - pre-checks](../Images/Docs/gui_step1.png)
+![gui step 1 - pre-checks](img/gui_step1.png)
 
 Once you pass all the pre-install checks, the main installer window will open. If you wish to customize your install and change what packages are installed, see the [Customization](Customization.md) documentation page. Otherwise, select a profile from the dropdown menu and click "Install".
 
-![gui step 2 - installer](../Images/Docs/gui_step2.png)
+![gui step 2 - installer](img/gui_step2.png)
 
 You will get a password prompt for Boxstarter. If you do not have a password set or your password is blank, click "OK" without entering anything. Otherwise, enter your password into the textbox and click "OK".
 
-![gui step 3 - password](../Images/Docs/gui_step3.png)
+![gui step 3 - password](img/gui_step3.png)
 
 The installer GUI will now close and the installation will start. You may monitor its progress inside the terminal window you used to launch the install script. During this time your system will restart multiple times. You will know that installation is finished when your background image gets changed to the Commando logo. 
 
