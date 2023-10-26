@@ -148,6 +148,8 @@
         <registry-item name="Remove MeetNow User" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" value="HideSCAMeetNow" type="DWord" data="1" />
         <registry-item name="Restrict Implicit Ink Collection" path="HKCU:\Software\Microsoft\InputPersonalization" value="RestrictImplicitInkCollection" type="DWord" data="1" />
         <registry-item name="Restrict Implicit Text Collection" path="HKCU:\Software\Microsoft\InputPersonalization" value="RestrictImplicitTextCollection" type="DWord" data="1" />
+        <!-- WIN 11 -->
+        <registry-item name="Remove Teams Chat Icon" path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" value="TaskbarMn" type="DWord" data="0" />
     </registry-items>
     <path-items>
         <!--
