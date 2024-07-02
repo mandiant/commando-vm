@@ -1457,7 +1457,7 @@ function Install-Profile {
         } elseif ($osVersion -eq "Win11ARM" -and -not $victim.IsPresent) {
             VM-Write-Log "INFO" "Windows 11 ARM detected, setting win11armconfig.xml for configuration file."
             Copy-Item $(Join-Path $configSource "win11armconfig.xml") $configPath -Force
-        } elseif ($osVersion -eq "Win11" -and -not $victim.IsPresent) {
+        } elseif ($osVersion -eq "Win11ARM" -and $victim.IsPresent) {
             VM-Write-Log "INFO" "Windows 11 ARM Victim detected, setting win11armvictimconfig.xml for configuration file."
             Copy-Item $(Join-Path $configSource "win11armvictimconfig.xml") $configPath -Force
         } else {
