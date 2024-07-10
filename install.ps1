@@ -1586,7 +1586,13 @@ Set-ItemProperty -Path 'HKCU:\Console' -Name 'InsertMode' -Value 0
 
 # Setting global variables
 $global:checksPassed = $true
-$global:selectedProfile = "Default"
+$osInfo = Get-ComputerInfo
+$osArchitecture = $osInfo.OSArchitecture
+if ($osArchitecture -match "ARM") {
+    $global:selectedProfile = "Default - ARM"
+} else{
+    $global:selectedProfile = "Default"
+}
 $global:credentials = ""
 
 ################################# GUI Workflow #################################
