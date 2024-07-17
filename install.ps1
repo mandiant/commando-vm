@@ -937,41 +937,24 @@ if (-not $cli.IsPresent) {
 
 function Check-Admin {
     $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-    if (-Not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-        return $false
-    } else {
-        return $true
-    }
+    return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 function Check-ExecutionPolicy {
-    if ((Get-ExecutionPolicy).ToString() -ne "Unrestricted") {
-        return $false
-    } else {
-        return $true
-    }
+    return (Get-ExecutionPolicy).ToString() -eq "Unrestricted"
 }
 function Check-DefenderAndTamperProtection {
     $defender = Get-WmiObject -Namespace "root\Microsoft\Windows\Defender" -Class MSFT_MpPreference
     if ($defender.DisableRealtimeMonitoring) {
         if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
-            if ($(Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -eq 5) {
-                return $false
-            } else {
-                return $true
-            }
+            return (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -ne 5
         }
-    } else {
-        return $false
     }
+    return $false
 }
 function Check-SupportedOS {
     $osVersion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
     $testedVersions = @(19045, 22621)
-    if ($osVersion -notin $testedVersions) {
-        return $false
-    } else {
-        return $true
-    }
+    return $osVersion -in $testedVersions
 }
 function Check-VM {
     $virtualModels = @('VirtualBox', 'VMware', 'Virtual Machine', 'Hyper-V')
