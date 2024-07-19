@@ -30,7 +30,7 @@ I highly recommend referring to recently closed PRs and newly added packages to 
 ## Contributing to CommandoVM
 This section covers the workflow for making a contribution to Commando VM. 
 1. Create a fork of the repository in your Github account 
-![](Fork-Commando.png)
+![](img/Fork-Commando.png)
 
 2. Clone the repository to your development computer 
 `git clone https://github.com/<your-username>/commando-vm`
@@ -56,7 +56,7 @@ Repeat.
 6. Create a Pull Request to integrate the changes into the Mandiant repository of Commando VM.
 - Navigate to your cloned repository
 - Use the "Compare & pull request" button to create a pull request. Fill out the title and details about what was changed and the Mandiant team will either approve and merge the change or comment with questions/requested changes.
-![](CompareAndPullButton.png)
+![](img/CompareAndPullButton.png)
 
 7. Next time you want to use your cloned repository, make sure it is up to date with the following commands:
 - `git fetch upstream` to get the upstream changes locally.
