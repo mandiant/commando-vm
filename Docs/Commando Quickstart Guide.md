@@ -29,36 +29,51 @@ For more information on adding, testing, and fixing packages, see the **VM-packa
 I highly recommend referring to recently closed PRs and newly added packages to get a good idea of how packages are structured.
 ## Contributing to CommandoVM
 This section covers the workflow for making a contribution to Commando VM. 
-1. Create a fork of the repository in your Github account 
-![](img/Fork-Commando.png)
 
-2. Clone the repository to your development computer 
-`git clone https://github.com/<your-username>/commando-vm`
-Change directory into the newly cloned directory
-`cd commando-vm`
-(Optional) set the remote upstream repository so you can keep your clone up to date.
-`git remote add upstream https://github.com/mandiant/commando-vm`
+**1.** Create a fork of the repository in your Github account
+> ![](img/Fork-Commando.png)
+
+**2.** Clone the repository to your development computer 
+```
+git clone https://github.com/<your-username>/commando-vm
+```
+- Change directory into the newly cloned directory
+```
+cd commando-vm
+```
+- (Optional) set the remote upstream repository so you can keep your clone up to date.
+```
+git remote add upstream https://github.com/mandiant/commando-vm
+```
 
 
-3. Create and checkout a branch for the change
-`git checkout -b <update/fix-for-something`
+**3.** Create and checkout a branch for the change
+```
+git checkout -b <update/fix-for-something>
+```
 
-4. Make the changes. Add and commit regularly so the comments are descriptive and helpful. Larger commits can be confusing to review.
-After making changes, first stage the changed files.
-`git add .`
-Commit the changes with a message for each change.
-`git commit -m "This is a change"`
-Repeat.
+**4.** Make the changes. Add and commit regularly so the comments are descriptive and helpful. Larger commits can be confusing to review.
+- After making changes, first stage the changed files.
+```
+git add .
+```
+- Commit the changes with a message for each change.
+```
+git commit -m "This is a change"
+```
+- Repeat as needed.
 
-5. Then push those commits to your fork of Commando VM. This will upload the changes to your Github repository.
-`git push --set-upstream origin <branch-name>`
+**5.** Then push those commits to your fork of Commando VM. This will upload the changes to your Github repository.
+```
+git push --set-upstream origin <branch-name>
+```
 
-6. Create a Pull Request to integrate the changes into the Mandiant repository of Commando VM.
+**6.** Create a Pull Request to integrate the changes into the Mandiant repository of Commando VM.
 - Navigate to your cloned repository
 - Use the "Compare & pull request" button to create a pull request. Fill out the title and details about what was changed and the Mandiant team will either approve and merge the change or comment with questions/requested changes.
-![](img/CompareAndPullButton.png)
+> ![](img/CompareAndPullButton.png)
 
-7. Next time you want to use your cloned repository, make sure it is up to date with the following commands:
+**7.** Next time you want to use your cloned repository, make sure it is up to date with the following commands:
 - `git fetch upstream` to get the upstream changes locally.
 - `git checkout main` to select your main branch of the cloned fork.
 - `git merge upstream/main` merge the upstream changes with your version.
