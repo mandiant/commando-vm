@@ -61,6 +61,18 @@ To permanently disable Microsoft Defender:
 1. `Get-ChildItem .\ -Recurse | Unblock-File`
 1. `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
 
+
+## Contributing
+Looking to contribute? Check the links below to learn how!
+
+### Commando-VM (this repository)
+- See our quick start guide to go from zero to Commando ASAP! [https://github.com/mandiant/commando-vm/blob/main/Docs/Commando Quickstart Guide.md](https://github.com/mandiant/commando-vm/blob/main/Docs/Commando Quickstart Guide.md)
+
+### VM-Packages (where all the packages live)
+* [Repository of all tool packages (VM-packages)](https://github.com/mandiant/VM-Packages)
+* [Documentation and contribution guides for tool packages](https://github.com/mandiant/VM-Packages/wiki)
+* [Submit new tool packages or report package related issues](https://github.com/mandiant/VM-Packages/issues)
+
 ## Troubleshooting
 See the ![troubleshooting documentation](https://github.com/mandiant/commando-vm/blob/main/Docs/Troubleshooting.md) for more information.
 
