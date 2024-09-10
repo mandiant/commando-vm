@@ -66,7 +66,7 @@ To permanently disable Microsoft Defender:
 Looking to contribute? Check the links below to learn how!
 
 ### Commando-VM (this repository)
-- See our quick start guide to go from zero to Commando ASAP! [https://github.com/mandiant/commando-vm/blob/main/Docs/Commando Quickstart Guide.md](https://github.com/mandiant/commando-vm/blob/main/Docs/Commando Quickstart Guide.md)
+- See our quick start guide to go from zero to Commando ASAP! [https://github.com/mandiant/commando-vm/blob/main/Docs/Commando_Quickstart_Guide.md](https://github.com/mandiant/commando-vm/blob/main/Docs/Commando_Quickstart_Guide.md)
 
 ### VM-Packages (where all the packages live)
 * [Repository of all tool packages (VM-packages)](https://github.com/mandiant/VM-Packages)
