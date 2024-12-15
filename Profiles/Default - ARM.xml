@@ -118,5 +118,6 @@
     <package name="winscp.vm" />
     <package name="jre8" />
     <package name="unxutils" />
+    <package name="netcat.vm" />
   </packages>
 </config>
