@@ -1006,6 +1006,40 @@ function Check-ChocoBoxstarterVersions {
 
 function Check-ChocoBoxstarterInstalls {
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    # Fix WebThreatDefSvc permissions to prevent NuGet access denial
+    # See: https://github.com/mandiant/commando-vm/issues/330
+    try {
+          $webThreatDefPath = "C:\Windows\System32\WebThreatDefSvc"
+          if (Test-Path $webThreatDefPath) {
+              Write-Host "[+] Fixing WebThreatDefSvc permissions for NuGet access" -ForegroundColor Yellow
+
+              # Take ownership of the directory
+              $takeownResult = takeown /f $webThreatDefPath /r /d y 2>&1
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "[!] Warning: Failed to take ownership of WebThreatDefSvc (Exit code: $LASTEXITCODE)" -ForegroundColor Yellow
+              }
+
+              # Grant full control to Administrators
+              $icaclsAdmin = icacls $webThreatDefPath /grant "Administrators:F" /T /C /Q 2>&1
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "[!] Warning: Failed to grant admin permissions to WebThreatDefSvc (Exit code: $LASTEXITCODE)" -ForegroundColor Yellow
+              }
+
+              # Grant full access to Network Service
+              $icaclsNetwork = icacls $webThreatDefPath /grant "Network Service:(M)" /T /C /Q 2>&1
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "[!] Warning: Failed to grant Network Service permissions to WebThreatDefSvc (Exit code: $LASTEXITCODE)" -ForegroundColor Yellow       
+              }
+
+              Write-Host "[+] WebThreatDefSvc permissions updated successfully" -ForegroundColor Green
+          } else {
+              Write-Host "[*] WebThreatDefSvc directory not found, skipping permission fix" -ForegroundColor Gray
+          }
+      }
+      catch {
+          Write-Host "[!] Warning: Error fixing WebThreatDefSvc permissions: $($_.Exception.Message)" -ForegroundColor Yellow
+          Write-Host "[*] Continuing with installation..." -ForegroundColor Gray
+      }
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1'))
     Get-Boxstarter -Force
 
