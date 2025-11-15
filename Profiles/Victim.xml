@@ -48,5 +48,6 @@
     <package name="unxutils" />
     <package name="sysinternals.vm" />
     <package name="fiddlerclassic.vm" />
+    <package name="netcat.vm" />
   </packages>
 </config>

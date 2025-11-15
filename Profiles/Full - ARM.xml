@@ -135,5 +135,7 @@
     <package name="dbeaver" />
     <package name="hfsexplorer" />
     <package name="unxutils" />
+    <package name="python3.vm" />
+    <package name="netcat.vm" />
   </packages>
 </config>

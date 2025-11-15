@@ -50,5 +50,6 @@
     <package name="git" />
     <package name="bloodhound-custom-queries.vm" />
     <package name="unxutils" />
+    <package name="netcat.vm" />
   </packages>
 </config>
