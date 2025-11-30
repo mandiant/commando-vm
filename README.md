@@ -57,7 +57,7 @@ To permanently disable Microsoft Defender:
 1. Download and extract the zip of the Commando-VM repo
 1. Run PowerShell as Administrator
 1. `Set-ExecutionPolicy Unrestricted -force`
-1. `cd ~/Downloads/commando-vm`
+1. `cd ~/Downloads/commando-vm-main`
 1. `Get-ChildItem .\ -Recurse | Unblock-File`
 1. `.\install.ps1` for a GUI install or `.\install.ps1 -cli` for command-line
 
