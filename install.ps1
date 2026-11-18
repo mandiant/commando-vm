@@ -943,13 +943,18 @@ function Check-ExecutionPolicy {
     return (Get-ExecutionPolicy).ToString() -eq "Unrestricted"
 }
 function Check-DefenderAndTamperProtection {
-    $defender = Get-WmiObject -Namespace "root\Microsoft\Windows\Defender" -Class MSFT_MpPreference
-    if ($defender.DisableRealtimeMonitoring) {
-        if (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection" -ea 0) {
-            return (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Features" -Name "TamperProtection").TamperProtection -ne 5
-        }
+    # Ask Defender for its own runtime state rather than decoding the TamperProtection registry value,
+    # whose encoding varies by build: Windows 11 25H2 reports 1 while tamper protected, but the previous
+    # check only treated 5 as "on". A missing registry value also made the previous check fail closed.
+    try {
+        $status = Get-MpComputerStatus -ErrorAction Stop
+    } catch {
+        # Get-MpComputerStatus fails when Defender is not running; only count that as disabled
+        # if the WinDefend service is genuinely absent or stopped.
+        $service = Get-Service -Name "WinDefend" -ErrorAction SilentlyContinue
+        return (-not $service) -or ($service.Status -ne "Running")
     }
-    return $false
+    return (-not $status.RealTimeProtectionEnabled) -and (-not $status.IsTamperProtected)
 }
 function Check-SupportedOS {
     # Windows 10: 22H2 (build 19045) only, the final Windows 10 feature release.
