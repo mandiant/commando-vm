@@ -996,6 +996,8 @@ function Invoke-DefenderDisable {
     #   DisableBehaviorMonitoring   - Turn on behavior monitoring
     #   DisableOnAccessProtection   - Monitor file and program activity on your computer
     #   DisableScanOnRealtimeEnable - Turn on process scanning whenever real-time protection is enabled
+    #   DisableIOAVProtection       - Scan all downloaded files and attachments
+    #   SpynetReporting = 0         - Join Microsoft MAPS (cloud-delivered protection): Disabled
     #   SubmitSamplesConsent = 2    - Send file samples when further analysis is required: Never send
     $disableCommands = {
         $rtp = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection'
@@ -1006,8 +1008,11 @@ function Invoke-DefenderDisable {
         Set-ItemProperty -Path $rtp -Name DisableBehaviorMonitoring -Value 1 -Type DWord
         Set-ItemProperty -Path $rtp -Name DisableOnAccessProtection -Value 1 -Type DWord
         Set-ItemProperty -Path $rtp -Name DisableScanOnRealtimeEnable -Value 1 -Type DWord
+        Set-ItemProperty -Path $rtp -Name DisableIOAVProtection -Value 1 -Type DWord
+        Set-ItemProperty -Path $spynet -Name SpynetReporting -Value 0 -Type DWord
         Set-ItemProperty -Path $spynet -Name SubmitSamplesConsent -Value 2 -Type DWord
-        Set-MpPreference -DisableRealtimeMonitoring $true -DisableBehaviorMonitoring $true -SubmitSamplesConsent 2
+        Set-MpPreference -DisableRealtimeMonitoring $true -DisableBehaviorMonitoring $true -DisableIOAVProtection $true
+        Set-MpPreference -MAPSReporting 0 -SubmitSamplesConsent 2
     }
     $rule = "=" * 96
     $red = "Red"
@@ -1064,8 +1069,9 @@ function Invoke-DefenderDisable {
 
     Write-Lines @(
         "Step 2 of 2: run these commands in an elevated PowerShell. They turn off real-time protection,",
-        "behaviour monitoring and on-access scanning, and stop Defender sending file samples to Microsoft:",
-        "immediately (Set-MpPreference) and after reboots (the Group Policy registry values).",
+        "behaviour monitoring, on-access and download scanning, and cloud protection (MAPS), and stop",
+        "Defender sending file samples to Microsoft: immediately (Set-MpPreference) and after reboots",
+        "(the Group Policy registry values).",
         ""
     ) $yellow
     $commandLines = $disableCommands.ToString().Trim() -split "`r?`n"
