@@ -956,65 +956,130 @@ function Check-DefenderAndTamperProtection {
     }
     return (-not $status.RealTimeProtectionEnabled) -and (-not $status.IsTamperProtected)
 }
-function Show-DefenderInstructions {
-    # Tells the user how to turn Defender off themselves. Tamper Protection cannot be switched off by a
-    # script on an unmanaged machine, so the installer deliberately does not attempt it.
+function Confirm-UserChoice {
+    # Yes/No prompt that defaults to No: console prompt for -cli, dialogue box for the GUI.
+    param ([string]$Question)
+    if ($cli.IsPresent) {
+        $answer = Read-Host "$Question [y/N]"
+        return $answer -match '^(y|yes)$'
+    }
+    $result = [System.Windows.Forms.MessageBox]::Show(
+        $Question,
+        "CommandoVM: Microsoft Defender",
+        [System.Windows.Forms.MessageBoxButtons]::YesNo,
+        [System.Windows.Forms.MessageBoxIcon]::Warning,
+        [System.Windows.Forms.MessageBoxDefaultButton]::Button2
+    )
+    return $result -eq [System.Windows.Forms.DialogResult]::Yes
+}
+function Get-DefenderStatus {
     try {
-        $status = Get-MpComputerStatus -ErrorAction Stop
-        $rtp = if ($status.RealTimeProtectionEnabled) { "ON" } else { "off" }
-        $tp = if ($status.IsTamperProtected) { "ON" } else { "off" }
-        $current = "Defender currently reports: real-time protection $rtp, Tamper Protection $tp."
+        return Get-MpComputerStatus -ErrorAction Stop
     } catch {
-        $current = "Defender's current state could not be read (Get-MpComputerStatus failed)."
+        return $null
+    }
+}
+function Invoke-DefenderDisable {
+    # Called when the Defender pre-install check fails. Shows the commands that turn Defender off,
+    # offers to run them, and returns whether Defender now passes the check. Nothing is changed
+    # without the user explicitly answering Yes.
+    #
+    # Tamper Protection cannot be turned off by any command or script on an unmanaged machine (by
+    # design), and while it is on Windows silently ignores the commands below, so the user is sent
+    # to the Windows Security page for that one step.
+    #
+    # The commands are kept in one script block so that what is printed is exactly what is run.
+    $disableCommands = {
+        $key = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection'
+        if (-not (Test-Path $key)) { New-Item -Path $key -Force | Out-Null }
+        Set-ItemProperty -Path $key -Name DisableRealtimeMonitoring -Value 1 -Type DWord
+        Set-MpPreference -DisableRealtimeMonitoring $true
+    }
+    $rule = "=" * 96
+    $red = "Red"
+    $yellow = "Yellow"
+    function Write-Lines {
+        param ([string[]]$Lines, [string]$Colour)
+        $Lines | ForEach-Object { Write-Host $_ -ForegroundColor $Colour }
     }
 
-    $warning = @(
+    Write-Host ""
+    Write-Lines @(
+        $rule,
         "WARNING: turning off Microsoft Defender leaves this machine with NO antivirus protection.",
-        "Only do this inside a virtual machine that is used solely for CommandoVM and holds no",
-        "personal, work or otherwise sensitive data. Do NOT do this on your everyday computer."
-    )
-    $steps = @(
-        "CommandoVM cannot be installed while Microsoft Defender is running: Defender quarantines the",
-        "security tools CommandoVM installs, and the install fails part way through.",
-        "",
-        $current,
-        "",
-        "The installer will NOT change these settings for you. Do these steps yourself, in this order:",
-        "",
-        "  1. Turn off Tamper Protection. Windows does not allow scripts to do this.",
-        "     Windows Security > Virus & threat protection > Manage settings > Tamper Protection: Off",
-        "",
-        "  2. Turn off real-time protection permanently with Group Policy (run gpedit.msc):",
-        "     Computer Configuration > Administrative Templates > Windows Components >",
-        "     Microsoft Defender Antivirus > Real-time Protection >",
-        "     'Turn off real-time protection': Enabled",
-        "",
-        "  3. Reboot, then run this installer again.",
-        "",
-        "Step 1 must be done first: while Tamper Protection is on, Windows ignores the Group Policy",
-        "setting. Switching off 'Real-time protection' in Windows Security alone is NOT enough;",
-        "Defender turns it back on after a reboot. gpedit.msc is not included in Windows Home editions.",
-        "",
-        "Full details: Docs\Troubleshooting.md"
-    )
+        "Only do this inside a virtual machine used solely for CommandoVM that holds no personal,",
+        "work or otherwise sensitive data. Do NOT do this on your everyday computer.",
+        $rule
+    ) $red
+    Write-Lines @(
+        "CommandoVM cannot be installed while Defender is running: Defender quarantines the tools it",
+        "installs and the install fails part way through.",
+        ""
+    ) $yellow
 
-    Write-Host ""
-    Write-Host ("=" * 96) -ForegroundColor Red
-    $warning | ForEach-Object { Write-Host $_ -ForegroundColor Red }
-    Write-Host ("=" * 96) -ForegroundColor Red
-    $steps | ForEach-Object { Write-Host $_ -ForegroundColor Yellow }
-    Write-Host ("=" * 96) -ForegroundColor Red
-    Write-Host ""
-
-    if (-not $cli.IsPresent) {
-        $text = ($warning + "" + $steps) -join "`r`n"
-        [void][System.Windows.Forms.MessageBox]::Show(
-            $text,
-            "CommandoVM: Microsoft Defender is still on",
-            [System.Windows.Forms.MessageBoxButtons]::OK,
-            [System.Windows.Forms.MessageBoxIcon]::Warning
-        )
+    $status = Get-DefenderStatus
+    if ($status -and $status.IsTamperProtected) {
+        Write-Lines @(
+            "Step 1 of 2: Tamper Protection is ON.",
+            "No command or script can turn it off; Windows blocks that by design. Turn it off yourself:",
+            "  Windows Security > Virus & threat protection > Manage settings > Tamper Protection: Off",
+            ""
+        ) $yellow
+        $question = "Tamper Protection must be turned off by hand.`r`n`r`n" +
+            "Open the Windows Security page where it is switched off now?"
+        if (Confirm-UserChoice $question) {
+            Start-Process "windowsdefender://threatsettings"
+        }
+        if ($cli.IsPresent) {
+            Read-Host "Press Enter once Tamper Protection is off" | Out-Null
+        } else {
+            [void][System.Windows.Forms.MessageBox]::Show(
+                "Click OK once Tamper Protection is off.",
+                "CommandoVM: Microsoft Defender",
+                [System.Windows.Forms.MessageBoxButtons]::OK,
+                [System.Windows.Forms.MessageBoxIcon]::Information
+            )
+        }
+        $status = Get-DefenderStatus
+        if ($status -and $status.IsTamperProtected) {
+            Write-Lines @("[-] Tamper Protection is still on. Turn it off, then run this installer again.", $rule) $red
+            return $false
+        }
+        Write-Lines @("[+] Tamper Protection is off.", "") "Green"
     }
+
+    Write-Lines @(
+        "Step 2 of 2: run these commands in an elevated PowerShell to turn off real-time protection",
+        "now (Set-MpPreference) and keep it off after reboots (the Group Policy registry value):",
+        ""
+    ) $yellow
+    $commandLines = $disableCommands.ToString().Trim() -split "`r?`n"
+    Write-Lines ($commandLines | ForEach-Object { "    " + $_.Trim() }) "Cyan"
+    Write-Host ""
+
+    $question = "Run the commands shown in the console now to turn off Microsoft Defender " +
+        "real-time protection on this machine?`r`n`r`n" +
+        "This machine will have NO antivirus protection afterwards. " +
+        "Only answer Yes inside a dedicated CommandoVM virtual machine."
+    if (-not (Confirm-UserChoice $question)) {
+        Write-Lines @("[-] Not run. Run the commands above yourself, then run this installer again.", $rule) $red
+        return $false
+    }
+
+    try {
+        & $disableCommands
+    } catch {
+        Write-Lines @("[-] The commands failed: $($_.Exception.Message)", $rule) $red
+        return $false
+    }
+
+    if (Check-DefenderAndTamperProtection) {
+        Write-Lines @("[+] Microsoft Defender real-time protection and Tamper Protection are off.") "Green"
+        Write-Lines @($rule) $red
+        return $true
+    }
+    Write-Lines @("[-] Defender still reports real-time protection on. Reboot, then run this installer again.", $rule) $red
+    return $false
 }
 function Check-SupportedOS {
     # Windows 10: 22H2 (build 19045) only, the final Windows 10 feature release.
@@ -1709,9 +1774,11 @@ if (-not $cli.IsPresent) {
             if (Check-DefenderAndTamperProtection) {
                 $WindowsDefender.Text = "True"
                 $WindowsDefender.ForeColor = $successColor
+            } elseif (Invoke-DefenderDisable) {
+                $WindowsDefender.Text = "True"
+                $WindowsDefender.ForeColor = $successColor
             } else {
                 $global:checksPassed = $false
-                Show-DefenderInstructions
             }
         } else {
             $WindowsDefender.Text = "Skip"
@@ -1808,9 +1875,12 @@ if ($cli.IsPresent) {
             if (Check-DefenderAndTamperProtection) {
                 Write-Host "`t[+] Windows Defender and Tamper Protection are disabled" -ForegroundColor Green
             } else {
-                $global:checksPassed = $false
                 Write-Host "`t[-] Windows Defender and Tamper Protection are enabled" -ForegroundColor Red
-                Show-DefenderInstructions
+                if (Invoke-DefenderDisable) {
+                    Write-Host "`t[+] Windows Defender and Tamper Protection are disabled" -ForegroundColor Green
+                } else {
+                    $global:checksPassed = $false
+                }
             }
         } else {
             Write-Host "`t[+] Skipping Windows Defender checks"
