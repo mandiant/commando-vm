@@ -984,16 +984,30 @@ function Invoke-DefenderDisable {
     # offers to run them, and returns whether Defender now passes the check. Nothing is changed
     # without the user explicitly answering Yes.
     #
-    # Tamper Protection cannot be turned off by any command or script on an unmanaged machine (by
-    # design), and while it is on Windows silently ignores the commands below, so the user is sent
-    # to the Windows Security page for that one step.
+    # Tamper Protection is deliberately left as a manual step. It is the safety valve: switching it
+    # off by hand in Windows Security ensures the user knowingly chooses to drop the machine's
+    # protection. It also cannot be turned off by any supported command or script on an unmanaged
+    # machine, and while it is on Windows silently ignores the commands below.
     #
     # The commands are kept in one script block so that what is printed is exactly what is run.
+    # Registry values are the Group Policy settings documented in Microsoft's ADMX_MicrosoftDefenderAntivirus
+    # and Defender Policy CSP references (WindowsDefender.admx):
+    #   DisableRealtimeMonitoring   - Turn off real-time protection
+    #   DisableBehaviorMonitoring   - Turn on behavior monitoring
+    #   DisableOnAccessProtection   - Monitor file and program activity on your computer
+    #   DisableScanOnRealtimeEnable - Turn on process scanning whenever real-time protection is enabled
+    #   SubmitSamplesConsent = 2    - Send file samples when further analysis is required: Never send
     $disableCommands = {
-        $key = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection'
-        if (-not (Test-Path $key)) { New-Item -Path $key -Force | Out-Null }
-        Set-ItemProperty -Path $key -Name DisableRealtimeMonitoring -Value 1 -Type DWord
-        Set-MpPreference -DisableRealtimeMonitoring $true
+        $rtp = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection'
+        $spynet = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet'
+        if (-not (Test-Path $rtp)) { New-Item -Path $rtp -Force | Out-Null }
+        if (-not (Test-Path $spynet)) { New-Item -Path $spynet -Force | Out-Null }
+        Set-ItemProperty -Path $rtp -Name DisableRealtimeMonitoring -Value 1 -Type DWord
+        Set-ItemProperty -Path $rtp -Name DisableBehaviorMonitoring -Value 1 -Type DWord
+        Set-ItemProperty -Path $rtp -Name DisableOnAccessProtection -Value 1 -Type DWord
+        Set-ItemProperty -Path $rtp -Name DisableScanOnRealtimeEnable -Value 1 -Type DWord
+        Set-ItemProperty -Path $spynet -Name SubmitSamplesConsent -Value 2 -Type DWord
+        Set-MpPreference -DisableRealtimeMonitoring $true -DisableBehaviorMonitoring $true -SubmitSamplesConsent 2
     }
     $rule = "=" * 96
     $red = "Red"
@@ -1049,8 +1063,9 @@ function Invoke-DefenderDisable {
     }
 
     Write-Lines @(
-        "Step 2 of 2: run these commands in an elevated PowerShell to turn off real-time protection",
-        "now (Set-MpPreference) and keep it off after reboots (the Group Policy registry value):",
+        "Step 2 of 2: run these commands in an elevated PowerShell. They turn off real-time protection,",
+        "behaviour monitoring and on-access scanning, and stop Defender sending file samples to Microsoft:",
+        "immediately (Set-MpPreference) and after reboots (the Group Policy registry values).",
         ""
     ) $yellow
     $commandLines = $disableCommands.ToString().Trim() -split "`r?`n"
