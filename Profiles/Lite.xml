@@ -39,10 +39,10 @@
     <package name="snaffler.vm" />
     <package name="sysinternals.vm" />
     <package name="telnet.vm" />
-    <package name="truestedsec-remote-ops-bof.vm" />
+    <package name="trustedsec-remote-ops-bof.vm" />
     <package name="unhook-bof.vm" />
     <package name="whisker.vm" />
-    <package name="7zip-15-05.vm" />
+    <package name="7zip.vm" />
     <package name="obsidian" />
     <package name="googlechrome" />
     <package name="firefox" />

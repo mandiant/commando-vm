@@ -9,7 +9,7 @@
   </envs>
   <packages>
     <package name="notepadplusplus.vm" />
-    <package name="7zip-15-05.vm" />
+    <package name="7zip.vm" />
     <package name="azurehound.vm" />
     <package name="bloodhound.vm" />
     <package name="cmder.vm" />
@@ -39,7 +39,7 @@
     <package name="unhook-bof.vm" />
     <package name="stracciatella.vm" />
     <package name="nanodump.vm" />
-    <package name="truestedsec-remote-ops-bof.vm" />
+    <package name="trustedsec-remote-ops-bof.vm" />
     <package name="outflank-c2-tool-collection.vm" />
     <package name="certify.vm" />
     <package name="streamdivert.vm" />
@@ -79,7 +79,6 @@
     <package name="kerbrute.vm" />
     <package name="mailsniper.vm" />
     <package name="mfasweep.vm" />
-    <package name="minidump.vm" />
     <package name="microburst.vm" />
     <package name="netgpppassword.vm" />
     <package name="nmap.vm" />
