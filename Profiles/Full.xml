@@ -35,7 +35,6 @@
     <package name="visualstudio.vm" />
     <package name="ilspy.vm" />
     <package name="wireshark.vm" />
-    <package name="cyberchef.vm" />
     <package name="pebear.vm" />
     <package name="sysinternals.vm" />
     <package name="situational-awareness-bof.vm" />
@@ -52,8 +51,6 @@
     <package name="gadgettojscript.vm" />
     <package name="sharpup.vm" />
     <package name="idafree.vm" />
-    <package name="az.powershell" />
-    <package name="azure-cli" />
     <package name="routesixtysink.vm" />
     <package name="sharphound.vm" />
     <package name="spoolsample.vm" />
