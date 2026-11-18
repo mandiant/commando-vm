@@ -8,8 +8,7 @@ This page lists the full steps necessary to install CommandoVM, with any additio
 
 ## CommandoVM Requirements
 
-- Windows 10 22H2
-- Windows 11 TBA
+- Windows 10 22H2, or any release of Windows 11 (21H2 onwards)
 - Minimum 70 GB Hard Drive
 - Minimum 4 GB RAM
 
@@ -20,7 +19,7 @@ This page lists the full steps necessary to install CommandoVM, with any additio
 
 ### Supported Operating System
 
-CommandoVM currently supports Windows 10 22H2 (19045).
+CommandoVM currently supports Windows 10 22H2 (build 19045) and any release of Windows 11 (build 22000 onwards: 21H2, 22H2, 23H2, 24H2, 25H2). Windows Server is not supported, including Windows Server 2025, which shares build 26100 with Windows 11 24H2.
 
 ### Running in a Virtual Machine
 

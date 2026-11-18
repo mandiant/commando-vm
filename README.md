@@ -5,19 +5,21 @@
 **Complete Mandiant Offensive VM ("CommandoVM")** is a comprehensive and customizable, Windows-based security distribution for penetration testing and red teaming. CommandoVM comes packaged with a variety of offensive tools not included in [Kali Linux](https://www.kali.org/) which highlight the effectiveness of Windows as an attack platform.
 
 ## Requirements
-* Windows 10
-> Insider Preview editions of Windows are not supported
-* 60 GB Hard Drive
-* 2 GB RAM
+* Windows 10 22H2, or any release of Windows 11 (21H2 onwards)
+> Insider Preview editions of Windows are not supported. Windows Server is not supported.
+* 60 GB Hard Drive (64 GB for Windows 11)
+* 2 GB RAM (4 GB for Windows 11)
 
 ## Recommended
-* Windows 10 22H2
+* Windows 11 (current release) or Windows 10 22H2
 * 80+ GB Hard Drive
 * 4+ GB RAM
 * 2 network adapters
 
 # Install Instructions
 Deploy a Windows Virtual Machine
+   > [Where can I find a Windows 11 Virtual Machine?](https://www.microsoft.com/en-us/software-download/windows11)
+   >
    > [Where can I find a Windows 10 Virtual Machine?](https://www.microsoft.com/en-us/software-download/windows10ISO)
 
 ## Pre-Install Procedures

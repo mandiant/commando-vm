@@ -952,9 +952,16 @@ function Check-DefenderAndTamperProtection {
     return $false
 }
 function Check-SupportedOS {
-    $osVersion = (Get-WmiObject -class Win32_OperatingSystem).BuildNumber
-    $testedVersions = @(19045, 22621)
-    return $osVersion -in $testedVersions
+    # Windows 10: 22H2 (build 19045) only, the final Windows 10 feature release.
+    # Windows 11: any release (21H2 onwards). The >= 22000 threshold mirrors VM-Get-WindowsVersion in
+    # common.vm (mandiant/VM-Packages), which is not yet installed when the pre-install checks run.
+    # ProductType 1 = workstation; this rejects Windows Server 2025, which shares build 26100 with Win11 24H2.
+    $osInfo = Get-WmiObject -Class Win32_OperatingSystem
+    if ($osInfo.ProductType -ne 1) {
+        return $false
+    }
+    $build = [int]$osInfo.BuildNumber
+    return ($build -eq 19045) -or ($build -ge 22000)
 }
 function Check-VM {
     $virtualModels = @('VirtualBox', 'VMware', 'Virtual Machine', 'Hyper-V')
