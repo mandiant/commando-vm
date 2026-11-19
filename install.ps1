@@ -1410,25 +1410,25 @@ function Install-Profile {
     }
 
     try {
-        if (Check-ChocoBoxstarterVersions) {
-            Write-Host "[+] Setting Boxstarter config"
-            Check-BoxstarterConfig
-            Write-Host "[+] Setting Chocolatey config"
-            Check-ChocoConfig
-        } else {
+        if (-not (Check-ChocoBoxstarterVersions)) {
             Write-Host "[+] Installing Boxstarter"
             Check-ChocoBoxstarterInstalls
-            Write-Host "[+] Setting Boxstarter config"
-            Check-BoxstarterConfig
-            Write-Host "[+] Setting Chocolatey config"
-            Check-ChocoConfig
         }
+
+        # Load Boxstarter before configuring it: Check-BoxstarterConfig uses $Boxstarter and
+        # Set-BoxstarterConfig, which only exist once this module is imported. On a first install
+        # Check-ChocoBoxstarterInstalls happens to load them, but when Boxstarter is already
+        # installed (e.g. re-running the installer) nothing else does.
+        Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
+
+        Write-Host "[+] Setting Boxstarter config"
+        Check-BoxstarterConfig
+        Write-Host "[+] Setting Chocolatey config"
+        Check-ChocoConfig
 
         # Set environment variable for Commando VM
         [Environment]::SetEnvironmentVariable('VMname', 'Commando VM', [EnvironmentVariableTarget]::Machine)
 
-        Import-Module "${Env:ProgramData}\boxstarter\boxstarter.chocolatey\boxstarter.chocolatey.psd1" -Force
-        
         # Install base packages
         Write-Host "[+] Installing the common.vm shared module" -ForegroundColor Yellow
         choco install common.vm -y --force
