@@ -1452,7 +1452,8 @@ function Install-Profile {
             VM-Write-Log "INFO" "Copied profile $ProfilePath to $destinationPath"
             Write-Host "[+] Profile copied to %VM_COMMON_DIR%: $ProfileName" -ForegroundColor Green
         } else {
-            Write-Host "[!] Error: Profile not found: $ProfileName" -ForegroundColor Red
+            # Stop rather than continue with whatever packages.xml a previous run left behind
+            throw "Profile not found: $ProfilePath"
         }
         
         # Set Windows OS VM configuration file
@@ -1704,9 +1705,18 @@ if ($cli.IsPresent) {
     Write-Host "`t`t`tcommandovm@mandiant.com" -ForegroundColor DarkYellow
 
     if ($customProfile -eq "") {
-        Write-Host "[+] No profile specified, selecting default"
-        $customProfile = Join-Path $PSScriptRoot "Profiles/Default.xml"
+        # Same default as the GUI: "Default - ARM" on ARM, otherwise "Default"; "Victim" with -victim
+        $defaultProfile = if ($victim.IsPresent) { "Victim" } else { $global:selectedProfile }
+        Write-Host "[+] No profile specified, selecting default: $defaultProfile"
+        $customProfile = Join-Path $PSScriptRoot "Profiles\$defaultProfile.xml"
     }
+
+    # Fail before changing anything if the profile does not exist
+    if (-not (Test-Path -Path $customProfile -PathType Leaf)) {
+        Write-Host "[!] Error: Profile not found: $customProfile" -ForegroundColor Red
+        exit 1
+    }
+    $customProfile = (Resolve-Path -Path $customProfile).Path
 
     if (-not $noPassword.IsPresent) {
         # Get user credentials for autologin during reboots
@@ -1784,7 +1794,9 @@ if ($cli.IsPresent) {
 
     if ($global:checksPassed -or $skipChecks.IsPresent) {
         Write-Host "===================== Installing CommandoVM ====================="
-        Install-Profile -ProfileName $customProfile
+        # -customProfile is a file path, so pass it as -ProfilePath; -ProfileName is only used for messages
+        $profileName = [System.IO.Path]::GetFileNameWithoutExtension($customProfile)
+        Install-Profile -ProfileName $profileName -ProfilePath $customProfile
     } else {
         Write-Host "`n[+] Some checks failed. Use the -skipChecks flag if you know what you are doing"
     }
