@@ -70,7 +70,7 @@
     <package name="hxd.vm" />
     <package name="cmder.vm" />
     <package name="python3" />
-    <package name="fiddlerclassic.vm" />
+    <package name="fiddler.vm" />
     <package name="burp-free.vm" />
     <package name="nmap.vm" />
     <package name="git" />
